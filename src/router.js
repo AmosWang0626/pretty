@@ -5,7 +5,8 @@ const routers = [
             title: ''
         },
         component: (resolve) => require(['./views/index.vue'], resolve)
-    }, {
+    },
+    {
         path: '/hello',
         meta: {
             title: '啦啦啦'

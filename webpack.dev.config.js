@@ -5,9 +5,10 @@ const merge = require('webpack-merge');
 const webpackBaseConfig = require('./webpack.base.config.js');
 const fs = require('fs');
 
-fs.open('./src/config/env.js', 'w', function(err, fd) {
+fs.open('./src/config/env.js', 'w', function (err, fd) {
     const buf = 'export default "development";';
-    fs.write(fd, buf, 0, buf.length, 0, function(err, written, buffer) {});
+    fs.write(fd, buf, 0, buf.length, 0, function (err, written, buffer) {
+    });
 });
 
 module.exports = merge(webpackBaseConfig, {
@@ -31,5 +32,22 @@ module.exports = merge(webpackBaseConfig, {
             template: './src/template/index.ejs',
             inject: false
         })
-    ]
+    ],
+    //设置跨域代理
+    devServer: {
+        historyApiFallback: true,
+        hot: true,
+        inline: true,
+        stats: { colors: true },
+        proxy: {
+            //匹配代理的url
+            '/api': {
+                // 目标服务器地址
+                target: 'http://127.0.0.1:8085/property',
+                //路径重写
+                pathRewrite: {'^/api' : '/'},
+                changeOrigin: true
+            }
+        }
+    }
 });

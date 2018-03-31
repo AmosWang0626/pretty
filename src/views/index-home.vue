@@ -88,9 +88,8 @@
                     </Menu>
                 </Sider>
                 <Content :style="{margin: '10px', padding: '24px', background: '#fff'}">
-                    <template>
-                        <Table stripe border size="large" :columns="pageColumns" :data="pageData"></Table>
-                    </template>
+                    <Table stripe border size="large" :columns="pageColumns" :data="pageData"></Table>
+                    <Button @click="getBase">发个请求玩玩呀~~</Button>
                 </Content>
             </Layout>
             <Footer class="layout-footer-center" :style="{background: getColor(pageTheme)}">
@@ -100,6 +99,7 @@
     </div>
 </template>
 <script>
+    import myUtil from '../libs/util';
     export default {
         data() {
             return {
@@ -172,6 +172,10 @@
                 } else {
                     return '#fff';
                 }
+            },
+            // 发请求
+            getBase() {
+                myUtil.myGet();
             }
         }
     };
