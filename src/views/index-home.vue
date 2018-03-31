@@ -1,6 +1,6 @@
 <style scoped>
     .layout {
-        background: #f5f7f9;
+        background: #495060;
         position: relative;
         overflow: hidden;
     }
@@ -17,8 +17,8 @@
 </style>
 <template>
     <div class="layout">
-        <Layout>
-            <Header :style="{background: getColor(pageTheme)}">
+        <Layout :style="{minHeight: '100vh'}">
+            <Header class="layout-header" :style="{background: getColor(pageTheme)}">
                 <Menu :theme="pageTheme" mode="horizontal" active-name="1">
                     <div class="layout-nav">
                         <MenuItem name="1">
@@ -50,45 +50,52 @@
                 </Menu>
             </Header>
 
-            <Layout :style="{padding: '0 50px'}">
-                <Content :style="{padding: '24px 0', minHeight: '280px', background: '#fff'}">
-                    <Layout>
-                        <Sider hide-trigger :style="{background: '#fff'}">
-                            <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']" :theme="pageTheme">
-                                <Submenu name="1">
-                                    <template slot="title">
-                                        <Icon type="ios-navigate"></Icon>
-                                        Item 1
-                                    </template>
-                                    <MenuItem name="1-1">Option 1</MenuItem>
-                                    <MenuItem name="1-2">Option 2</MenuItem>
-                                    <MenuItem name="1-3">Option 3</MenuItem>
-                                </Submenu>
-                                <Submenu name="2">
-                                    <template slot="title">
-                                        <Icon type="ios-keypad"></Icon>
-                                        Item 2
-                                    </template>
-                                    <MenuItem name="2-1">Option 1</MenuItem>
-                                    <MenuItem name="2-2">Option 2</MenuItem>
-                                </Submenu>
-                                <Submenu name="3">
-                                    <template slot="title">
-                                        <Icon type="ios-analytics"></Icon>
-                                        Item 3
-                                    </template>
-                                    <MenuItem name="3-1">Option 1</MenuItem>
-                                    <MenuItem name="3-2">Option 2</MenuItem>
-                                </Submenu>
-                            </Menu>
-                        </Sider>
-                        <Content :style="{padding: '24px', minHeight: '280px', background: '#fff'}">
-                            Content
-                        </Content>
-                    </Layout>
+            <Layout>
+                <Sider hide-trigger :style="{background: getColor(pageTheme)}">
+                    <Menu active-name="1-2" width="auto" :open-names="['1']" :theme="pageTheme">
+                        <Submenu name="1">
+                            <template slot="title">
+                                <Icon type="ios-paper"></Icon>
+                                内容管理
+                            </template>
+                            <MenuItem name="1-1">文章管理</MenuItem>
+                            <MenuItem name="1-2">评论管理</MenuItem>
+                            <MenuItem name="1-3">举报管理</MenuItem>
+                        </Submenu>
+                        <Submenu name="2">
+                            <template slot="title">
+                                <Icon type="ios-people"></Icon>
+                                用户管理
+                            </template>
+                            <MenuItem name="2-1">新增用户</MenuItem>
+                            <MenuItem name="2-2">活跃用户</MenuItem>
+                        </Submenu>
+                        <Submenu name="3">
+                            <template slot="title">
+                                <Icon type="stats-bars"></Icon>
+                                统计分析
+                            </template>
+                            <MenuGroup title="使用">
+                                <MenuItem name="3-1">新增和启动</MenuItem>
+                                <MenuItem name="3-2">活跃分析</MenuItem>
+                                <MenuItem name="3-3">时段分析</MenuItem>
+                            </MenuGroup>
+                            <MenuGroup title="留存">
+                                <MenuItem name="3-4">用户留存</MenuItem>
+                                <MenuItem name="3-5">流失用户</MenuItem>
+                            </MenuGroup>
+                        </Submenu>
+                    </Menu>
+                </Sider>
+                <Content :style="{margin: '10px', padding: '24px', background: '#fff'}">
+                    <template>
+                        <Table stripe border size="large" :columns="pageColumns" :data="pageData"></Table>
+                    </template>
                 </Content>
             </Layout>
-            <Footer class="layout-footer-center">2011-2016 &copy; TalkingData</Footer>
+            <Footer class="layout-footer-center" :style="{background: getColor(pageTheme)}">
+                <span :style="{color: getFontColor(pageTheme)}">2017-2018 &copy; Property</span>
+            </Footer>
         </Layout>
     </div>
 </template>
@@ -98,27 +105,73 @@
             return {
                 isCollapsed: false,
                 nickName: 'Amos',
-                pageTheme: 'dark'
+                pageTheme: 'dark',
+
+                pageColumns: [
+                    {
+                        title: 'Name',
+                        key: 'name'
+                    },
+                    {
+                        title: 'Age',
+                        key: 'age'
+                    },
+                    {
+                        title: 'Address',
+                        key: 'address'
+                    },
+                    {
+                        title: 'Date',
+                        key: 'date'
+                    }
+                ],
+                pageData: [
+                    {
+                        name: 'John Brown',
+                        age: 18,
+                        address: 'New York No. 1 Lake Park',
+                        date: '2016-10-03'
+                    },
+                    {
+                        name: 'Jim Green',
+                        age: 24,
+                        address: 'London No. 1 Lake Park',
+                        date: '2016-10-01'
+                    },
+                    {
+                        name: 'Joe Black',
+                        age: 30,
+                        address: 'Sydney No. 1 Lake Park',
+                        date: '2016-10-02'
+                    },
+                    {
+                        name: 'Jon Snow',
+                        age: 26,
+                        address: 'Ottawa No. 2 Lake Park',
+                        date: '2016-10-04'
+                    }
+                ]
             };
         },
         methods: {
             changeTheme: function (index) {
                 this.pageTheme = index;
             },
+            // 背景颜色
             getColor(colorName) {
                 if (colorName === 'light') {
                     return '#fff';
                 } else {
                     return '#495060';
                 }
-            }
-        },
-        computed: {
-            menuitemClasses: function () {
-                return [
-                    'menu-item',
-                    this.isCollapsed ? 'collapsed-menu' : ''
-                ];
+            },
+            // 字体颜色与背景色相反
+            getFontColor(colorName) {
+                if (colorName === 'light') {
+                    return '#495060';
+                } else {
+                    return '#fff';
+                }
             }
         }
     };
