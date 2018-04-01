@@ -1,8 +1,8 @@
 import axios from 'axios';
+import Qs from 'qs';
 import env from '../config/env';
-import qs from 'qs';
 
-export const BASE_URL = '/property';
+export const BASE_URL = '/baseUrl';
 
 let util = {};
 util.title = function (title) {
@@ -16,27 +16,28 @@ const ajaxUrl = env === 'development' ?
         'https://www.url.com' :
         'https://debug.url.com';
 
-util.ajax = axios.create({
-    // baseURL: ajaxUrl,
+let config = axios.create({
+    baseURL: BASE_URL,
     timeout: 30000,
+    withCredentials: true,
     headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    transformRequest: [function (data) {
-        data = qs.toString(data);
-        return data;
-    }],
-    withCredentials: true
+        'token': 'token-self-hello'
+    }
 });
-axios.defaults.baseURL = '';
-axios.defaults.withCredentials = true;
-axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
-// axios.defaults.headers['Content-Type'] = 'application/json';
 
-util.myGet = function () {
-    axios.get('/api/web/home')
+util.myGet = function (url) {
+    config.get(url)
         .then(function (response) {
-            // console.log(this.baseURL);
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+};
+
+util.myPost = function (url, data) {
+    config.post(url, Qs.stringify(data, {arrayFormat: 'brackets'}))
+        .then(function (response) {
             console.log(response);
         })
         .catch(function (error) {

@@ -89,7 +89,8 @@
                 </Sider>
                 <Content :style="{margin: '10px', padding: '24px', background: '#fff'}">
                     <Table stripe border size="large" :columns="pageColumns" :data="pageData"></Table>
-                    <Button @click="getBase">发个请求玩玩呀~~</Button>
+                    <Button @click="getBase">发个GET请求玩玩呀~~</Button>
+                    <Button @click="postBase">发个POST请求玩玩呀~~</Button>
                 </Content>
             </Layout>
             <Footer class="layout-footer-center" :style="{background: getColor(pageTheme)}">
@@ -100,6 +101,7 @@
 </template>
 <script>
     import myUtil from '../libs/util';
+
     export default {
         data() {
             return {
@@ -173,9 +175,17 @@
                     return '#fff';
                 }
             },
-            // 发请求
+            // 发Get请求
             getBase() {
-                myUtil.myGet();
+                myUtil.myGet('/web/get');
+            },
+            // 发Post请求
+            postBase() {
+                myUtil.myPost('/web/post', {
+                    hello: 'hello-amos',
+                    firstName: 'Fred',
+                    lastName: 'Flintstone'
+                });
             }
         }
     };
