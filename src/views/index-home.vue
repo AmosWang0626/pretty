@@ -181,6 +181,7 @@
             },
             // 发Post请求
             postBase() {
+                // myUtil.myPost('/web/post', this.pageData);
                 myUtil.myPost('/web/post', {
                     hello: 'hello-amos',
                     firstName: 'Fred',
