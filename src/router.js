@@ -11,7 +11,7 @@ const routers = [
         meta: {
             title: '啦啦啦'
         },
-        component: (resolve) => require(['./views/index-home.vue'], resolve)
+        component: (resolve) => require(['./views/home.vue'], resolve)
     },
     {
         path: '/login',
@@ -19,6 +19,20 @@ const routers = [
             title: 'Login'
         },
         component: (resolve) => require(['./views/login.vue'], resolve)
+    },
+    {
+        path: '/standard',
+        meta: {
+            title: 'Standard'
+        },
+        component: (resolve) => require(['./views/tariff-standard.vue'], resolve)
+    },
+    {
+        path: '/company',
+        meta: {
+            title: 'Company'
+        },
+        component: (resolve) => require(['./views/tariff-company.vue'], resolve)
     }
 ];
 

@@ -1,6 +1,5 @@
 <style>
     .login {
-        width: 100%;
         height: 100vh;
         background: url("http://112.74.57.49/img/1522827455677.jpg");
         background-size: cover;
@@ -9,10 +8,9 @@
     }
 
     .loginForm {
-        top: 30%;
-        right: 200px;
+        padding-top: 10%;
+        margin: 0 auto;
         width: 360px;
-        position: absolute;
     }
 </style>
 
