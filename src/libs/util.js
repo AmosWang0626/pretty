@@ -20,6 +20,7 @@ let config = axios.create({
     baseURL: BASE_URL,
     timeout: 30000,
     withCredentials: true,
+    responseType: 'json',
     headers: {
         'token': 'token-self-hello'
     }
@@ -35,13 +36,25 @@ util.myGet = function (url) {
         });
 };
 
-util.myPost = function (url, data) {
+util.myQsPost = function (url, data) {
     config.post(url, Qs.stringify(data, {arrayFormat: 'brackets'}))
         .then(function (response) {
             console.log(response);
         })
         .catch(function (error) {
             console.log(error);
+            console.log('-------------' + Qs.stringify(data, {arrayFormat: 'brackets'}));
+        });
+};
+
+util.myJsonPost = function (url, data) {
+    config.post(url, data)
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+            console.log('-------------' + JSON.stringify(data));
         });
 };
 

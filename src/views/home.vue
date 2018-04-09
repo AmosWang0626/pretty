@@ -181,8 +181,8 @@
             },
             // 发Post请求
             postBase() {
-                // myUtil.myPost('/web/post', this.pageData);
-                myUtil.myPost('/web/post', {
+                // myUtil.myQsPost('/web/post', this.pageData);
+                myUtil.myQsPost('/web/post', {
                     hello: 'hello-amos',
                     firstName: 'Fred',
                     lastName: 'Flintstone'

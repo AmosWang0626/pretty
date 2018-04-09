@@ -8,8 +8,8 @@
 
 <template>
     <div class="standard">
-        <Form :model="standardForm" :label-width="90">
-            <FormItem label="业务类型">
+        <Form ref="standardForm" :model="standardForm" :rules="standardRule" :label-width="90">
+            <FormItem label="业务类型" prop="business">
                 <Select v-model="standardForm.business" style="width: 300px">
                     <Option value="WATER">水费</Option>
                     <Option value="ELECTRICITY">电费</Option>
@@ -19,7 +19,7 @@
                     <Option value="SITE">场地使用费</Option>
                 </Select>
             </FormItem>
-            <FormItem label="标准等级">
+            <FormItem label="标准等级" prop="level">
                 <Select v-model="standardForm.level" style="width: 300px">
                     <Option value="ONE">一级标准</Option>
                     <Option value="TWO">二级标准</Option>
@@ -34,7 +34,7 @@
                 <InputNumber :max="0.1" :min="0" :step="0.0005"
                              v-model="standardForm.overdueRate"></InputNumber>
             </FormItem>
-            <FormItem label="生效时间">
+            <FormItem label="生效时间" prop="startDate">
                 <Row style="width: 300px">
                     <Col span="11">
                         <DatePicker type="date" placeholder="Select date" v-model="standardForm.startDate"></DatePicker>
@@ -46,7 +46,7 @@
                     </Col>
                 </Row>
             </FormItem>
-            <FormItem label="失效时间">
+            <FormItem label="失效时间" prop="endDate">
                 <Row style="width: 300px">
                     <Col span="11">
                         <DatePicker type="date" placeholder="Select date" v-model="standardForm.endDate"></DatePicker>
@@ -65,14 +65,16 @@
                 </i-switch>
             </FormItem>
             <FormItem>
-                <Button type="primary">Submit</Button>
-                <Button type="ghost" style="margin-left: 8px">Cancel</Button>
+                <Button type="primary" @click="handleSubmit('standardForm')">Submit</Button>
+                <Button type="ghost" @click="handleReset('standardForm')" style="margin-left: 8px">Cancel</Button>
             </FormItem>
         </Form>
     </div>
 </template>
 
 <script>
+    import myUtil from '../libs/util';
+
     export default {
         data() {
             return {
@@ -86,8 +88,55 @@
                     startTime: '00:00:00',
                     endTime: '23:59:59',
                     status: true,
+                },
+                standardRule: {
+                    business: [
+                        {
+                            required: true,
+                            message: '业务为必选呦!',
+                            trigger: 'change'
+                        }
+                    ],
+                    level: [
+                        {
+                            required: true,
+                            message: '级别也是必选的呦!',
+                            trigger: 'change'
+                        }
+                    ],
+                    startDate: [
+                        {
+                            required: true,
+                            type: 'date',
+                            message: '标准起始时间不能为空!',
+                            trigger: 'change'
+                        }
+                    ],
+                    endDate: [
+                        {
+                            required: true,
+                            type: 'date',
+                            message: '标准截止时间不能为空!',
+                            trigger: 'change'
+                        }
+                    ]
                 }
             };
+        },
+        methods: {
+            handleSubmit(name) {
+                this.$refs[name].validate((valid) => {
+                    if (valid) {
+                        // 保存公司信息
+                        myUtil.myJsonPost('/standard/add', this.standardForm);
+                    } else {
+                        this.$Message.error('请先确认输入信息格式~~~');
+                    }
+                });
+            },
+            handleReset(name) {
+                this.$refs[name].resetFields();
+            }
         }
     };
 </script>
