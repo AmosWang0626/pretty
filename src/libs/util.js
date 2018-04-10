@@ -50,11 +50,19 @@ util.myQsPost = function (url, data) {
 util.myJsonPost = function (url, data) {
     config.post(url, data)
         .then(function (response) {
-            console.log(response);
+            console.log(response.data);
+            // respCode: "M2010", respMsg: "结束日期不能大于开始日期", body: null}
+            if (response.data.respCode === '1000') {
+                // this.$Message.info(response.data.respMsg + JSON.stringify(response.data.body));
+                console.log(response.data.respMsg + JSON.stringify(response.data.body));
+            } else {
+                // this.$Message.error(response.data.respMsg);
+                console.error(response.data.respMsg);
+            }
         })
         .catch(function (error) {
             console.log(error);
-            console.log('-------------' + JSON.stringify(data));
+            console.log('------发送请求失败-------' + JSON.stringify(data));
         });
 };
 

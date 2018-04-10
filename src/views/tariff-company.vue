@@ -154,7 +154,7 @@
                 this.$refs[name].validate((valid) => {
                     if (valid) {
                         // 保存公司信息
-                        myUtil.myJsonPost('/company/add', this.companyForm);
+                        myUtil.myJsonPost('/static/addCompany', this.companyForm);
                     } else {
                         this.$Message.error('请先确认输入信息格式~~~');
                     }
