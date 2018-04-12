@@ -108,6 +108,7 @@
             <!-- Footer -->
             <Footer class="layout-footer-center" :style="{background: getColor(pageTheme)}">
                 <span :style="{color: getFontColor(pageTheme)}">2017-2018 &copy; Property</span>
+                <Button type="success" @click="onClickMe">open mouse!</Button>
             </Footer>
         </Layout>
     </div>
@@ -116,19 +117,30 @@
     export default {
         data() {
             return {
-                // 用户昵称
-                nickName: 'Amos',
                 // 颜色主题
                 pageTheme: 'dark',
+
+                // 用户昵称
+                nickName: this.fatherData.nickName,
                 // 左侧选项卡
-                activeName: '3-1',
-                openNames: ['3'],
+                activeName: this.fatherData.activeName,
+                openNames: this.fatherData.openNames,
                 // 表格数据
-                pageColumns: [],
-                pageData: []
+                pageColumns: this.fatherData.pageColumns,
+                pageData: this.fatherData.pageData
             };
         },
+
+        /* [父---子] 传递数据 */
+        props: ['fatherData'],
+
         methods: {
+            // 点击该模块响应
+            onClickMe: function () {
+                /* [子---父] 回传数据 */
+                this.$emit('frameCallback', 'Hello, Frame CallBack!');
+            },
+
             // 主题相关(官方)
             changeTheme: function (index) {
                 this.pageTheme = index;
