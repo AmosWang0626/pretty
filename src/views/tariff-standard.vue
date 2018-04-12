@@ -82,7 +82,7 @@
 </template>
 
 <script>
-    import myUtil from '../libs/util';
+    import httpUtil from '../libs/util';
 
     export default {
         data() {
@@ -137,7 +137,7 @@
                 this.$refs[name].validate((valid) => {
                     if (valid) {
                         // 保存缴费标准信息
-                        myUtil.myJsonPost('/static/addStandard', this.standardForm);
+                        httpUtil.httpRequestJsonPost('/static/addStandard', this.standardForm);
                     } else {
                         this.$Message.error('请先确认输入信息格式~~~');
                     }

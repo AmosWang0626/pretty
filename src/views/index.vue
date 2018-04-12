@@ -37,7 +37,7 @@
                     <img src="https://raw.githubusercontent.com/iview/iview/master/assets/logo.png">
                 </h1>
                 <h2>
-                    <p>Welcome to your iView app!</p>
+                    <p>{{ hello.content }}</p>
                     <Button type="ghost" @click="handleStart">Start iView</Button>
                 </h2>
             </Col>
@@ -46,12 +46,18 @@
 </template>
 <script>
     export default {
+        data() {
+            return {
+                hello: {
+                    title: 'Property',
+                    content: 'Welcome to Property Management System!'
+                }
+            };
+        },
+
         methods: {
             handleStart() {
-                this.$Modal.info({
-                    title: 'Bravo',
-                    content: 'Now, enjoy the convenience of iView.'
-                });
+                this.$Modal.info(this.hello);
             }
         }
     };

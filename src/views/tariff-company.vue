@@ -60,7 +60,7 @@
 
 <script>
     /* eslint-disable no-console */
-    import myUtil from '../libs/util';
+    import httpUtil from '../libs/util';
 
     export default {
         data() {
@@ -154,7 +154,7 @@
                 this.$refs[name].validate((valid) => {
                     if (valid) {
                         // 保存公司信息
-                        myUtil.myJsonPost('/static/addCompany', this.companyForm);
+                        httpUtil.httpRequestJsonPost('/static/addCompany', this.companyForm);
                     } else {
                         this.$Message.error('请先确认输入信息格式~~~');
                     }

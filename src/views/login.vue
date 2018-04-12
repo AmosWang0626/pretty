@@ -18,7 +18,7 @@
     <div class="login">
         <Form class="loginForm" ref="loginForm" :model="loginForm" :rules="loginRule">
             <FormItem prop="user">
-                <Input type="text" v-model="loginForm.user" placeholder="请输入用户名/账号" size="large" clearable autofocus>
+                <Input type="text" v-model="loginForm.phoneNo" placeholder="请输入用户名/账号" clearable autofocus size="large">
                 <Icon type="ios-person-outline" slot="prepend" size="20"></Icon>
                 </Input>
             </FormItem>
@@ -28,25 +28,27 @@
                 </Input>
             </FormItem>
             <FormItem>
-                <Button type="primary" @click="handleSubmit('loginForm')" size="large">登录</Button>
+                <Button type="primary" @click="login()" size="large">登录</Button>
             </FormItem>
         </Form>
     </div>
 </template>
 
 <script>
+    import httpUtil from '../libs/util';
+
     export default {
         data() {
             return {
                 loginForm: {
-                    user: '',
+                    phoneNo: '',
                     password: ''
                 },
                 loginRule: {
-                    user: [
+                    phoneNo: [
                         {
                             required: true,
-                            message: '用户名/账号不能为空!',
+                            message: '手机号不能为空',
                             trigger: 'blur'
                         }
                     ],
@@ -67,14 +69,16 @@
             };
         },
         methods: {
-            handleSubmit(name) {
-                this.$refs[name].validate((valid) => {
-                    if (valid) {
-                        this.$Message.success('Success!');
+            login() {
+                let callback = (res) => {
+                    if (res.flags === 'success') {
+                        localStorage.setItem('token', res.data.token);
+                        this.$Message.success(res.message);
                     } else {
-                        this.$Message.error('Fail!');
+                        res.flags === 'fail' && this.$Message.error(`${res.message}`);
                     }
-                });
+                };
+                httpUtil.httpRequestJsonPost('/web/login', this.loginForm).then(callback);
             }
         }
     };
