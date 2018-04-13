@@ -11,14 +11,28 @@ const routers = [
         meta: {
             title: '啦啦啦'
         },
-        component: (resolve) => require(['./views/home.vue'], resolve)
+        component: (resolve) => require(['./views/base-home.vue'], resolve)
     },
     {
         path: '/login',
         meta: {
             title: 'Login'
         },
-        component: (resolve) => require(['./views/login.vue'], resolve)
+        component: (resolve) => require(['./views/base-login.vue'], resolve)
+    },
+    {
+        path: '/register',
+        meta: {
+            title: 'Register'
+        },
+        component: (resolve) => require(['./views/base-register.vue'], resolve)
+    },
+    {
+        path: '/forgetPassword',
+        meta: {
+            title: 'ForgetPassword'
+        },
+        component: (resolve) => require(['./views/base-forgetPwd.vue'], resolve)
     },
     {
         path: '/standard',

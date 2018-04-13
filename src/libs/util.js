@@ -40,8 +40,11 @@ util.httpRequestJsonPost = function (url, data) {
     return config.post(url, data)
         .then(getResult)
         .catch(function (error) {
-            console.log(error);
-            console.log('------发送请求失败------' + JSON.stringify(data));
+            return {
+                flags: 'fail',
+                data: null,
+                message: '服务器异常 ' + error
+            };
         });
 };
 

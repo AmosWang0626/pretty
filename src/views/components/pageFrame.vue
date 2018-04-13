@@ -121,7 +121,7 @@
                 pageTheme: 'dark',
 
                 // 用户昵称
-                nickName: this.fatherData.nickName,
+                nickName: localStorage.getItem('nikeName'),
                 // 左侧选项卡
                 activeName: this.fatherData.activeName,
                 openNames: this.fatherData.openNames,

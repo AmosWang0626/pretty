@@ -1,7 +1,9 @@
 <style>
     .login {
         height: 100vh;
-        background: url("http://112.74.57.49/img/1522827455677.jpg");
+        /* 远山 http://112.74.57.49/img/1523544261477.png*/
+        /* 蓝天白云 http://112.74.57.49/img/1523544236014.png*/
+        background: url("http://112.74.57.49/img/1523544261477.png");
         background-size: cover;
         position: relative;
         text-align: center;
@@ -12,13 +14,20 @@
         margin: 0 auto;
         width: 360px;
     }
+
+    .login-logo {
+        width: 350px;
+    }
 </style>
 
 <template>
     <div class="login">
         <Form class="loginForm" ref="loginForm" :model="loginForm" :rules="loginRule">
-            <FormItem prop="user">
-                <Input type="text" v-model="loginForm.phoneNo" placeholder="请输入用户名/账号" clearable autofocus size="large">
+            <FormItem>
+                <img class="login-logo" src="http://112.74.57.49/img/property-logo-white.jpg">
+            </FormItem>
+            <FormItem prop="phoneNo">
+                <Input type="text" v-model="loginForm.phoneNo" placeholder="请输入手机号" clearable autofocus size="large">
                 <Icon type="ios-person-outline" slot="prepend" size="20"></Icon>
                 </Input>
             </FormItem>
@@ -28,7 +37,11 @@
                 </Input>
             </FormItem>
             <FormItem>
-                <Button type="primary" @click="login()" size="large">登录</Button>
+                <a @click="toForgetPassword">忘记密码</a>
+            </FormItem>
+            <FormItem>
+                <Button type="primary" @click="login('loginForm')" size="large">登录</Button>
+                <Button type="ghost" @click="toRegister" size="large">注册</Button>
             </FormItem>
         </Form>
     </div>
@@ -50,6 +63,12 @@
                             required: true,
                             message: '手机号不能为空',
                             trigger: 'blur'
+                        },
+                        {
+                            type: 'string',
+                            pattern: /^1([3-9])\d{9}$/,
+                            message: '手机号格式错误!',
+                            trigger: 'blur'
                         }
                     ],
                     password: [
@@ -69,16 +88,31 @@
             };
         },
         methods: {
-            login() {
+            login(name) {
                 let callback = (res) => {
                     if (res.flags === 'success') {
                         localStorage.setItem('token', res.data.token);
+                        localStorage.setItem('nikeName', res.data.nickName);
                         this.$Message.success(res.message);
+                        this.$router.push({path: '/home'});
                     } else {
                         res.flags === 'fail' && this.$Message.error(`${res.message}`);
                     }
                 };
-                httpUtil.httpRequestJsonPost('/web/login', this.loginForm).then(callback);
+                this.$refs[name].validate((valid) => {
+                    if (valid) {
+                        // 用户登录
+                        httpUtil.httpRequestJsonPost('/passport/login', this.loginForm).then(callback);
+                    } else {
+                        this.$Message.error('请先确认输入信息格式~~~');
+                    }
+                });
+            },
+            toRegister() {
+                this.$router.push({path: '/register'});
+            },
+            toForgetPassword() {
+                this.$router.push({path: '/forgetPassword'});
             }
         }
     };

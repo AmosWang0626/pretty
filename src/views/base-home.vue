@@ -14,7 +14,6 @@
         data() {
             return {
                 pageFrameData: {
-                    nickName: 'Amos',
                     activeName: '3-1',
                     openNames: ['3'],
 
