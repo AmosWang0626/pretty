@@ -46,13 +46,14 @@
                         </MenuItem>
                         <MenuItem name="2">
                             <Dropdown trigger="click">
-                                <Avatar style="color: #f56a00;background-color: #fde3cf" size="large">{{nickName}}
+                                <Avatar style="background-color: #7265e6" size="large">{{nickName}}
                                 </Avatar>
                                 <Icon type="arrow-down-b"></Icon>
                                 <DropdownMenu slot="list">
                                     <DropdownItem>个人信息</DropdownItem>
                                     <DropdownItem disabled>修改密码</DropdownItem>
                                     <DropdownItem divided disabled>设置</DropdownItem>
+                                    <DropdownItem divided><router-link to="/login">退出</router-link></DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
                         </MenuItem>
@@ -111,9 +112,9 @@
                     <Table stripe border size="large" :columns="fatherData.pageColumns"
                            :data="fatherData.pageData.rows">
                     </Table>
-                    <!--<Page class="layout-content-page" show-total-->
-                          <!--:total="fatherData.total" :current="fatherData.page"-->
-                          <!--:page-size="fatherData.size"></Page>-->
+                    <Page class="layout-content-page" :total="fatherData.pageData.total"
+                          :page-size="fatherData.pageData.size" @on-change="changePage"
+                          @on-page-size-change="changePageSize" show-total show-sizer></Page>
                 </Content>
             </Layout>
 
@@ -150,6 +151,13 @@
         },
 
         methods: {
+            changePage: function (page) {
+                this.$emit('changePageCallBack', page);
+            },
+            changePageSize: function (size) {
+                this.$emit('changePageSizeCallBack', size);
+            },
+
             // 主题相关(官方)
             changeTheme: function (index) {
                 this.pageTheme = index;

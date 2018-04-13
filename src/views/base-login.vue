@@ -37,7 +37,7 @@
                 </Input>
             </FormItem>
             <FormItem>
-                <a @click="toForgetPassword">忘记密码</a>
+                <router-link to="/forgetPassword">忘记密码</router-link>
             </FormItem>
             <FormItem>
                 <Button type="primary" @click="login('loginForm')" size="large">登录</Button>
@@ -110,9 +110,6 @@
             },
             toRegister() {
                 this.$router.push({path: '/register'});
-            },
-            toForgetPassword() {
-                this.$router.push({path: '/forgetPassword'});
             }
         }
     };

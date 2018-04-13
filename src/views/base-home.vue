@@ -3,7 +3,8 @@
 </style>
 <template>
     <!-- [父---子] 传递数据 -->
-    <page-frame :fatherData='pageFrameData'/>
+    <page-frame :fatherData='pageFrameData' @changePageCallBack="changePageCallBack"
+                @changePageSizeCallBack="changePageSizeCallBack"/>
 </template>
 <script>
     import httpUtil from '../libs/util';
@@ -12,6 +13,8 @@
     export default {
         data() {
             return {
+                page: 1,
+                size: 10,
                 pageFrameData: {
                     activeName: '3-1',
                     openNames: ['3'],
@@ -34,7 +37,7 @@
                             key: 'createTime'
                         }
                     ],
-                    pageData: []
+                    pageData: ''
                 }
             };
         },
@@ -43,15 +46,30 @@
         components: {PageFrame},
 
         created: function () {
-            let callback = (res) => {
-                if (res.flags === 'success') {
-                    this.$Message.success(res.message);
-                    this.pageFrameData.pageData = res.data;
-                } else {
-                    res.flags === 'fail' && this.$Message.error(`${res.message}`);
-                }
-            };
-            httpUtil.httpRequestGet('/passport/page', {params: {page: 1, size: 10,}}).then(callback);
+            this.generalGetData();
+        },
+
+        methods: {
+            changePageCallBack: function (page) {
+                this.page = page;
+                this.generalGetData();
+            },
+            changePageSizeCallBack: function (size) {
+                this.size = size;
+                this.generalGetData();
+            },
+
+            generalGetData: function () {
+                let callback = (res) => {
+                    if (res.flags === 'success') {
+                        this.$Message.success(res.message);
+                        this.pageFrameData.pageData = res.data;
+                    } else {
+                        res.flags === 'fail' && this.$Message.error(`${res.message}`);
+                    }
+                };
+                httpUtil.httpRequestGet('/passport/page', {params: {page: this.page, size: this.size}}).then(callback);
+            }
         }
     };
 </script>
