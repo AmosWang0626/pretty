@@ -2,9 +2,8 @@
 
 </style>
 <template>
-    <!-- :fatherData='pageFrameData' [父---子] 传递数据 -->
-    <!-- @frameToFather='listenToFrame' [子---父] 回传数据 -->
-    <page-frame :fatherData='pageFrameData' @frameCallback='listenToFrame'></page-frame>
+    <!-- [父---子] 传递数据 -->
+    <page-frame :fatherData='pageFrameData'/>
 </template>
 <script>
     import httpUtil from '../libs/util';
@@ -19,48 +18,23 @@
 
                     pageColumns: [
                         {
-                            title: 'Name',
-                            key: 'name'
+                            title: '用户编号',
+                            key: 'memberId'
                         },
                         {
-                            title: 'Age',
-                            key: 'age'
+                            title: '手机号',
+                            key: 'phoneNo'
                         },
                         {
-                            title: 'Address',
-                            key: 'address'
+                            title: '昵称',
+                            key: 'nickName'
                         },
                         {
-                            title: 'Date',
-                            key: 'startDate'
+                            title: '注册时间',
+                            key: 'createTime'
                         }
                     ],
-                    pageData: [
-                        {
-                            name: 'John Brown',
-                            age: 18,
-                            address: 'New York No. 1 Lake Park',
-                            startDate: '2016-10-03'
-                        },
-                        {
-                            name: 'Jim Green',
-                            age: 24,
-                            address: 'London No. 1 Lake Park',
-                            startDate: '2016-10-01'
-                        },
-                        {
-                            name: 'Joe Black',
-                            age: 30,
-                            address: 'Sydney No. 1 Lake Park',
-                            startDate: '2016-10-02'
-                        },
-                        {
-                            name: 'Jon Snow',
-                            age: 26,
-                            address: 'Ottawa No. 2 Lake Park',
-                            startDate: '2016-10-04'
-                        }
-                    ]
+                    pageData: []
                 }
             };
         },
@@ -68,38 +42,16 @@
         /* 注册组件 */
         components: {PageFrame},
 
-        methods: {
-            /* [子---父] 回传数据Log */
-            listenToFrame(msg) {
-                this.$Message.success(msg);
-            },
-            // 发Get请求
-            baseGet() {
-                let callback = (res) => {
-                    if (res.flags === 'success') {
-                        this.$Message.success(res.message);
-                    } else {
-                        res.flags === 'fail' && this.$Message.error(`${res.message}`);
-                    }
-                };
-                httpUtil.httpRequestGet('/web/get').then(callback);
-            },
-            // 发Post请求
-            basePost() {
-                // httpUtil.httpRequestQsPost('/web/post', this.pageData);
-                let callback = (res) => {
-                    if (res.flags === 'success') {
-                        localStorage.setItem('token', res.data.token);
-                        this.$Message.success(res.message);
-                    } else {
-                        res.flags === 'fail' && this.$Message.error(`${res.message}`);
-                    }
-                };
-                httpUtil.httpRequestJsonPost('/web/login', {
-                    phoneNo: '18937128861',
-                    password: '123456',
-                }).then(callback);
-            }
+        created: function () {
+            let callback = (res) => {
+                if (res.flags === 'success') {
+                    this.$Message.success(res.message);
+                    this.pageFrameData.pageData = res.data;
+                } else {
+                    res.flags === 'fail' && this.$Message.error(`${res.message}`);
+                }
+            };
+            httpUtil.httpRequestGet('/passport/page', {params: {page: 1, size: 10,}}).then(callback);
         }
     };
 </script>

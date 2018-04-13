@@ -19,6 +19,11 @@
         margin: 10px;
         padding: 24px;
         background: #fff;
+        text-align: center;
+    }
+
+    .layout-content-page {
+        margin-top: 10px;
     }
 </style>
 <template>
@@ -41,7 +46,8 @@
                         </MenuItem>
                         <MenuItem name="2">
                             <Dropdown trigger="click">
-                                <Avatar style="background-color: #87d068" size="large">{{nickName}}</Avatar>
+                                <Avatar style="color: #f56a00;background-color: #fde3cf" size="large">{{nickName}}
+                                </Avatar>
                                 <Icon type="arrow-down-b"></Icon>
                                 <DropdownMenu slot="list">
                                     <DropdownItem>个人信息</DropdownItem>
@@ -57,7 +63,8 @@
             <Layout>
                 <!-- Sider -->
                 <Sider hide-trigger :style="{background: getColor(pageTheme)}">
-                    <Menu :active-name="activeName" width="auto" :open-names="openNames" :theme="pageTheme">
+                    <Menu :active-name="fatherData.activeName" width="auto" :open-names="fatherData.openNames"
+                          :theme="pageTheme">
                         <Submenu name="1">
                             <template slot="title">
                                 <Icon type="ios-paper"></Icon>
@@ -101,14 +108,18 @@
                 <!-- Content -->
                 <Content class="layout-content">
                     <!-- 表格相关 -->
-                    <Table stripe border size="large" :columns="pageColumns" :data="pageData"></Table>
+                    <Table stripe border size="large" :columns="fatherData.pageColumns"
+                           :data="fatherData.pageData.rows">
+                    </Table>
+                    <!--<Page class="layout-content-page" show-total-->
+                          <!--:total="fatherData.total" :current="fatherData.page"-->
+                          <!--:page-size="fatherData.size"></Page>-->
                 </Content>
             </Layout>
 
             <!-- Footer -->
             <Footer class="layout-footer-center" :style="{background: getColor(pageTheme)}">
                 <span :style="{color: getFontColor(pageTheme)}">2017-2018 &copy; Property</span>
-                <Button type="success" @click="onClickMe">open mouse!</Button>
             </Footer>
         </Layout>
     </div>
@@ -122,25 +133,23 @@
 
                 // 用户昵称
                 nickName: localStorage.getItem('nikeName'),
-                // 左侧选项卡
-                activeName: this.fatherData.activeName,
-                openNames: this.fatherData.openNames,
-                // 表格数据
-                pageColumns: this.fatherData.pageColumns,
-                pageData: this.fatherData.pageData
             };
         },
 
         /* [父---子] 传递数据 */
         props: ['fatherData'],
 
-        methods: {
-            // 点击该模块响应
-            onClickMe: function () {
-                /* [子---父] 回传数据 */
-                this.$emit('frameCallback', 'Hello, Frame CallBack!');
-            },
+        // 监听父组件传递来的数据
+        watch: {
+            fatherData: {
+                dep: true,
+                handler(value) {
+                    this.fatherData = value;
+                }
+            }
+        },
 
+        methods: {
             // 主题相关(官方)
             changeTheme: function (index) {
                 this.pageTheme = index;

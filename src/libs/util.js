@@ -19,8 +19,8 @@ let config = axios.create({
     }
 });
 
-util.httpRequestGet = function (url) {
-    return config.get(url)
+util.httpRequestGet = function (url, data) {
+    return config.get(url, data)
         .then(getResult)
         .catch(function (error) {
             console.log(error);
@@ -50,7 +50,7 @@ util.httpRequestJsonPost = function (url, data) {
 
 let getResult = res => {
     if (res.data && res.data.respCode === '1000') {
-        console.log(JSON.stringify(res.data.body));
+        // console.log(JSON.stringify(res.data.body));
         return {
             flags: 'success',
             data: res.data.body,
