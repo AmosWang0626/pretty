@@ -7,11 +7,9 @@ module.exports = {
         main: './src/main',
         vendors: './src/vendors'
     },
-
     output: {
         path: path.join(__dirname, './dist')
     },
-
     module: {
         rules: [{
             test: /.vue$/,
@@ -65,7 +63,6 @@ module.exports = {
         }
         ]
     },
-
     resolve: {
         extensions: ['.js', '.vue'],
         alias: {
