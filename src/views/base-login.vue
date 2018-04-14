@@ -94,6 +94,7 @@
                         localStorage.setItem('token', res.data.token);
                         localStorage.setItem('nikeName', res.data.nickName);
                         this.$router.push({path: '/home'});
+                        this.$Message.success('登录' + res.message);
                     } else {
                         res.flags === 'fail' && this.$Message.error(`${res.message}`);
                     }

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Qs from 'qs';
 
 export const BASE_URL = '/baseUrl';
 
@@ -24,15 +23,6 @@ util.httpRequestGet = function (url, data) {
         .then(getResult)
         .catch(function (error) {
             console.log(error);
-        });
-};
-
-util.httpRequestQsPost = function (url, data) {
-    return config.post(url, Qs.stringify(data, {arrayFormat: 'brackets'}))
-        .then(getResult)
-        .catch(function (error) {
-            console.log(error);
-            console.log('-------------' + Qs.stringify(data, {arrayFormat: 'brackets'}));
         });
 };
 

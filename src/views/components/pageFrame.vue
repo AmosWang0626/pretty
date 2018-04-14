@@ -21,10 +21,6 @@
         background: #fff;
         text-align: center;
     }
-
-    .layout-content-page {
-        margin-top: 10px;
-    }
 </style>
 <template>
     <div class="layout">
@@ -45,7 +41,7 @@
                             </Dropdown>
                         </MenuItem>
                         <MenuItem name="2">
-                            <Dropdown trigger="click">
+                            <Dropdown trigger="click" @on-click="dropDownOnClick">
                                 <Avatar style="background-color: #7265e6" size="large">{{nickName}}
                                 </Avatar>
                                 <Icon type="arrow-down-b"></Icon>
@@ -53,9 +49,7 @@
                                     <DropdownItem>个人信息</DropdownItem>
                                     <DropdownItem disabled>修改密码</DropdownItem>
                                     <DropdownItem divided disabled>设置</DropdownItem>
-                                    <DropdownItem divided>
-                                        <router-link to="/login">退出</router-link>
-                                    </DropdownItem>
+                                    <DropdownItem name="logout" divided>退出</DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
                         </MenuItem>
@@ -110,15 +104,8 @@
 
                 <!-- Content -->
                 <Content class="layout-content">
-                    <!-- 表格相关 -->
-                    <Table stripe border size="large" :columns="fatherData.pageColumns"
-                           :data="fatherData.pageData.rows">
-                    </Table>
-                    <!--<Page class="layout-content-page" :total="fatherData.pageData.total"
-                          :page-size="fatherData.pageData.size" show-total show-sizer show-elevator
-                          @on-change="changePage" @on-page-size-change="changePageSize"></Page>-->
-                    <Page class="layout-content-page" :current="fatherData.pageData.page"
-                          :total="fatherData.pageData.total" simple @on-change="changePage"></Page>
+                    <slot name="slotTable"></slot>
+                    <slot name="slotForm"></slot>
                 </Content>
             </Layout>
 
@@ -135,13 +122,12 @@
             return {
                 // 颜色主题
                 pageTheme: 'dark',
-
                 // 用户昵称
                 nickName: localStorage.getItem('nikeName'),
             };
         },
 
-        /* [父---子] 传递数据 */
+        // [父---子] 传递数据
         props: ['fatherData'],
 
         // 监听父组件传递来的数据
@@ -155,13 +141,14 @@
         },
 
         methods: {
-            changePage: function (page) {
-                this.$emit('changePageCallBack', page);
+            // 退出登录
+            dropDownOnClick: function (name) {
+                if ('logout' === name) {
+                    localStorage.setItem('token', null);
+                    localStorage.setItem('nikeName', null);
+                    this.$router.push({path: '/login'});
+                }
             },
-            changePageSize: function (size) {
-                this.$emit('changePageSizeCallBack', size);
-            },
-
             // 主题相关(官方)
             changeTheme: function (index) {
                 this.pageTheme = index;
