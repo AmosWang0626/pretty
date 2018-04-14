@@ -53,7 +53,9 @@
                                     <DropdownItem>个人信息</DropdownItem>
                                     <DropdownItem disabled>修改密码</DropdownItem>
                                     <DropdownItem divided disabled>设置</DropdownItem>
-                                    <DropdownItem divided><router-link to="/login">退出</router-link></DropdownItem>
+                                    <DropdownItem divided>
+                                        <router-link to="/login">退出</router-link>
+                                    </DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
                         </MenuItem>
@@ -112,9 +114,11 @@
                     <Table stripe border size="large" :columns="fatherData.pageColumns"
                            :data="fatherData.pageData.rows">
                     </Table>
-                    <Page class="layout-content-page" :total="fatherData.pageData.total"
-                          :page-size="fatherData.pageData.size" @on-change="changePage"
-                          @on-page-size-change="changePageSize" show-total show-sizer></Page>
+                    <!--<Page class="layout-content-page" :total="fatherData.pageData.total"
+                          :page-size="fatherData.pageData.size" show-total show-sizer show-elevator
+                          @on-change="changePage" @on-page-size-change="changePageSize"></Page>-->
+                    <Page class="layout-content-page" :current="fatherData.pageData.page"
+                          :total="fatherData.pageData.total" simple @on-change="changePage"></Page>
                 </Content>
             </Layout>
 
