@@ -1,11 +1,15 @@
 <style>
     .layout-content-page {
-        margin-top: 10px;
+        margin-top: 15px;
+    }
+
+    .page-table {
+        text-align: center;
     }
 </style>
 <template>
     <page-frame :fatherData='toChildData'>
-        <div slot="slotTable">
+        <div class="page-table" slot="slotTable">
             <!-- 表格相关 分别对应两种不同的样式 -->
             <Table stripe border size="large" :columns="pageColumns"
                    :data="pageData.rows">

@@ -64,6 +64,12 @@
                             required: true,
                             message: '手机号不能为空',
                             trigger: 'blur'
+                        },
+                        {
+                            type: 'string',
+                            pattern: /^1([3-9])\d{9}$/,
+                            message: '手机号格式错误!',
+                            trigger: 'blur'
                         }
                     ],
                     verifyCode: [

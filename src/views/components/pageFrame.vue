@@ -19,7 +19,6 @@
         margin: 10px;
         padding: 24px;
         background: #fff;
-        text-align: center;
     }
 </style>
 <template>
@@ -61,7 +60,7 @@
                 <!-- Sider -->
                 <Sider hide-trigger :style="{background: getColor(pageTheme)}">
                     <Menu :active-name="fatherData.activeName" width="auto" :open-names="fatherData.openNames"
-                          :theme="pageTheme">
+                          :theme="pageTheme" @on-select="changeMenuOnClick">
                         <Submenu name="1">
                             <template slot="title">
                                 <Icon type="ios-paper"></Icon>
@@ -141,6 +140,18 @@
         },
 
         methods: {
+            // 退出登录
+            changeMenuOnClick: function (name) {
+                if ('3-1' === name) {
+                    this.$router.push({path: '/standard'});
+                } else if ('3-2' === name) {
+                    this.$router.push({path: '/standardAdd'});
+                } else if ('3-3' === name) {
+                    this.$router.push({path: '/company'});
+                } else if ('3-4' === name) {
+                    this.$router.push({path: '/companyAdd'});
+                }
+            },
             // 退出登录
             dropDownOnClick: function (name) {
                 if ('logout' === name) {
