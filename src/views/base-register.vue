@@ -128,7 +128,7 @@
                 this.$refs[name].validate((valid) => {
                     if (valid) {
                         // 用户登录
-                        httpUtil.httpRequestJsonPost('/passport/register', this.registerForm).then(callback);
+                        httpUtil.httpRequestPost('/passport/register', this.registerForm).then(callback);
                     } else {
                         this.$Message.error('请先确认输入信息格式~~~');
                     }

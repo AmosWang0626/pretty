@@ -8,31 +8,31 @@ util.title = function (title) {
     window.document.title = title;
 };
 
-let config = axios.create({
-    baseURL: BASE_URL,
-    timeout: 30000,
-    withCredentials: true,
-    responseType: 'json',
-    headers: {
-        'token': localStorage.getItem('token')
-    }
-});
-
 util.httpRequestGet = function (url, data) {
-    return config.get(url, data)
-        .then(getResult)
-        .catch(function (error) {
+    let token = localStorage.getItem('token');
+    return axios.get(url, {
+        baseURL: BASE_URL,
+        headers: {token},
+        params: data
+    }).then(getResult).catch(
+        function (error) {
             console.log(error);
+            return {
+                flags: 'fail',
+                message: '服务器异常 ' + error
+            };
         });
 };
 
-util.httpRequestJsonPost = function (url, data) {
-    return config.post(url, data)
-        .then(getResult)
-        .catch(function (error) {
+util.httpRequestPost = function (url, data) {
+    let token = localStorage.getItem('token');
+    return axios.post(url, data, {
+        baseURL: BASE_URL,
+        headers: {token},
+    }).then(getResult).catch(
+        function (error) {
             return {
                 flags: 'fail',
-                data: null,
                 message: '服务器异常 ' + error
             };
         });
@@ -50,8 +50,8 @@ let getResult = res => {
         console.error(res.data.respMsg);
         return {
             flags: 'fail',
-            message: res.data.respMsg,
-            code: res.data.respCode
+            code: res.data.respCode,
+            message: res.data.respMsg
         };
     }
 };

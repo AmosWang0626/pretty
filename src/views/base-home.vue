@@ -81,9 +81,12 @@
                         this.pageData = res.data;
                     } else {
                         res.flags === 'fail' && this.$Message.error(`${res.message}`);
+                        if (res.code === '1003') {
+                            this.$router.push('/login');
+                        }
                     }
                 };
-                httpUtil.httpRequestGet('/passport/page', {params: {page: this.page, size: this.size}}).then(callback);
+                httpUtil.httpRequestGet('/passport/page', {page: this.page, size: this.size}).then(callback);
             }
         }
     };

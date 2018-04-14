@@ -63,20 +63,43 @@
                           :theme="pageTheme" @on-select="changeMenuOnClick">
                         <Submenu name="1">
                             <template slot="title">
-                                <Icon type="ios-paper"></Icon>
-                                内容管理
+                                <Icon type="stats-bars"></Icon>
+                                综合管理模块
                             </template>
-                            <MenuItem name="1-1">文章管理</MenuItem>
-                            <MenuItem name="1-2">评论管理</MenuItem>
-                            <MenuItem name="1-3">举报管理</MenuItem>
+                            <MenuGroup title="信息管理">
+                                <MenuItem name="1-1">园区信息管理</MenuItem>
+                                <MenuItem name="1-2">用户账号管理</MenuItem>
+                                <MenuItem name="1-3">系统权限管理</MenuItem>
+                                <MenuItem name="1-4">员工信息管理</MenuItem>
+                                <MenuItem name="1-5">系统日志管理</MenuItem>
+                            </MenuGroup>
+                            <MenuGroup title="资源管理">
+                                <MenuItem name="1-6">企业信息管理</MenuItem>
+                                <MenuItem name="1-7">企业员工信息管理</MenuItem>
+                                <MenuItem name="1-8">房屋信息管理</MenuItem>
+                                <MenuItem name="1-9">车辆车位管理</MenuItem>
+                                <MenuItem name="1-10">车位信息管理</MenuItem>
+                                <MenuItem name="1-11">设备信息管理</MenuItem>
+                            </MenuGroup>
                         </Submenu>
                         <Submenu name="2">
                             <template slot="title">
-                                <Icon type="ios-people"></Icon>
-                                用户管理
+                                <Icon type="stats-bars"></Icon>
+                                综合业务模块
                             </template>
-                            <MenuItem name="2-1">新增用户</MenuItem>
-                            <MenuItem name="2-2">活跃用户</MenuItem>
+                            <MenuGroup title="系统管理">
+                                <MenuItem name="2-1">通知公告</MenuItem>
+                                <MenuItem name="2-2">短信息管理</MenuItem>
+                                <MenuItem name="2-3">反馈与建议</MenuItem>
+                            </MenuGroup>
+                            <MenuGroup title="服务管理">
+                                <MenuItem name="2-4">服务申请</MenuItem>
+                                <MenuItem name="2-5">服务评价</MenuItem>
+                                <MenuItem name="2-6">服务调查</MenuItem>
+                                <MenuItem name="2-7">车辆进出</MenuItem>
+                                <MenuItem name="2-8">房源租售</MenuItem>
+                                <MenuItem name="2-9">添加公司</MenuItem>
+                            </MenuGroup>
                         </Submenu>
                         <Submenu name="3">
                             <template slot="title">
@@ -96,6 +119,7 @@
                                 <MenuItem name="3-6">未结清账单</MenuItem>
                                 <MenuItem name="3-7">未结清账单</MenuItem>
                                 <MenuItem name="3-8">账目流水</MenuItem>
+                                <MenuItem name="3-9">用户管理</MenuItem>
                             </MenuGroup>
                         </Submenu>
                     </Menu>
@@ -150,6 +174,8 @@
                     this.$router.push({path: '/company'});
                 } else if ('3-4' === name) {
                     this.$router.push({path: '/companyAdd'});
+                } else if ('3-9' === name) {
+                    this.$router.push({path: '/home'});
                 }
             },
             // 退出登录

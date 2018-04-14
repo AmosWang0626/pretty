@@ -175,7 +175,7 @@
                             }
                         };
                         // 保存公司信息
-                        httpUtil.httpRequestJsonPost('/static/addCompany', this.companyForm).then(callback);
+                        httpUtil.httpRequestPost('/static/addCompany', this.companyForm).then(callback);
                     } else {
                         this.$Message.error('请先确认输入信息格式~~~');
                     }

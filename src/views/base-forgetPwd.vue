@@ -116,7 +116,7 @@
                 this.$refs[name].validate((valid) => {
                     if (valid) {
                         // 用户登录
-                        httpUtil.httpRequestJsonPost('/passport/forgetPassword', this.forgetPwdForm).then(callback);
+                        httpUtil.httpRequestPost('/passport/forgetPassword', this.forgetPwdForm).then(callback);
                     } else {
                         this.$Message.error('请先确认输入信息格式~~~');
                     }

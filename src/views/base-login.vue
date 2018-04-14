@@ -93,8 +93,8 @@
                     if (res.flags === 'success') {
                         localStorage.setItem('token', res.data.token);
                         localStorage.setItem('nikeName', res.data.nickName);
-                        this.$router.push({path: '/home'});
                         this.$Message.success('登录' + res.message);
+                        this.$router.push({path: '/home'});
                     } else {
                         res.flags === 'fail' && this.$Message.error(`${res.message}`);
                     }
@@ -102,7 +102,7 @@
                 this.$refs[name].validate((valid) => {
                     if (valid) {
                         // 用户登录
-                        httpUtil.httpRequestJsonPost('/passport/login', this.loginForm).then(callback);
+                        httpUtil.httpRequestPost('/passport/login', this.loginForm).then(callback);
                     } else {
                         this.$Message.error('请先确认输入信息格式~~~');
                     }

@@ -158,7 +158,7 @@
                             }
                         };
                         // 保存缴费标准信息
-                        httpUtil.httpRequestJsonPost('/static/addStandard', this.standardForm).then(callback);
+                        httpUtil.httpRequestPost('/static/addStandard', this.standardForm).then(callback);
                     } else {
                         this.$Message.error('请先确认输入信息格式~~~');
                     }

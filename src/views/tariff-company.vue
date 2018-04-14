@@ -85,14 +85,12 @@
                         this.pageData = res.data;
                     } else {
                         res.flags === 'fail' && this.$Message.error(`${res.message}`);
+                        if (res.code === '1003') {
+                            this.$router.push('/login');
+                        }
                     }
                 };
-                httpUtil.httpRequestGet('/static/pageCompany', {
-                    params: {
-                        page: this.page,
-                        size: this.size
-                    }
-                }).then(callback);
+                httpUtil.httpRequestGet('/static/pageCompany', {page: this.page, size: this.size}).then(callback);
             }
         }
     };
