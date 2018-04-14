@@ -63,7 +63,7 @@
                           :theme="pageTheme" @on-select="changeMenuOnClick">
                         <Submenu name="1">
                             <template slot="title">
-                                <Icon type="stats-bars"></Icon>
+                                <Icon type="ios-people"></Icon>
                                 综合管理模块
                             </template>
                             <MenuGroup title="信息管理">
@@ -103,24 +103,18 @@
                         </Submenu>
                         <Submenu name="3">
                             <template slot="title">
-                                <Icon type="stats-bars"></Icon>
+                                <Icon type="social-yen"></Icon>
                                 资费管理模块
                             </template>
-                            <MenuGroup title="缴费标准管理">
-                                <MenuItem name="3-1">标准管理</MenuItem>
-                                <MenuItem name="3-2">添加标准</MenuItem>
-                            </MenuGroup>
-                            <MenuGroup title="收费公司管理">
-                                <MenuItem name="3-3">公司管理</MenuItem>
-                                <MenuItem name="3-4">添加公司</MenuItem>
-                            </MenuGroup>
-                            <MenuGroup title="用户账单管理">
-                                <MenuItem name="3-5">账单录入</MenuItem>
-                                <MenuItem name="3-6">未结清账单</MenuItem>
-                                <MenuItem name="3-7">未结清账单</MenuItem>
-                                <MenuItem name="3-8">账目流水</MenuItem>
-                                <MenuItem name="3-9">用户管理</MenuItem>
-                            </MenuGroup>
+                            <MenuItem name="3-1">标准管理</MenuItem>
+                            <MenuItem name="3-2">添加标准</MenuItem>
+                            <MenuItem name="3-3">公司管理</MenuItem>
+                            <MenuItem name="3-4">添加公司</MenuItem>
+                            <MenuItem name="3-5">账单录入</MenuItem>
+                            <MenuItem name="3-6">未结清账单</MenuItem>
+                            <MenuItem name="3-7">未结清账单</MenuItem>
+                            <MenuItem name="3-8">账目流水</MenuItem>
+                            <MenuItem name="3-9">用户管理</MenuItem>
                         </Submenu>
                     </Menu>
                 </Sider>
