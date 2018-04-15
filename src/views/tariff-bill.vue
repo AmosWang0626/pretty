@@ -1,120 +1,88 @@
+<style lang="less">
+    .edit-table-height {
+        height: 190px;
+    }
+</style>
+
 <template>
-    <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-        <FormItem label="Name" prop="name">
-            <Input v-model="formValidate.name" placeholder="Enter your name"></Input>
-        </FormItem>
-        <FormItem label="E-mail" prop="mail">
-            <Input v-model="formValidate.mail" placeholder="Enter your e-mail"></Input>
-        </FormItem>
-        <FormItem label="City" prop="city">
-            <Select v-model="formValidate.city" placeholder="Select your city">
-                <Option value="beijing">New York</Option>
-                <Option value="shanghai">London</Option>
-                <Option value="shenzhen">Sydney</Option>
-            </Select>
-        </FormItem>
-        <FormItem label="Date">
-            <Row>
-                <Col span="11">
-                    <FormItem prop="date">
-                        <DatePicker type="date" placeholder="Select date" v-model="formValidate.date"></DatePicker>
-                    </FormItem>
-                </Col>
-                <Col span="2" style="text-align: center">-</Col>
-                <Col span="11">
-                    <FormItem prop="time">
-                        <TimePicker type="time" placeholder="Select time" v-model="formValidate.time"></TimePicker>
-                    </FormItem>
-                </Col>
-            </Row>
-        </FormItem>
-        <FormItem label="Gender" prop="gender">
-            <RadioGroup v-model="formValidate.gender">
-                <Radio label="male">Male</Radio>
-                <Radio label="female">Female</Radio>
-            </RadioGroup>
-        </FormItem>
-        <FormItem label="Hobby" prop="interest">
-            <CheckboxGroup v-model="formValidate.interest">
-                <Checkbox label="Eat"></Checkbox>
-                <Checkbox label="Sleep"></Checkbox>
-                <Checkbox label="Run"></Checkbox>
-                <Checkbox label="Movie"></Checkbox>
-            </CheckboxGroup>
-        </FormItem>
-        <FormItem label="Desc" prop="desc">
-            <Input v-model="formValidate.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
-                   placeholder="Enter something..."></Input>
-        </FormItem>
-        <FormItem>
-            <Button type="primary" @click="handleSubmit('formValidate')">Submit</Button>
-            <Button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button>
-        </FormItem>
-    </Form>
+    <!-- :hover-show="true" 加上 鼠标移入 显示编辑按钮 -->
+    <can-edit-table
+            refs="table4"
+            v-model="editInlineAndCellData"
+            @on-cell-change="handleCellChange"
+            @on-change="handleChange"
+            :editIncell="true"
+            :hover-show="true"
+            :columns-list="editInlineAndCellColumn">
+    </can-edit-table>
 </template>
+
 <script>
+    import canEditTable from './components/canEditTable.vue';
+    import httpUtil from '../libs/util';
+
     export default {
         data() {
             return {
-                formValidate: {
-                    name: '',
-                    mail: '',
-                    city: '',
-                    gender: '',
-                    interest: [],
-                    date: '',
-                    time: '',
-                    desc: ''
-                },
-                ruleValidate: {
-                    name: [
-                        {required: true, message: 'The name cannot be empty', trigger: 'blur'}
-                    ],
-                    mail: [
-                        {required: true, message: 'Mailbox cannot be empty', trigger: 'blur'},
-                        {type: 'email', message: 'Incorrect email format', trigger: 'blur'}
-                    ],
-                    city: [
-                        {required: true, message: 'Please select the city', trigger: 'change'}
-                    ],
-                    gender: [
-                        {required: true, message: 'Please select gender', trigger: 'change'}
-                    ],
-                    interest: [
-                        {
-                            required: true,
-                            type: 'array',
-                            min: 1,
-                            message: 'Choose at least one hobby',
-                            trigger: 'change'
-                        },
-                        {type: 'array', max: 2, message: 'Choose two hobbies at best', trigger: 'change'}
-                    ],
-                    date: [
-                        {required: true, type: 'date', message: 'Please select the date', trigger: 'change'}
-                    ],
-                    time: [
-                        {required: true, type: 'string', message: 'Please select time', trigger: 'change'}
-                    ],
-                    desc: [
-                        {required: true, message: 'Please enter a personal introduction', trigger: 'blur'},
-                        {type: 'string', min: 20, message: 'Introduce no less than 20 words', trigger: 'blur'}
-                    ]
-                }
+                page: 1,
+                size: 10,
+                editInlineAndCellColumn: [
+                    {
+                        title: '用户编号',
+                        key: 'memberId'
+                    },
+                    {
+                        title: '手机号',
+                        key: 'phoneNo',
+                        editable: true
+                    },
+                    {
+                        title: '昵称',
+                        key: 'nickName',
+                        editable: true
+                    },
+                    {
+                        title: '注册时间',
+                        key: 'createTime'
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        width: 200,
+                        key: 'handle',
+                        handle: ['edit', 'delete']
+                    }
+                ],
+                editInlineAndCellData: [],
             };
         },
+        components: {
+            canEditTable
+        },
+        created: function () {
+            this.generalGetData();
+        },
         methods: {
-            handleSubmit(name) {
-                this.$refs[name].validate((valid) => {
-                    if (valid) {
-                        this.$Message.success('Success!');
-                    } else {
-                        this.$Message.error('Fail!');
-                    }
-                });
+            handleCellChange(val, index, key) {
+                this.$Message.success('修改了第 ' + (index + 1) + ' 行列名为 ' + key + ' 的数据');
+                console.log(JSON.stringify(this.editInlineAndCellData[index]));
             },
-            handleReset(name) {
-                this.$refs[name].resetFields();
+            handleChange(val, index) {
+                this.$Message.success('修改了第' + (index + 1) + '行数据');
+                console.log(JSON.stringify(this.editInlineAndCellData[index]));
+            },
+            generalGetData: function () {
+                let callback = (res) => {
+                    if (res.flags === 'success') {
+                        this.editInlineAndCellData = res.data.rows;
+                    } else {
+                        res.flags === 'fail' && this.$Message.error(`${res.message}`);
+                        if (res.code === '1003') {
+                            this.$router.push('/login');
+                        }
+                    }
+                };
+                httpUtil.httpRequestGet('/passport/page', {page: this.page, size: this.size}).then(callback);
             }
         }
     };
