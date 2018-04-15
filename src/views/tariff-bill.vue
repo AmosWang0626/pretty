@@ -1,32 +1,50 @@
-<style lang="less">
-    .edit-table-height {
-        height: 190px;
+<style>
+    .layout-content-page {
+        margin-top: 15px;
+    }
+
+    .page-table {
+        text-align: center;
     }
 </style>
-
 <template>
-    <!-- :hover-show="true" 加上 鼠标移入 显示编辑按钮 -->
-    <can-edit-table
-            refs="table4"
-            v-model="editInlineAndCellData"
-            @on-cell-change="handleCellChange"
-            @on-change="handleChange"
-            :editIncell="true"
-            :hover-show="true"
-            :columns-list="editInlineAndCellColumn">
-    </can-edit-table>
+    <page-frame :fatherData='toChildData'>
+        <div class="page-table" slot="slotTable">
+            <!-- 表格相关 分别对应两种不同的样式 -->
+            <!-- :hover-show="true" 加上 鼠标移入 显示编辑按钮 -->
+            <can-edit-table
+                    refs="pageTable"
+                    v-model="columnsData"
+                    @on-cell-change="handleCellChange"
+                    @on-change="handleChange"
+                    @on-delete="handleDeleteChange"
+                    :editIncell="true"
+                    :hover-show="true"
+                    :columns-list="pageColumns">
+            </can-edit-table>
+            <!--<Table :loading="loading"  :columns="pageColumns"-->
+            <!--:data="">-->
+            <!--</Table>-->
+            <Page class="layout-content-page" :total="pageData.total"
+                  :page-size="pageData.size" show-total show-sizer show-elevator
+                  @on-change="changePage" @on-page-size-change="changePageSize"></Page>
+            <!--<Page class="layout-content-page" :current="pageData.page"-->
+            <!--:total="pageData.total" simple @on-change="changePage"></Page>-->
+        </div>
+    </page-frame>
 </template>
-
 <script>
-    import canEditTable from './components/canEditTable.vue';
     import httpUtil from '../libs/util';
+    // import dateUtil from '../libs/date';
+    import pageFrame from './components/pageFrame';
+    import canEditTable from './components/canEditTable.vue';
 
     export default {
         data() {
             return {
                 page: 1,
                 size: 10,
-                editInlineAndCellColumn: [
+                pageColumns: [
                     {
                         title: '用户编号',
                         key: 'memberId'
@@ -53,28 +71,79 @@
                         handle: ['edit', 'delete']
                     }
                 ],
-                editInlineAndCellData: [],
+                pageData: '',
+                columnsData: [],
+
+                toChildData: {
+                    activeName: '3-9',
+                    openNames: ['3'],
+                }
             };
         },
-        components: {
-            canEditTable
-        },
+
+        // 注册组件
+        components: {pageFrame, canEditTable},
+
         created: function () {
             this.generalGetData();
         },
+
         methods: {
-            handleCellChange(val, index, key) {
-                this.$Message.success('修改了第 ' + (index + 1) + ' 行列名为 ' + key + ' 的数据');
-                console.log(JSON.stringify(this.editInlineAndCellData[index]));
-            },
             handleChange(val, index) {
-                this.$Message.success('修改了第' + (index + 1) + '行数据');
-                console.log(JSON.stringify(this.editInlineAndCellData[index]));
+                console.log(JSON.stringify(val[index]));
+                this.generalUpdate(JSON.stringify(val[index]), '修改了第 ' + (index + 1) + ' 行的数据');
             },
+            handleCellChange(val, index, key) {
+                console.log(JSON.stringify(val[index]));
+                this.generalUpdate(JSON.stringify(val[index]), '修改了第 ' + (index + 1) + ' 行列名为 ' + key + ' 的数据');
+            },
+            handleDeleteChange(val, index) {
+                console.log(JSON.stringify(val[index]));
+                this.generalDelete(JSON.stringify(val[index]), '删除了第' + (index + 1) + '行数据');
+            },
+
+            changePage: function (page) {
+                this.page = page;
+                this.generalGetData();
+            },
+            changePageSize: function (size) {
+                this.size = size;
+                this.generalGetData();
+            },
+
+            generalUpdate: function (val, message) {
+                let callback = (res) => {
+                    if (res.flags === 'success') {
+                        this.$Message.success(message);
+                    } else {
+                        res.flags === 'fail' && this.$Message.error(`${res.message}`);
+                        if (res.code === '1003') {
+                            this.$router.push('/login');
+                        }
+                    }
+                };
+                httpUtil.httpRequestPost('/passport/modifyUserInfo', val).then(callback);
+            },
+
+            generalDelete: function (val, message) {
+                let callback = (res) => {
+                    if (res.flags === 'success') {
+                        this.$Message.success(message);
+                    } else {
+                        res.flags === 'fail' && this.$Message.error(`${res.message}`);
+                        if (res.code === '1003') {
+                            this.$router.push('/login');
+                        }
+                    }
+                };
+                httpUtil.httpRequestPost('/passport/deleteUser', val).then(callback);
+            },
+
             generalGetData: function () {
                 let callback = (res) => {
                     if (res.flags === 'success') {
-                        this.editInlineAndCellData = res.data.rows;
+                        this.pageData = res.data;
+                        this.columnsData = res.data.rows;
                     } else {
                         res.flags === 'fail' && this.$Message.error(`${res.message}`);
                         if (res.code === '1003') {

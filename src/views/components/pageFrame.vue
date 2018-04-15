@@ -140,7 +140,7 @@
                 // 颜色主题
                 pageTheme: 'dark',
                 // 用户昵称
-                nickName: localStorage.getItem('nikeName'),
+                nickName: localStorage.getItem('nickName'),
             };
         },
 

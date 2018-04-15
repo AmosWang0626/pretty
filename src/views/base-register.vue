@@ -24,8 +24,8 @@
             <FormItem>
                 <img class="register-logo" src="http://112.74.57.49/img/property-logo-white.jpg">
             </FormItem>
-            <FormItem prop="nikeName">
-                <Input type="text" v-model="registerForm.nikeName" placeholder="请输入昵称" clearable autofocus size="large">
+            <FormItem prop="nickName">
+                <Input type="text" v-model="registerForm.nickName" placeholder="请输入昵称" clearable autofocus size="large">
                 <Icon type="social-snapchat-outline" slot="prepend" size="20"></Icon>
                 </Input>
             </FormItem>
@@ -58,13 +58,13 @@
         data() {
             return {
                 registerForm: {
-                    nikeName: '',
+                    nickName: '',
                     phoneNo: '',
                     verifyCode: '',
                     password: ''
                 },
                 registerRule: {
-                    nikeName: [
+                    nickName: [
                         {
                             required: true,
                             message: '昵称不能为空',
@@ -118,7 +118,7 @@
                 let callback = (res) => {
                     if (res.flags === 'success') {
                         localStorage.setItem('token', res.data.token);
-                        localStorage.setItem('nikeName', res.data.nickName);
+                        localStorage.setItem('nickName', res.data.nickName);
                         this.$Message.success(res.message);
                         this.$router.push({path: '/home'});
                     } else {

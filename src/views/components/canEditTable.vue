@@ -11,7 +11,7 @@
 
 <template>
     <div>
-        <Table :ref="refs" :columns="columnsList" :data="thisTableData" border></Table>
+        <Table :ref="refs" :columns="columnsList" :data="thisTableData" stripe border size="large"></Table>
     </div>
 </template>
 
@@ -59,9 +59,9 @@
             },
             on: {
                 'on-ok': () => {
+                    vm.$emit('on-delete', vm.handleBackdata(vm.thisTableData), index);
                     vm.thisTableData.splice(index, 1);
                     vm.$emit('input', vm.handleBackdata(vm.thisTableData));
-                    vm.$emit('on-delete', vm.handleBackdata(vm.thisTableData), index);
                 }
             }
         }, [

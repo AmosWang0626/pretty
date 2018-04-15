@@ -2,6 +2,8 @@ import axios from 'axios';
 
 export const BASE_URL = '/baseUrl';
 
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+
 let util = {};
 util.title = function (title) {
     title = title ? title + ' - Home' : 'Property';
