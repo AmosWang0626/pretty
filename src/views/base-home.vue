@@ -11,7 +11,7 @@
     <page-frame :fatherData='toChildData'>
         <div class="page-table" slot="slotTable">
             <!-- 表格相关 分别对应两种不同的样式 -->
-            <Table stripe border size="large" :columns="pageColumns"
+            <Table :loading="loading" stripe border size="large" :columns="pageColumns"
                    :data="pageData.rows">
             </Table>
             <Page class="layout-content-page" :total="pageData.total"
@@ -24,11 +24,13 @@
 </template>
 <script>
     import httpUtil from '../libs/util';
+    import dateUtil from '../libs/date';
     import PageFrame from './components/pageFrame';
 
     export default {
         data() {
             return {
+                loading: true,
                 page: 1,
                 size: 10,
                 pageColumns: [
@@ -47,6 +49,30 @@
                     {
                         title: '注册时间',
                         key: 'createTime'
+                    },
+                    {
+                        title: '操作',
+                        key: 'action',
+                        width: 150,
+                        align: 'center',
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.show(params.index);
+                                        }
+                                    }
+                                }, '详情')
+                            ]);
+                        }
                     }
                 ],
                 pageData: '',
@@ -66,17 +92,30 @@
         },
 
         methods: {
+            show(index) {
+                this.$Modal.info({
+                    title: 'Property',
+                    // 按ESC键 可关闭Modal
+                    closable: true,
+                    content: `昵称：${this.pageData.rows[index].nickName}<br>`
+                    + `手机号：${this.pageData.rows[index].phoneNo}<br>`
+                    + `注册时间：${dateUtil.formatDate(new Date(this.pageData.rows[index].createTime), 'yyyy-MM-dd hh:mm:ss')}`
+                });
+            },
             changePage: function (page) {
+                this.loading = true;
                 this.page = page;
                 this.generalGetData();
             },
             changePageSize: function (size) {
+                this.loading = true;
                 this.size = size;
                 this.generalGetData();
             },
 
             generalGetData: function () {
                 let callback = (res) => {
+                    this.loading = false;
                     if (res.flags === 'success') {
                         this.pageData = res.data;
                     } else {

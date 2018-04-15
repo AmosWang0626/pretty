@@ -31,8 +31,8 @@
                     <div class="layout-nav">
                         <MenuItem name="1">
                             <Dropdown trigger="click" @on-click="changeTheme">
-                                <Icon type="ios-analytics"></Icon>
-                                切换主题
+                                <Icon type="paintbucket"></Icon>
+                                <Icon type="arrow-down-b"></Icon>
                                 <DropdownMenu slot="list">
                                     <DropdownItem name="light">象牙白</DropdownItem>
                                     <DropdownItem name="dark">高雅灰</DropdownItem>

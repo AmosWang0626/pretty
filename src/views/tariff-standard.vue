@@ -11,7 +11,7 @@
     <page-frame :fatherData='toChildData'>
         <div class="page-table" slot="slotTable">
             <!-- 表格相关 分别对应两种不同的样式 -->
-            <Table stripe border size="large" :columns="pageColumns"
+            <Table :loading="loading" stripe border size="large" :columns="pageColumns"
                    :data="pageData.rows">
             </Table>
             <Page class="layout-content-page" :total="pageData.total"
@@ -29,6 +29,7 @@
     export default {
         data() {
             return {
+                loading: true,
                 page: 1,
                 size: 10,
                 pageColumns: [
@@ -79,16 +80,19 @@
 
         methods: {
             changePage: function (page) {
+                this.loading = true;
                 this.page = page;
                 this.generalGetData();
             },
             changePageSize: function (size) {
+                this.loading = true;
                 this.size = size;
                 this.generalGetData();
             },
 
             generalGetData: function () {
                 let callback = (res) => {
+                    this.loading = false;
                     if (res.flags === 'success') {
                         this.pageData = res.data;
                     } else {
