@@ -69,24 +69,19 @@
                         editable: true
                     },
                     {
-                        title: '状态',
-                        key: 'status',
-                        editable: true
-                    },
-                    {
                         title: '操作',
                         align: 'center',
                         width: 200,
                         key: 'handle',
-                        handle: ['edit']
+                        handle: ['edit', 'delete']
                     }
                 ],
                 pageColumnsData: [],
 
                 // 给模板页设置样式
                 frameStyle: {
-                    activeName: '4-2',
-                    openNames: ['4'],
+                    activeName: '3-1',
+                    openNames: ['3'],
                 }
             };
         },
@@ -154,6 +149,21 @@
                     }
                 };
                 httpUtil.httpRequestPost('/static/modifyStandard', val).then(callback);
+            },
+
+            // 请求后台 -- 删除操作
+            generalDelete: function (val, message) {
+                let callback = (res) => {
+                    if (res.flags === 'success') {
+                        this.$Message.success(message);
+                    } else {
+                        res.flags === 'fail' && this.$Message.error(`${res.message}`);
+                        if (res.code === '1003') {
+                            this.$router.push('/login');
+                        }
+                    }
+                };
+                httpUtil.httpRequestPost('/static/deleteStandard', val).then(callback);
             }
         }
     };
