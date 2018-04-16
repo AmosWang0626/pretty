@@ -53,14 +53,14 @@ const routers = [
         meta: {
             title: 'Standard'
         },
-        component: (resolve) => require(['./views/tariff-standard.vue'], resolve)
+        component: (resolve) => require(['./views/tariff-standard-manage.vue'], resolve)
     },
     {
         path: '/company',
         meta: {
             title: 'Company'
         },
-        component: (resolve) => require(['./views/tariff-company.vue'], resolve)
+        component: (resolve) => require(['./views/tariff-company-manage.vue'], resolve)
     },
     {
         path: '/standardAdd',
