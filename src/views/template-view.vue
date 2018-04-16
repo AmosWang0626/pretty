@@ -72,7 +72,7 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.show(params.index);
+                                            this.showDetail(params.index);
                                         }
                                     }
                                 }, '详情')
@@ -97,17 +97,6 @@
         },
 
         methods: {
-            show(index) {
-                this.$Modal.info({
-                    title: 'Property',
-                    // 按ESC键 可关闭Modal
-                    closable: true,
-                    content: `昵称：${this.pageColumnsData[index].nickName}<br>`
-                    + `手机号：${this.pageColumnsData[index].phoneNo}<br>`
-                    + `注册时间：${dateUtil.formatDate(new Date(this.pageColumnsData[index].createTime), 'yyyy-MM-dd hh:mm:ss')}`
-                });
-            },
-
             // 分页相关 -- 改变页面page
             changePage: function (page) {
                 this.loading = true;
@@ -137,6 +126,18 @@
                     }
                 };
                 httpUtil.httpRequestGet('/passport/page', {page: this.page, size: this.pageSize}).then(callback);
+            },
+
+            // 显示详情
+            showDetail(index) {
+                this.$Modal.info({
+                    title: 'Property',
+                    // 按ESC键 可关闭Modal
+                    closable: true,
+                    content: `昵称：${this.pageColumnsData[index].nickName}<br>`
+                    + `手机号：${this.pageColumnsData[index].phoneNo}<br>`
+                    + `注册时间：${dateUtil.formatDate(new Date(this.pageColumnsData[index].createTime), 'yyyy-MM-dd hh:mm:ss')}`
+                });
             }
         }
     };

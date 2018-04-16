@@ -1,10 +1,12 @@
 <style>
-    .layout-content-page {
-        margin-top: 15px;
-    }
-
+    /* 表格相关UI */
     .page-table {
         text-align: center;
+    }
+
+    /* 表格分页相关UI */
+    .layout-content-page {
+        margin-top: 15px;
     }
 </style>
 <template>
@@ -74,17 +76,20 @@
         },
 
         methods: {
+            // 分页相关 -- 改变页面page
             changePage: function (page) {
                 this.loading = true;
                 this.page = page;
                 this.generalGetData();
             },
-            changePageSize: function (size) {
+            // 分页相关 -- 改变页面size
+            changePageSize: function (pageSize) {
                 this.loading = true;
-                this.size = size;
+                this.pageSize = pageSize;
                 this.generalGetData();
             },
 
+            // 请求后台 -- 获取基础数据
             generalGetData: function () {
                 let callback = (res) => {
                     this.loading = false;
