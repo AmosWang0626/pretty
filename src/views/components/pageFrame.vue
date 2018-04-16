@@ -5,6 +5,11 @@
         overflow: hidden;
     }
 
+    .layout-logo {
+        margin-top: 10px;
+        width: 140px;
+    }
+
     .layout-nav {
         width: 250px;
         float: right;
@@ -28,6 +33,7 @@
             <!-- Header -->
             <Header class="layout-header" :style="{background: getColor(pageTheme)}">
                 <Menu :theme="pageTheme" mode="horizontal" active-name="1">
+                    <img class="layout-logo" @click="backHome" src="http://112.74.57.49/img/property-logo-white.jpg">
                     <div class="layout-nav">
                         <MenuItem name="1">
                             <Dropdown trigger="click" @on-click="changeTheme">
@@ -114,8 +120,14 @@
                             <MenuItem name="3-6">未结清账单</MenuItem>
                             <MenuItem name="3-7">未结清账单</MenuItem>
                             <MenuItem name="3-8">账目流水</MenuItem>
-                            <MenuItem name="3-9">用户查看</MenuItem>
-                            <MenuItem name="3-10">用户管理</MenuItem>
+                        </Submenu>
+                        <Submenu name="4">
+                            <template slot="title">
+                                <Icon type="android-apps"></Icon>
+                                展示模板模块
+                            </template>
+                            <MenuItem name="4-1">查看用户</MenuItem>
+                            <MenuItem name="4-2">用户信息管理</MenuItem>
                         </Submenu>
                     </Menu>
                 </Sider>
@@ -124,6 +136,7 @@
                 <Content class="layout-content">
                     <slot name="slotTable"></slot>
                     <slot name="slotForm"></slot>
+                    <slot name="slotOther"></slot>
                 </Content>
             </Layout>
 
@@ -166,9 +179,9 @@
                     this.$router.push({path: '/company'});
                 } else if ('3-4' === name) {
                     this.$router.push({path: '/companyAdd'});
-                } else if ('3-9' === name) {
-                    this.$router.push({path: '/home'});
-                } else if ('3-10' === name) {
+                } else if ('4-1' === name) {
+                    this.$router.push({path: '/user'});
+                } else if ('4-2' === name) {
                     this.$router.push({path: '/userManage'});
                 }
             },
@@ -180,6 +193,11 @@
                     localStorage.setItem('nikeName', null);
                     this.$router.push({path: '/login'});
                 }
+            },
+
+            // 回首页
+            backHome: function () {
+                this.$router.push({path: '/home'});
             },
 
             // 主题相关(官方)

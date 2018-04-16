@@ -106,7 +106,7 @@
                 let callback = (res) => {
                     if (res.flags === 'success') {
                         localStorage.setItem('token', res.data.token);
-                        localStorage.setItem('nikeName', res.data.nickName);
+                        localStorage.setItem('nickName', res.data.nickName);
                         this.$Message.success(res.message);
                         this.$router.push({path: '/home'});
                     } else {

@@ -6,7 +6,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 let util = {};
 util.title = function (title) {
-    title = title ? title + ' - Home' : 'Property';
+    title = title ? title : 'Property';
     window.document.title = title;
 };
 
