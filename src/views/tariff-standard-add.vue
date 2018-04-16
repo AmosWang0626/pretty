@@ -10,7 +10,7 @@
     }
 </style>
 <template>
-    <page-frame :fatherData='toChildData'>
+    <page-frame :pageFrameStyle='frameStyle'>
         <div class="general-form-div" slot="slotForm">
             <Form ref="standardForm" :model="standardForm" :rules="standardRule" :label-width="90">
                 <FormItem><h1 class="general-form-title">资费标准添加</h1></FormItem>
@@ -138,7 +138,7 @@
                     ]
                 },
 
-                toChildData: {
+                frameStyle: {
                     activeName: '3-2',
                     openNames: ['3'],
                 },

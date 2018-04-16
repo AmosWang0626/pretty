@@ -8,17 +8,18 @@
     }
 </style>
 <template>
-    <page-frame :fatherData='toChildData'>
+    <page-frame :pageFrameStyle='frameStyle'>
+        <!-- 下边的内容会插入到 components/pageFrame.vue 中的 <slot name="slotTable"></slot> -->
         <div class="page-table" slot="slotTable">
-            <!-- 表格相关 分别对应两种不同的样式 -->
             <Table :loading="loading" stripe border size="large" :columns="pageColumns"
-                   :data="pageData.rows">
+                   :data="pageColumnsData">
             </Table>
-            <Page class="layout-content-page" :total="pageData.total"
-                  :page-size="pageData.size" show-total show-sizer show-elevator
+            <!-- 两种不同风格的分页样式 -->
+            <Page class="layout-content-page" :page-size="pageSize"
+                  :total="pageTotal" show-total show-sizer show-elevator
                   @on-change="changePage" @on-page-size-change="changePageSize"></Page>
-            <!--<Page class="layout-content-page" :current="pageData.page"-->
-            <!--:total="pageData.total" simple @on-change="changePage"></Page>-->
+            <!--<Page class="layout-content-page" :total="pageData.total" :current="pageData.page"
+                  @on-change="changePage" simple></Page>-->
         </div>
     </page-frame>
 </template>
@@ -31,7 +32,9 @@
             return {
                 loading: true,
                 page: 1,
-                size: 10,
+                pageSize: 10,
+                pageTotal: 0,
+
                 pageColumns: [
                     {
                         title: '业务类型',
@@ -62,9 +65,9 @@
                         key: 'status'
                     }
                 ],
-                pageData: '',
+                pageColumnsData: [],
 
-                toChildData: {
+                frameStyle: {
                     activeName: '3-1',
                     openNames: ['3'],
                 }
@@ -94,7 +97,9 @@
                 let callback = (res) => {
                     this.loading = false;
                     if (res.flags === 'success') {
-                        this.pageData = res.data;
+                        this.pageSize = res.data.size;
+                        this.pageTotal = res.data.total;
+                        this.pageColumnsData = res.data.rows;
                     } else {
                         res.flags === 'fail' && this.$Message.error(`${res.message}`);
                         if (res.code === '1003') {
@@ -102,7 +107,7 @@
                         }
                     }
                 };
-                httpUtil.httpRequestGet('/static/pageStandard', {page: this.page, size: this.size}).then(callback);
+                httpUtil.httpRequestGet('/static/pageStandard', {page: this.page, size: this.pageSize}).then(callback);
             }
         }
     };

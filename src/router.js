@@ -11,7 +11,7 @@ const routers = [
         meta: {
             title: '啦啦啦'
         },
-        component: (resolve) => require(['./views/base-home.vue'], resolve)
+        component: (resolve) => require(['./views/base-user.vue'], resolve)
     },
     {
         path: '/login',
@@ -63,11 +63,11 @@ const routers = [
         component: (resolve) => require(['./views/tariff-company-add.vue'], resolve)
     },
     {
-        path: '/bill',
+        path: '/userManage',
         meta: {
             title: 'Company'
         },
-        component: (resolve) => require(['./views/tariff-bill.vue'], resolve)
+        component: (resolve) => require(['./views/base-user-manage.vue'], resolve)
     }
 ];
 

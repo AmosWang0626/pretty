@@ -59,7 +59,7 @@
             <Layout>
                 <!-- Sider -->
                 <Sider hide-trigger :style="{background: getColor(pageTheme)}">
-                    <Menu :active-name="fatherData.activeName" width="auto" :open-names="fatherData.openNames"
+                    <Menu :active-name="pageFrameStyle.activeName" width="auto" :open-names="pageFrameStyle.openNames"
                           :theme="pageTheme" @on-select="changeMenuOnClick">
                         <Submenu name="1">
                             <template slot="title">
@@ -114,7 +114,8 @@
                             <MenuItem name="3-6">未结清账单</MenuItem>
                             <MenuItem name="3-7">未结清账单</MenuItem>
                             <MenuItem name="3-8">账目流水</MenuItem>
-                            <MenuItem name="3-9">用户管理</MenuItem>
+                            <MenuItem name="3-9">用户查看</MenuItem>
+                            <MenuItem name="3-10">用户管理</MenuItem>
                         </Submenu>
                     </Menu>
                 </Sider>
@@ -138,27 +139,24 @@
         data() {
             return {
                 // 颜色主题
-                pageTheme: 'dark',
+                pageTheme: localStorage.getItem('pageTheme'),
                 // 用户昵称
                 nickName: localStorage.getItem('nickName'),
             };
         },
 
         // [父---子] 传递数据
-        props: ['fatherData'],
+        props: ['pageFrameStyle'],
 
-        // 监听父组件传递来的数据
-        watch: {
-            fatherData: {
-                dep: true,
-                handler(value) {
-                    this.fatherData = value;
-                }
+        created: function () {
+            // 默认灰色主题
+            if (localStorage.getItem('pageTheme') == null) {
+                localStorage.setItem('pageTheme', 'dark');
             }
         },
 
         methods: {
-            // 退出登录
+            // 点击左侧导航菜单
             changeMenuOnClick: function (name) {
                 if ('3-1' === name) {
                     this.$router.push({path: '/standard'});
@@ -170,8 +168,11 @@
                     this.$router.push({path: '/companyAdd'});
                 } else if ('3-9' === name) {
                     this.$router.push({path: '/home'});
+                } else if ('3-10' === name) {
+                    this.$router.push({path: '/userManage'});
                 }
             },
+
             // 退出登录
             dropDownOnClick: function (name) {
                 if ('logout' === name) {
@@ -180,9 +181,11 @@
                     this.$router.push({path: '/login'});
                 }
             },
+
             // 主题相关(官方)
             changeTheme: function (index) {
                 this.pageTheme = index;
+                localStorage.setItem('pageTheme', index);
             },
             // 主题相关(自定义)--背景颜色
             getColor(colorName) {
