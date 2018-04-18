@@ -15,12 +15,7 @@
             <Form ref="companyForm" :model="companyForm" :rules="companyRule" :label-width="100">
                 <FormItem label="业务类型" prop="business">
                     <Select v-model="companyForm.business" style="width: 300px">
-                        <Option value="WATER">水费</Option>
-                        <Option value="ELECTRICITY">电费</Option>
-                        <Option value="NETWORK">网费</Option>
-                        <Option value="PROPERTY">物业费</Option>
-                        <Option value="PARKING">停车费</Option>
-                        <Option value="SITE">场地使用费</Option>
+                        <Option v-for="item in businessList" :value="item.key">{{ item.value }}</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="公司名称" prop="name">
@@ -69,6 +64,9 @@
     export default {
         data() {
             return {
+                // 下拉列表
+                businessList: [],
+
                 companyForm: {
                     business: '',
                     name: '',
@@ -160,8 +158,22 @@
                 },
             };
         },
+
         // 注册组件
         components: {PageFrame},
+
+        created: function () {
+            // 请求后台拿到业务信息
+            let callbackBusiness = (res) => {
+                if (res.flags === 'success') {
+                    this.businessList = res.data;
+                } else {
+                    res.flags === 'fail' && this.$Message.error(`${res.message}`);
+                }
+            };
+            httpUtil.httpRequestGet('/static/getBusiness').then(callbackBusiness);
+        },
+
         methods: {
             handleSubmit(name) {
                 this.$refs[name].validate((valid) => {

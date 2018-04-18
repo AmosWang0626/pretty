@@ -15,30 +15,13 @@
             <Form ref="standardForm" :model="standardForm" :rules="standardRule" :label-width="90">
                 <FormItem><h1 class="general-form-title">资费标准添加</h1></FormItem>
                 <FormItem label="业务类型" prop="business">
-                    <Select v-model="standardForm.business" style="width: 300px">
-                        <Option value="WATER">水费</Option>
-                        <Option value="ELECTRICITY">电费</Option>
-                        <Option value="NETWORK">网费</Option>
-                        <Option value="PROPERTY">物业费</Option>
-                        <Option value="PARKING">停车费</Option>
-                        <Option value="SITE">场地使用费</Option>
+                    <Select v-model="standardForm.business" style="width: 300px" @on-change="handleBusinessSelect">
+                        <Option v-for="item in businessList" :value="item.key">{{ item.value }}</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="标准等级" prop="level">
                     <Select v-model="standardForm.level" style="width: 300px">
-                        <Option value="PROPERTY_ONE">物业费一级标准</Option>
-                        <Option value="PROPERTY_TWO">物业费二级标准</Option>
-                        <Option value="PROPERTY_THREE">物业费三级标准</Option>
-                        <Option value="PROPERTY_FORE">物业费四级标准</Option>
-                        <Option value="SITE_ONE">场地使用费一级标准</Option>
-                        <Option value="SITE_TWO">场地使用费二级标准</Option>
-                        <Option value="SITE_THREE">场地使用费三级标准</Option>
-                        <Option value="SITE_FORE">场地使用费四级标准</Option>
-                        <Option value="SITE_FIVE">场地使用费五级标准</Option>
-                        <Option value="WATER_LIVE">水费家庭用水标准</Option>
-                        <Option value="WATER_COMPANY">水费企业用水标准</Option>
-                        <Option value="ELECTRICITY_LIVE">电费家庭用电标准</Option>
-                        <Option value="ELECTRICITY_COMPANY">电费企业用电标准</Option>
+                        <Option v-for="item in businessLevelList" :value="item.key">{{ item.value }}</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="缴费单价">
@@ -94,6 +77,11 @@
     export default {
         data() {
             return {
+                // 下拉列表
+                businessList: [],
+                businessLevelList: [],
+
+                // 会提交到后台的标准信息
                 standardForm: {
                     business: '',
                     level: '',
@@ -105,6 +93,8 @@
                     defaultEnd: '23:59:59',
                     status: true,
                 },
+
+                // 用户输入校验
                 standardRule: {
                     business: [
                         {
@@ -144,9 +134,37 @@
                 },
             };
         },
+
         // 注册组件
         components: {PageFrame},
+
+        created: function () {
+            // 请求后台拿到业务信息
+            let callbackBusiness = (res) => {
+                if (res.flags === 'success') {
+                    this.businessList = res.data;
+                } else {
+                    res.flags === 'fail' && this.$Message.error(`${res.message}`);
+                }
+            };
+            httpUtil.httpRequestGet('/static/getBusiness').then(callbackBusiness);
+        },
+
         methods: {
+            // 选择业务之后,请求后台拿到业务等级
+            handleBusinessSelect(business) {
+                if (business != null) {
+                    let callbackBusinessLevel = (res) => {
+                        if (res.flags === 'success') {
+                            this.businessLevelList = res.data;
+                        } else {
+                            res.flags === 'fail' && this.$Message.error(`${res.message}`);
+                        }
+                    };
+                    httpUtil.httpRequestGet('/static/getBusinessLevel', {business: business}).then(callbackBusinessLevel);
+                }
+            },
+
             handleSubmit(name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
