@@ -16,12 +16,12 @@
                 <FormItem><h1 class="general-form-title">资费标准添加</h1></FormItem>
                 <FormItem label="业务类型" prop="business">
                     <Select v-model="standardForm.business" style="width: 300px" @on-change="handleBusinessSelect">
-                        <Option v-for="item in businessList" :value="item.key">{{ item.value }}</Option>
+                        <Option v-for="item in businessList" :value="item.key" :key="item.value">{{ item.value }}</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="标准等级" prop="level">
                     <Select v-model="standardForm.level" style="width: 300px">
-                        <Option v-for="item in businessLevelList" :value="item.key">{{ item.value }}</Option>
+                        <Option v-for="item in businessLevelList" :value="item.key" :key="item.value">{{ item.value }}</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="缴费单价">
@@ -147,7 +147,7 @@
                     res.flags === 'fail' && this.$Message.error(`${res.message}`);
                 }
             };
-            httpUtil.httpRequestGet('/static/getBusiness').then(callbackBusiness);
+            httpUtil.httpRequestGet('/base/getBusiness').then(callbackBusiness);
         },
 
         methods: {
@@ -161,7 +161,7 @@
                             res.flags === 'fail' && this.$Message.error(`${res.message}`);
                         }
                     };
-                    httpUtil.httpRequestGet('/static/getBusinessLevel', {business: business}).then(callbackBusinessLevel);
+                    httpUtil.httpRequestGet('/base/getBusinessLevel', {business: business}).then(callbackBusinessLevel);
                 }
             },
 

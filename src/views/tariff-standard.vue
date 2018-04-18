@@ -27,6 +27,7 @@
 </template>
 <script>
     import httpUtil from '../libs/util';
+    import dateUtil from '../libs/date';
     import PageFrame from './components/pageFrame';
 
     export default {
@@ -56,11 +57,19 @@
                     },
                     {
                         title: '标准生效时间',
-                        key: 'startTime'
+                        key: 'startTime',
+                        render: function (h, param) {
+                            return h('div',
+                                dateUtil.formatDate(new Date(param.row.startTime), 'yyyy-MM-dd'));
+                        }
                     },
                     {
                         title: '标准失效时间',
-                        key: 'endTime'
+                        key: 'endTime',
+                        render: function (h, param) {
+                            return h('div',
+                                dateUtil.formatDate(new Date(param.row.startTime), 'yyyy-MM-dd'));
+                        }
                     },
                     {
                         title: '状态',

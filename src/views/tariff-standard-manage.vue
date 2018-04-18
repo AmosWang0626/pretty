@@ -29,6 +29,7 @@
 </template>
 <script>
     import httpUtil from '../libs/util';
+    import dateUtil from '../libs/date';
     import pageFrame from './components/pageFrame';
     import canEditTable from './components/canEditTable.vue';
 
@@ -61,12 +62,18 @@
                     {
                         title: '标准生效时间',
                         key: 'startTime',
-                        editable: true
+                        render: function (h, param) {
+                            return h('div',
+                                dateUtil.formatDate(new Date(param.row.startTime), 'yyyy-MM-dd'));
+                        }
                     },
                     {
                         title: '标准失效时间',
                         key: 'endTime',
-                        editable: true
+                        render: function (h, param) {
+                            return h('div',
+                                dateUtil.formatDate(new Date(param.row.endTime), 'yyyy-MM-dd'));
+                        }
                     },
                     {
                         title: '操作',

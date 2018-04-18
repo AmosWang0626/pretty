@@ -27,6 +27,7 @@
 </template>
 <script>
     import httpUtil from '../libs/util';
+    import dateUtil from '../libs/date';
     import PageFrame from './components/pageFrame';
 
     export default {
@@ -56,7 +57,11 @@
                     },
                     {
                         title: '注册时间',
-                        key: 'createTime'
+                        key: 'createTime',
+                        render: function (h, param) {
+                            return h('div',
+                                dateUtil.formatDate(new Date(param.row.createTime), 'yyyy-MM-dd hh:mm:ss'));
+                        }
                     }
                 ],
                 pageColumnsData: [],

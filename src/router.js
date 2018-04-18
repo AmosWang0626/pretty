@@ -75,6 +75,13 @@ const routers = [
             title: 'Company'
         },
         component: (resolve) => require(['./views/tariff-company-add.vue'], resolve)
+    },
+    {
+        path: '/consumeAdd',
+        meta: {
+            title: 'Consume'
+        },
+        component: (resolve) => require(['./views/tariff-consume-add.vue'], resolve)
     }
 ];
 

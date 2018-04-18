@@ -1,7 +1,7 @@
 let date = {};
 
 date.formatDate = function (date, fmt) {
-    if (/(y+)/.test(fmt)) {
+    if (/(y+)/g.test(fmt)) {
         fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
     }
     let o = {
@@ -12,16 +12,12 @@ date.formatDate = function (date, fmt) {
         's+': date.getSeconds()
     };
     for (let k in o) {
-        let str = o[k] + '';
         if (new RegExp(`(${k})`).test(fmt)) {
-            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? str : padLeftZero(str));
+            let str = o[k] + '';
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? str : (('00' + str).substr(str.length)));
         }
     }
     return fmt;
 };
-
-function padLeftZero(str) {
-    return ('00' + str).substr(str.length);
-}
 
 export default date;

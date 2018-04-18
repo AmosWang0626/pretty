@@ -15,7 +15,9 @@
             <Form ref="companyForm" :model="companyForm" :rules="companyRule" :label-width="100">
                 <FormItem label="业务类型" prop="business">
                     <Select v-model="companyForm.business" style="width: 300px">
-                        <Option v-for="item in businessList" :value="item.key">{{ item.value }}</Option>
+                        <Option v-for="item in businessList"
+                                :value="item.key" :key="item.value">{{ item.value }}
+                        </Option>
                     </Select>
                 </FormItem>
                 <FormItem label="公司名称" prop="name">
@@ -171,7 +173,7 @@
                     res.flags === 'fail' && this.$Message.error(`${res.message}`);
                 }
             };
-            httpUtil.httpRequestGet('/static/getBusiness').then(callbackBusiness);
+            httpUtil.httpRequestGet('/base/getBusiness').then(callbackBusiness);
         },
 
         methods: {
