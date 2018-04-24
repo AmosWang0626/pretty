@@ -13,8 +13,8 @@
     <page-frame :pageFrameStyle='frameStyle'>
         <!-- 下边的内容会插入到 components/pageFrame.vue 中的 <slot name="slotTable"></slot> -->
         <div class="page-table" slot="slotTable">
-            <Table :loading="loading" stripe border size="large" :columns="pageColumns"
-                   :data="pageColumnsData">
+            <Table stripe border size="large"
+                   :columns="pageColumns" :data="pageColumnsData">
             </Table>
             <!-- 两种不同风格的分页样式 -->
             <Page class="layout-content-page" :page-size="pageSize"
@@ -27,67 +27,87 @@
 </template>
 <script>
     import httpUtil from '../libs/util';
-    import dateUtil from '../libs/date';
-    import PageFrame from './components/pageFrame';
+    import pageFrame from './components/pageFrame';
+    import canEditTable from './components/canEditTable.vue';
 
     export default {
         data() {
             return {
-                loading: true,
                 page: 1,
                 pageSize: 10,
                 pageTotal: 0,
 
                 pageColumns: [
                     {
+                        title: '户号',
+                        key: 'houseNo',
+                    },
+                    {
                         title: '业务类型',
-                        key: 'business'
+                        key: 'business',
                     },
                     {
-                        title: '业务等级',
-                        key: 'level'
+                        title: '缴费标准等级',
+                        key: 'level',
                     },
                     {
-                        title: '单价',
-                        key: 'unitPrice'
+                        title: '缴费单价',
+                        key: 'unitPrice',
                     },
                     {
-                        title: '逾期利率',
-                        key: 'overdueRate'
+                        title: '使用量',
+                        key: 'usedTotal',
                     },
                     {
-                        title: '标准生效时间',
-                        key: 'startTime',
-                        render: function (h, param) {
-                            return h('div',
-                                dateUtil.formatDate(new Date(param.row.startTime), 'yyyy-MM-dd'));
+                        title: '账单金额',
+                        key: 'billAmount',
+                    },
+                    {
+                        title: '账单月份',
+                        key: 'billMonth',
+                    },
+                    {
+                        title: '账单状态',
+                        key: 'billStatus',
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        width: 100,
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px',
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.payment(params.index);
+                                        }
+                                    }
+                                }, '支付')
+                            ]);
                         }
-                    },
-                    {
-                        title: '标准失效时间',
-                        key: 'endTime',
-                        render: function (h, param) {
-                            return h('div',
-                                dateUtil.formatDate(new Date(param.row.startTime), 'yyyy-MM-dd'));
-                        }
-                    },
-                    {
-                        title: '状态',
-                        key: 'status'
                     }
                 ],
                 pageColumnsData: [],
 
+                // 给模板页设置样式
                 frameStyle: {
-                    activeName: '3-11',
+                    activeName: '3-2',
                     openNames: ['3'],
                 }
             };
         },
 
-        // 注册组件
-        components: {PageFrame},
+        // 注册组件 {pageFrame 页面模板, canEditTable 表格可编辑组件}
+        components: {pageFrame, canEditTable},
 
+        // 页面创建之后执行
         created: function () {
             this.generalGetData();
         },
@@ -95,21 +115,31 @@
         methods: {
             // 分页相关 -- 改变页面page
             changePage: function (page) {
-                this.loading = true;
                 this.page = page;
                 this.generalGetData();
             },
             // 分页相关 -- 改变页面size
             changePageSize: function (pageSize) {
-                this.loading = true;
                 this.pageSize = pageSize;
                 this.generalGetData();
+            },
+
+            payment(index) {
+                this.$Modal.info({
+                    title: '支付账单',
+                    closable: true,
+                    content: '<h3>确认支付 <strong>' + this.pageColumnsData[index].billAmount + '</strong> 元整 ?</h3>',
+
+                    okText: '确认支付',
+                    onOk: () => {
+                        this.$Message.info('支付成功!');
+                    }
+                });
             },
 
             // 请求后台 -- 获取基础数据
             generalGetData: function () {
                 let callback = (res) => {
-                    this.loading = false;
                     if (res.flags === 'success') {
                         this.pageSize = res.data.size;
                         this.pageTotal = res.data.total;
@@ -121,7 +151,7 @@
                         }
                     }
                 };
-                httpUtil.httpRequestGet('/static/pageStandard', {page: this.page, size: this.pageSize}).then(callback);
+                httpUtil.httpRequestGet('/bill/pageBill', {page: this.page, size: this.pageSize}).then(callback);
             }
         }
     };

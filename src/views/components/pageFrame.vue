@@ -113,14 +113,13 @@
                                 <Icon type="social-yen"></Icon>
                                 资费管理模块
                             </template>
-                            <MenuItem name="3-1">标准管理</MenuItem>
-                            <MenuItem name="3-2">添加标准</MenuItem>
-                            <MenuItem name="3-3">公司管理</MenuItem>
-                            <MenuItem name="3-4">添加公司</MenuItem>
-                            <MenuItem name="3-5">账单录入</MenuItem>
-                            <MenuItem name="3-6">未结清账单</MenuItem>
-                            <MenuItem name="3-7">未结清账单</MenuItem>
-                            <MenuItem name="3-8">账目流水</MenuItem>
+                            <MenuItem name="3-1">账单录入</MenuItem>
+                            <MenuItem name="3-2">账单管理</MenuItem>
+                            <MenuItem name="3-3">交易流水</MenuItem>
+                            <MenuItem name="3-11">标准管理</MenuItem>
+                            <MenuItem name="3-12">添加标准</MenuItem>
+                            <MenuItem name="3-13">公司管理</MenuItem>
+                            <MenuItem name="3-14">添加公司</MenuItem>
                         </Submenu>
                         <Submenu name="4">
                             <template slot="title">
@@ -129,6 +128,7 @@
                             </template>
                             <MenuItem name="4-1">查看用户</MenuItem>
                             <MenuItem name="4-2">用户信息管理</MenuItem>
+                            <MenuItem name="4-3">即时消费</MenuItem>
                         </Submenu>
                     </Menu>
                 </Sider>
@@ -172,18 +172,24 @@
         methods: {
             // 点击左侧导航菜单
             changeMenuOnClick: function (name) {
-                if ('3-1' === name) {
+                if ('3-11' === name) {
                     this.$router.push({path: '/standard'});
-                } else if ('3-2' === name) {
+                } else if ('3-12' === name) {
                     this.$router.push({path: '/standardAdd'});
-                } else if ('3-3' === name) {
+                } else if ('3-13' === name) {
                     this.$router.push({path: '/company'});
-                } else if ('3-4' === name) {
+                } else if ('3-14' === name) {
                     this.$router.push({path: '/companyAdd'});
                 } else if ('4-1' === name) {
                     this.$router.push({path: '/user'});
                 } else if ('4-2' === name) {
                     this.$router.push({path: '/userManage'});
+                } else if ('4-3' === name) {
+                    this.$router.push({path: '/consumeAdd'});
+                } else if ('3-1' === name) {
+                    this.$router.push({path: '/billEntry'});
+                } else if ('3-2' === name) {
+                    this.$router.push({path: '/billManage'});
                 }
             },
 

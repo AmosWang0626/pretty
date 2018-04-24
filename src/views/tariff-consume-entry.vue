@@ -13,7 +13,7 @@
     <page-frame :pageFrameStyle='frameStyle'>
         <div class="general-form-div" slot="slotForm">
             <Form ref="consumeForm" :model="consumeForm" :rules="consumeRule" :label-width="90">
-                <FormItem><h1 class="general-form-title">实时消费录入</h1></FormItem>
+                <FormItem><h1 class="general-form-title">即时消费录入</h1></FormItem>
                 <FormItem label="业务类型" prop="business">
                     <Select v-model="consumeForm.business" style="width: 300px" @on-change="handleBusinessSelect">
                         <Option v-for="item in businessList"
@@ -45,25 +45,21 @@
                         </Option>
                     </Select>
                 </FormItem>
-                <FormItem label="支付状态" prop="paymentStatus">
-                    <Select v-model="consumeForm.paymentStatus" style="width: 300px">
-                        <Option v-for="item in paymentStatusList"
-                                :value="item.key" :key="item.value">{{ item.value }}
-                        </Option>
-                    </Select>
+                <FormItem label="支付人编号">
+                    <InputNumber v-model="consumeForm.memberId" size="large" :step="1"></InputNumber>
                 </FormItem>
                 <FormItem label="操作人" prop="operator">
                     <Select v-model="consumeForm.operator" style="width: 300px">
-                        <Option value="assistant">业务助理</Option>
-                        <Option value="manager">业务经理</Option>
+                        <Option value="ASSISTANT">业务助理</Option>
+                        <Option value="MANAGER">业务经理</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="消费备注" prop="consumeExpand">
-                    <Input v-model="consumeForm.consumeExpand" size="large" placeholder="消费备注-->车牌号等"></Input>
+                    <Input v-model="consumeForm.consumeExpand" size="large" placeholder="消费备注 ---> 车牌号等"></Input>
                 </FormItem>
                 <FormItem>
                     <Button type="primary" @click="handleSubmit('consumeForm')">添加</Button>
-                    <Button type="ghost" @click="handleReset('consumeForm')" style="margin-left: 8px">添加</Button>
+                    <Button type="ghost" @click="handleReset('consumeForm')" style="margin-left: 8px">重置</Button>
                 </FormItem>
             </Form>
         </div>
@@ -76,6 +72,11 @@
     export default {
         data() {
             return {
+                frameStyle: {
+                    activeName: '4-3',
+                    openNames: ['4'],
+                },
+
                 // 下拉列表
                 businessList: [],
                 businessLevelList: [],
@@ -91,7 +92,7 @@
                     consumeAmount: 1,
                     operator: '',
                     paymentWay: '',
-                    paymentStatus: '',
+                    memberId: 9999,
                     consumeExpand: '',
                 },
 
@@ -141,10 +142,6 @@
                     ]
                 },
 
-                frameStyle: {
-                    activeName: '3-2',
-                    openNames: ['3'],
-                },
             };
         },
 
@@ -160,7 +157,7 @@
                     res.flags === 'fail' && this.$Message.error(`${res.message}`);
                 }
             };
-            httpUtil.httpRequestGet('/base/getBusiness').then(callbackBusiness);
+            httpUtil.httpRequestGet('/base/getImmediateBusiness').then(callbackBusiness);
 
             // 请求后台拿到业务信息
             let callbackPaymentStatus = (res) => {
@@ -229,6 +226,7 @@
                         let callback = (res) => {
                             if (res.flags === 'success') {
                                 this.$Message.info('添加' + `${res.message}`);
+                                this.$refs[name].resetFields();
                             } else {
                                 res.flags === 'fail' && this.$Message.error(`${res.message}`);
                             }

@@ -81,7 +81,21 @@ const routers = [
         meta: {
             title: 'Consume'
         },
-        component: (resolve) => require(['./views/tariff-consume-add.vue'], resolve)
+        component: (resolve) => require(['./views/tariff-consume-entry.vue'], resolve)
+    },
+    {
+        path: '/billEntry',
+        meta: {
+            title: 'BillEntry'
+        },
+        component: (resolve) => require(['./views/tariff-bill-entry.vue'], resolve)
+    },
+    {
+        path: '/billManage',
+        meta: {
+            title: 'BillManage'
+        },
+        component: (resolve) => require(['./views/tariff-bill-manage.vue'], resolve)
     }
 ];
 

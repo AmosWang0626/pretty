@@ -67,7 +67,7 @@
                 pageColumnsData: [],
 
                 frameStyle: {
-                    activeName: '3-3',
+                    activeName: '3-13',
                     openNames: ['3'],
                 }
             };

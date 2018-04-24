@@ -155,7 +155,7 @@
                 },
 
                 frameStyle: {
-                    activeName: '3-4',
+                    activeName: '3-14',
                     openNames: ['3'],
                 },
             };

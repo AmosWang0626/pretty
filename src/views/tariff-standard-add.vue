@@ -129,7 +129,7 @@
                 },
 
                 frameStyle: {
-                    activeName: '3-2',
+                    activeName: '3-12',
                     openNames: ['3'],
                 },
             };

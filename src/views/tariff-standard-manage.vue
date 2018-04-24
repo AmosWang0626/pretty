@@ -87,7 +87,7 @@
 
                 // 给模板页设置样式
                 frameStyle: {
-                    activeName: '3-1',
+                    activeName: '3-11',
                     openNames: ['3'],
                 }
             };
