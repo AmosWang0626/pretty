@@ -189,7 +189,7 @@
                 } else if ('3-1' === name) {
                     this.$router.push({path: '/billEntry'});
                 } else if ('3-2' === name) {
-                    this.$router.push({path: '/billManage'});
+                    this.$router.push({path: '/billPlanManage'});
                 }
             },
 

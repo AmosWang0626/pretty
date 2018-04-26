@@ -91,11 +91,11 @@ const routers = [
         component: (resolve) => require(['./views/tariff-bill-entry.vue'], resolve)
     },
     {
-        path: '/billManage',
+        path: '/billPlanManage',
         meta: {
             title: 'BillManage'
         },
-        component: (resolve) => require(['./views/tariff-bill-manage.vue'], resolve)
+        component: (resolve) => require(['./views/tariff-bill-plan-manage.vue'], resolve)
     }
 ];
 
