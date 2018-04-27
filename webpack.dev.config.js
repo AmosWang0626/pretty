@@ -39,14 +39,14 @@ module.exports = merge(webpackBaseConfig, {
         hot: true,
         inline: true,
         port: 8888,
-        stats: { colors: true },
+        stats: {colors: true},
         proxy: {
             //匹配代理的url
-            '/baseUrl': {
+            '/property': {
                 // 目标服务器地址
                 target: 'http://127.0.0.1:8085/property',
                 //路径重写
-                pathRewrite: {'^/baseUrl' : '/'},
+                pathRewrite: {'^/property': '/'},
                 changeOrigin: true
             }
         }

@@ -1,7 +1,7 @@
 <style>
     .forgetPwd {
         height: 100vh;
-        background: url("http://112.74.57.49/img/1523544261477.png");
+        background: url("http://112.74.57.49:88/img/1523544261477.png");
         background-size: cover;
         position: relative;
         text-align: center;
@@ -22,7 +22,7 @@
     <div class="forgetPwd">
         <Form class="forgetPwdForm" ref="forgetPwdForm" :model="forgetPwdForm" :rules="forgetPwdRule">
             <FormItem>
-                <img class="forgetPwd-logo" src="http://112.74.57.49/img/property-logo-white.jpg">
+                <img class="forgetPwd-logo" src="http://112.74.57.49:88/img/property-logo-white.jpg">
             </FormItem>
             <FormItem prop="phoneNo">
                 <Input type="text" v-model="forgetPwdForm.phoneNo" placeholder="请输入手机号" clearable autofocus

@@ -4,7 +4,7 @@ const routers = [
         meta: {
             title: ''
         },
-        component: (resolve) => require(['./views/index.vue'], resolve)
+        component: (resolve) => require(['./views/base-home.vue'], resolve)
     },
     {
         path: '/home',

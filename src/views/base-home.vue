@@ -19,19 +19,19 @@
                     <div class="frame-div">
                         <Carousel autoplay loop>
                             <CarouselItem class="frame-carousel-item">
-                                <img src="http://112.74.57.49/img/1111.jpg"/>
+                                <img src="http://112.74.57.49:88/img/1111.jpg"/>
                             </CarouselItem>
                             <CarouselItem class="frame-carousel-item">
-                                <img src="http://112.74.57.49/img/2222.jpg"/>
+                                <img src="http://112.74.57.49:88/img/2222.jpg"/>
                             </CarouselItem>
                             <CarouselItem class="frame-carousel-item">
-                                <img src="http://112.74.57.49/img/3333.jpg"/>
+                                <img src="http://112.74.57.49:88/img/3333.jpg"/>
                             </CarouselItem>
                             <CarouselItem class="frame-carousel-item">
-                                <img src="http://112.74.57.49/img/4444.jpg"/>
+                                <img src="http://112.74.57.49:88/img/4444.jpg"/>
                             </CarouselItem>
                             <CarouselItem class="frame-carousel-item">
-                                <img src="http://112.74.57.49/img/5555.jpg"/>
+                                <img src="http://112.74.57.49:88/img/5555.jpg"/>
                             </CarouselItem>
                         </Carousel>
                     </div>

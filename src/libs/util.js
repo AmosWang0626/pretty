@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const BASE_URL = '/baseUrl';
+export const BASE_URL = '/property';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 

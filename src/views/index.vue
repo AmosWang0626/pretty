@@ -57,7 +57,8 @@
 
         methods: {
             handleStart() {
-                this.$Modal.info(this.hello);
+                // this.$Modal.info(this.hello);
+                this.$router.push({path: '/home'});
             }
         }
     };

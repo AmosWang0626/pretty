@@ -1,7 +1,7 @@
 <style>
     .register {
         height: 100vh;
-        background: url("http://112.74.57.49/img/1523544261477.png");
+        background: url("http://112.74.57.49:88/img/1523544261477.png");
         background-size: cover;
         position: relative;
         text-align: center;
@@ -22,7 +22,7 @@
     <div class="register">
         <Form class="registerForm" ref="registerForm" :model="registerForm" :rules="registerRule">
             <FormItem>
-                <img class="register-logo" src="http://112.74.57.49/img/property-logo-white.jpg">
+                <img class="register-logo" src="http://112.74.57.49:88/img/property-logo-white.jpg">
             </FormItem>
             <FormItem prop="nickName">
                 <Input type="text" v-model="registerForm.nickName" placeholder="请输入昵称" clearable autofocus size="large">

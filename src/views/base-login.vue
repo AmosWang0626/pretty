@@ -1,9 +1,9 @@
 <style>
     .login {
         height: 100vh;
-        /* 远山 http://112.74.57.49/img/1523544261477.png*/
-        /* 蓝天白云 http://112.74.57.49/img/1523544236014.png*/
-        background: url("http://112.74.57.49/img/1523544261477.png");
+        /* 远山 http://112.74.57.49:88/img/1523544261477.png*/
+        /* 蓝天白云 http://112.74.57.49:88/img/1523544236014.png*/
+        background: url("http://112.74.57.49:88/img/1523544261477.png");
         background-size: cover;
         position: relative;
         text-align: center;
@@ -24,7 +24,7 @@
     <div class="login">
         <Form class="loginForm" ref="loginForm" :model="loginForm" :rules="loginRule">
             <FormItem>
-                <img class="login-logo" src="http://112.74.57.49/img/property-logo-white.jpg">
+                <img class="login-logo" src="http://112.74.57.49:88/img/property-logo-white.jpg">
             </FormItem>
             <FormItem prop="phoneNo">
                 <Input type="text" v-model="loginForm.phoneNo" placeholder="请输入手机号" clearable autofocus size="large">

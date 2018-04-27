@@ -33,7 +33,7 @@
             <!-- Header -->
             <Header class="layout-header" :style="{background: getColor(pageTheme)}">
                 <Menu :theme="pageTheme" mode="horizontal" active-name="1">
-                    <img class="layout-logo" @click="backHome" src="http://112.74.57.49/img/property-logo-trans.png">
+                    <img class="layout-logo" @click="backHome" src="http://112.74.57.49:88/img/property-logo-trans.png">
                     <span :style="{marginLeft: '20px', color: getFontColor(pageTheme), fontSize: '30px'}">物业管理系统</span>
                     <div class="layout-nav">
                         <MenuItem name="1">
