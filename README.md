@@ -12,8 +12,8 @@
 - 项目本地启动: npm run dev
 
 - 项目打包: npm run build
-- - 打包生成文件:  一个index_prod.html 文件, 一个 dist 文件夹
-- - 上线需知: 把打包生成的文件放在本项目服务器的 /usr/local/nginx/html 目录下
+  - 打包生成文件:  一个index_prod.html 文件, 一个 dist 文件夹
+  - 上线需知: 把打包生成的文件放在本项目服务器的 /usr/local/nginx/html 目录下
 
 ## 技术概览
 - 基础框架: Vue + Webpack + iView
@@ -36,10 +36,9 @@ location ^~ /property/ {
 ```
 
 - 修改 iview-cli 创建的项目配置
-
-- - 修改webpack.base.config.js文件
+  - 修改webpack.base.config.js文件
     > (增加: publicPath: './')
-```javascript
+  ```javascript
     {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
@@ -48,13 +47,13 @@ location ^~ /property/ {
             publicPath: './'
         })
     },
-```
-- - 修改webpack.prod.config.js文件
+  ```
+  - 修改webpack.prod.config.js文件
     > (修改: publicPath: './dist/')
-```javascript
+  ```javascript
     output: {
         publicPath: './dist/',
         filename: '[name].[hash].js',
         chunkFilename: '[name].[hash].chunk.js'
     },
-```
+  ```
