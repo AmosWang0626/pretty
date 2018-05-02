@@ -34,7 +34,7 @@
             <Header class="layout-header" :style="{background: getColor(pageTheme)}">
                 <Menu :theme="pageTheme" mode="horizontal" active-name="1">
                     <img class="layout-logo" @click="backHome" src="http://112.74.57.49:88/img/property-logo-trans.png">
-                    <span :style="{marginLeft: '20px', color: getFontColor(pageTheme), fontSize: '30px'}">物业管理系统</span>
+                    <span :style="{marginLeft: '20px', color: getFontColor(pageTheme), fontSize: '30px'}">中工大学科技园物业管理系统</span>
                     <div class="layout-nav">
                         <MenuItem name="1">
                             <Dropdown trigger="click" @on-click="changeTheme">
@@ -190,6 +190,8 @@
                     this.$router.push({path: '/billEntry'});
                 } else if ('3-2' === name) {
                     this.$router.push({path: '/billPlanManage'});
+                } else if ('3-3' === name) {
+                    this.$router.push({path: '/companyBillManage'});
                 }
             },
 
