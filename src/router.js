@@ -103,6 +103,13 @@ const routers = [
             title: 'CompanyBillManage'
         },
         component: (resolve) => require(['./views/tariff-company-bill-manage.vue'], resolve)
+    },
+    {
+        path: '/statistics',
+        meta: {
+            title: 'Statistics'
+        },
+        component: (resolve) => require(['./views/tariff-statistics.vue'], resolve)
     }
 ];
 

@@ -65,8 +65,8 @@
     export default {
         data() {
             return {
+                // 给模板页设置样式
                 frameStyle: {
-                    activeName: '3-1',
                     openNames: ['3'],
                 },
 
@@ -80,9 +80,9 @@
                 billForm: {
                     business: '',
                     level: '',
-                    unitPrice: '0',
+                    unitPrice: 0,
                     usedTotal: 1,
-                    billAmount: '0',
+                    billAmount: 0,
                     houseNo: '',
                     operator: '',
                     expand: '',

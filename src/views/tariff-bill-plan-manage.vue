@@ -34,6 +34,11 @@
     export default {
         data() {
             return {
+                // 给模板页设置样式
+                frameStyle: {
+                    openNames: ['3'],
+                },
+
                 page: 1,
                 pageSize: 10,
                 pageTotal: 0,
@@ -119,13 +124,7 @@
                 pageColumnsData: [],
                 paymentWayList: [],
                 billDetailData: '',
-                paymentWay: null,
-
-                // 给模板页设置样式
-                frameStyle: {
-                    activeName: '3-2',
-                    openNames: ['3'],
-                }
+                paymentWay: null
             };
         },
 

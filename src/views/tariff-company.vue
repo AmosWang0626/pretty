@@ -33,6 +33,11 @@
     export default {
         data() {
             return {
+                // 给模板页设置样式
+                frameStyle: {
+                    openNames: ['3'],
+                },
+
                 loading: true,
                 page: 1,
                 pageSize: 10,
@@ -64,12 +69,7 @@
                         }
                     }
                 ],
-                pageColumnsData: [],
-
-                frameStyle: {
-                    activeName: '3-13',
-                    openNames: ['3'],
-                }
+                pageColumnsData: []
             };
         },
 

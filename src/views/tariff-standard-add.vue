@@ -77,6 +77,11 @@
     export default {
         data() {
             return {
+                // 给模板页设置样式
+                frameStyle: {
+                    openNames: ['3'],
+                },
+
                 // 下拉列表
                 businessList: [],
                 businessLevelList: [],
@@ -126,12 +131,7 @@
                             trigger: 'change'
                         }
                     ]
-                },
-
-                frameStyle: {
-                    activeName: '3-12',
-                    openNames: ['3'],
-                },
+                }
             };
         },
 

@@ -72,8 +72,8 @@
     export default {
         data() {
             return {
+                // 给模板页设置样式
                 frameStyle: {
-                    activeName: '4-3',
                     openNames: ['4'],
                 },
 
