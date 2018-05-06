@@ -29,7 +29,7 @@
                     </Select>
                 </FormItem>
                 <FormItem label="户号" prop="houseNo">
-                    <Input v-model="billForm.houseNo" size="large" placeholder="请输入户号"></Input>
+                    <Input v-model="billForm.houseNo" size="large" placeholder="请输入户号" style="width: 300px"></Input>
                 </FormItem>
                 <FormItem label="业务单价">
                     <InputNumber v-model="billForm.unitPrice" size="large" readonly></InputNumber>
@@ -48,7 +48,7 @@
                     </Select>
                 </FormItem>
                 <FormItem label="账单备注">
-                    <Input v-model="billForm.expand" size="large" placeholder="账单备注..."></Input>
+                    <Input v-model="billForm.expand" size="large" placeholder="账单备注..." style="width: 300px"></Input>
                 </FormItem>
                 <FormItem>
                     <Button type="primary" @click="handleSubmit('billForm')">添加</Button>

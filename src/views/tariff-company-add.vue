@@ -13,6 +13,7 @@
     <page-frame :pageFrameStyle='frameStyle'>
         <div class="general-form-div" slot="slotForm">
             <Form ref="companyForm" :model="companyForm" :rules="companyRule" :label-width="100">
+                <FormItem><h1 class="general-form-title">注册公司</h1></FormItem>
                 <FormItem label="业务类型" prop="business">
                     <Select v-model="companyForm.business" style="width: 300px">
                         <Option v-for="item in businessList"

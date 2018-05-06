@@ -235,6 +235,11 @@
                             menuItemIndex: 4,
                             name: '数据报表',
                             href: '/statistics'
+                        },
+                        {
+                            menuItemIndex: 5,
+                            name: '文章编辑',
+                            href: '/businessArticle'
                         }
                     ]
                 },
