@@ -21,39 +21,55 @@
 - 本地服务器: node
 - 线上服务器: Nginx
 
-## 项目部署生产配置
-- 修改并增加Nginx配置 (nginx.conf)
-```javascript
-location / {
-    root  html;
-    index  index.html index.htm index_prod.html;
-}
+## 项目开发须知
+    > 整个项目分为三块: 综合管理模块/综合业务模块/资费管理模块
+- 页面分别对应
+   - 综合管理: src/views/manage/*
+   - 综合业务: src/views/business/*
+   - 资费管理: src/views/tariff/*
+- 其他页面
+    - 工具组件: src/views/tariff/components/*
+    - 简单说,管理平台有个大的页面模板,然后再其下进行嵌套,下边给了三个嵌套后的模板
+        - 根目录下: template-paging-manage.vue 分页模板,里边包含表格数据修改功能
+        - 根目录下: template-paging-view.vue   分页模板,里边不包含表格修改,只有查看功能
+        - 根目录下: template-simple-view.vue   空模板
 
-location ^~ /property/ {
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_pass http://localhost:8080;
-}
-```
+## 项目部署生产配置
+- 配置Nginx
+    - 修改配置(nginx.conf)
+    ```javascript
+    location / {
+        root  html;
+        index  index.html index.htm index_prod.html;
+    }
+
+    location ^~ /property/ {
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_pass http://localhost:8080;
+    }
+    ```
 
 - 修改 iview-cli 创建的项目配置
-  - 修改webpack.base.config.js文件
-    > (增加: publicPath: './')
-  ```javascript
-    {
-        test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-            use: ['css-loader?minimize', 'autoprefixer-loader'],
-            fallback: 'style-loader',
-            publicPath: './'
-        })
-    },
-  ```
-  - 修改webpack.prod.config.js文件
-    > (修改: publicPath: './dist/')
-  ```javascript
-    output: {
-        publicPath: './dist/',
-        filename: '[name].[hash].js',
-        chunkFilename: '[name].[hash].chunk.js'
-    },
-  ```
+    - 修改webpack.base.config.js文件
+        > (增加: publicPath: './')
+
+    ```javascript
+      {
+          test: /\.css$/,
+          use: ExtractTextPlugin.extract({
+              use: ['css-loader?minimize', 'autoprefixer-loader'],
+              fallback: 'style-loader',
+              publicPath: './'
+          })
+      },
+    ```
+    - 修改webpack.prod.config.js文件
+        > (修改: publicPath: './dist/')
+
+    ```javascript
+      output: {
+          publicPath: './dist/',
+          filename: '[name].[hash].js',
+          chunkFilename: '[name].[hash].chunk.js'
+      },
+    ```

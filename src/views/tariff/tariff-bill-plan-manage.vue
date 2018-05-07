@@ -26,10 +26,10 @@
     </page-frame>
 </template>
 <script>
-    import httpUtil from '../libs/util';
-    import dateUtil from '../libs/date';
-    import pageFrame from './components/pageFrame';
-    import canEditTable from './components/canEditTable.vue';
+    import httpUtil from '../../libs/util';
+    import dateUtil from '../../libs/date';
+    import pageFrame from '../components/pageFrame';
+    import canEditTable from '../components/canEditTable.vue';
 
     export default {
         data() {

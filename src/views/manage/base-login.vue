@@ -48,7 +48,7 @@
 </template>
 
 <script>
-    import httpUtil from '../libs/util';
+    import httpUtil from '../../libs/util';
 
     export default {
         data() {

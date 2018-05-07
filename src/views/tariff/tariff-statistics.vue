@@ -47,9 +47,9 @@
     </page-frame>
 </template>
 <script>
-    import PageFrame from './components/pageFrame';
-    import dataSourcePie from './components/dataSourcePie';
-    import serviceRequests from './components/serviceRequests';
+    import PageFrame from '../components/pageFrame';
+    import dataSourcePie from '../components/dataSourcePie';
+    import serviceRequests from '../components/serviceRequests';
 
     export default {
         data() {

@@ -49,7 +49,7 @@
     </page-frame>
 </template>
 <script>
-    import PageFrame from './components/pageFrame';
+    import PageFrame from '../components/pageFrame';
 
     export default {
         data() {

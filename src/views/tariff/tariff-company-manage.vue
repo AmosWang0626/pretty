@@ -28,10 +28,10 @@
     </page-frame>
 </template>
 <script>
-    import httpUtil from '../libs/util';
-    import dateUtil from '../libs/date';
-    import pageFrame from './components/pageFrame';
-    import canEditTable from './components/canEditTable.vue';
+    import httpUtil from '../../libs/util';
+    import dateUtil from '../../libs/date';
+    import pageFrame from '../components/pageFrame';
+    import canEditTable from '../components/canEditTable.vue';
 
     export default {
         data() {
@@ -47,37 +47,26 @@
 
                 pageColumns: [
                     {
-                        title: '业务类型',
-                        key: 'business'
-                    },
-                    {
-                        title: '业务等级',
-                        key: 'level'
-                    },
-                    {
-                        title: '单价',
-                        key: 'unitPrice',
+                        title: '公司名称',
+                        key: 'name',
                         editable: true
                     },
                     {
-                        title: '逾期利率',
-                        key: 'overdueRate',
+                        title: '公司类型',
+                        key: 'business',
                         editable: true
                     },
                     {
-                        title: '标准生效时间',
-                        key: 'startTime',
-                        render: function (h, param) {
-                            return h('div',
-                                dateUtil.formatDate(new Date(param.row.startTime), 'yyyy-MM-dd'));
-                        }
+                        title: '公司地址',
+                        key: 'address',
+                        editable: true
                     },
                     {
-                        title: '标准失效时间',
-                        key: 'endTime',
+                        title: '注册时间',
+                        key: 'createTime',
                         render: function (h, param) {
                             return h('div',
-                                dateUtil.formatDate(new Date(param.row.endTime), 'yyyy-MM-dd'));
+                                dateUtil.formatDate(new Date(param.row.createTime), 'yyyy-MM-dd hh:mm:ss'));
                         }
                     },
                     {
@@ -139,7 +128,7 @@
                         }
                     }
                 };
-                httpUtil.httpRequestGet('/static/pageStandard', {page: this.page, size: this.pageSize}).then(callback);
+                httpUtil.httpRequestGet('/static/pageCompany', {page: this.page, size: this.pageSize}).then(callback);
             },
 
             // 请求后台 -- 更新操作
@@ -154,7 +143,7 @@
                         }
                     }
                 };
-                httpUtil.httpRequestPost('/static/modifyStandard', val).then(callback);
+                httpUtil.httpRequestPost('/static/modifyCompany', val).then(callback);
             },
 
             // 请求后台 -- 删除操作
@@ -169,7 +158,7 @@
                         }
                     }
                 };
-                httpUtil.httpRequestPost('/static/deleteStandard', val).then(callback);
+                httpUtil.httpRequestPost('/static/deleteCompany', val).then(callback);
             }
         }
     };

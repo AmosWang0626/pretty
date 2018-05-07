@@ -26,9 +26,9 @@
     </page-frame>
 </template>
 <script>
-    import httpUtil from '../libs/util';
-    import dateUtil from '../libs/date';
-    import PageFrame from './components/pageFrame';
+    import httpUtil from '../../libs/util';
+    import dateUtil from '../../libs/date';
+    import PageFrame from '../components/pageFrame';
 
     export default {
         data() {
@@ -45,28 +45,40 @@
 
                 pageColumns: [
                     {
-                        title: '公司名称',
-                        key: 'name'
-                    },
-                    {
-                        title: '公司类型',
+                        title: '业务类型',
                         key: 'business'
                     },
                     {
-                        title: '公司地址',
-                        key: 'address'
+                        title: '业务等级',
+                        key: 'level'
+                    },
+                    {
+                        title: '单价',
+                        key: 'unitPrice'
+                    },
+                    {
+                        title: '逾期利率',
+                        key: 'overdueRate'
+                    },
+                    {
+                        title: '标准生效时间',
+                        key: 'startTime',
+                        render: function (h, param) {
+                            return h('div',
+                                dateUtil.formatDate(new Date(param.row.startTime), 'yyyy-MM-dd'));
+                        }
+                    },
+                    {
+                        title: '标准失效时间',
+                        key: 'endTime',
+                        render: function (h, param) {
+                            return h('div',
+                                dateUtil.formatDate(new Date(param.row.startTime), 'yyyy-MM-dd'));
+                        }
                     },
                     {
                         title: '状态',
                         key: 'status'
-                    },
-                    {
-                        title: '注册时间',
-                        key: 'createTime',
-                        render: function (h, param) {
-                            return h('div',
-                                dateUtil.formatDate(new Date(param.row.createTime), 'yyyy-MM-dd hh:mm:ss'));
-                        }
                     }
                 ],
                 pageColumnsData: []
@@ -109,7 +121,7 @@
                         }
                     }
                 };
-                httpUtil.httpRequestGet('/static/pageCompany', {page: this.page, size: this.pageSize}).then(callback);
+                httpUtil.httpRequestGet('/static/pageStandard', {page: this.page, size: this.pageSize}).then(callback);
             }
         }
     };

@@ -71,8 +71,8 @@
     </page-frame>
 </template>
 <script>
-    import httpUtil from '../libs/util';
-    import PageFrame from './components/pageFrame';
+    import httpUtil from '../../libs/util';
+    import PageFrame from '../components/pageFrame';
 
     export default {
         data() {
