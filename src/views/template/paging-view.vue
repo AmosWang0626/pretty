@@ -26,9 +26,9 @@
     </page-frame>
 </template>
 <script>
-    import httpUtil from '../libs/util';
-    import dateUtil from '../libs/date';
-    import PageFrame from './components/pageFrame';
+    import httpUtil from '../../libs/util';
+    import dateUtil from '../../libs/date';
+    import PageFrame from '../components/pageFrame';
 
     export default {
         data() {

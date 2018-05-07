@@ -16,13 +16,13 @@ const routers = [
         meta: {
             title: 'User'
         },
-        component: (resolve) => require(['./views/template-paging-view.vue'], resolve)
+        component: (resolve) => require(['./views/template/paging-view.vue'], resolve)
     }, {
         path: '/userManage',
         meta: {
             title: 'UserManage'
         },
-        component: (resolve) => require(['./views/template-paging-manage.vue'], resolve)
+        component: (resolve) => require(['./views/template/paging-manage.vue'], resolve)
     }, {
         path: '/login',
         meta: {
