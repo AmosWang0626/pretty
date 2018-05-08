@@ -96,11 +96,17 @@ const routers = [
         },
         component: (resolve) => require(['./views/tariff/tariff-statistics.vue'], resolve)
     }, {
-        path: '/businessArticle',
+        path: '/serviceApply',
         meta: {
-            title: 'BusinessArticle'
+            title: 'ServiceApply'
         },
-        component: (resolve) => require(['./views/business/business-article.vue'], resolve)
+        component: (resolve) => require(['./views/business/business-service-apply.vue'], resolve)
+    }, {
+        path: '/serviceManage',
+        meta: {
+            title: 'ServiceManage'
+        },
+        component: (resolve) => require(['./views/business/business-service-manage.vue'], resolve)
     }
 ];
 

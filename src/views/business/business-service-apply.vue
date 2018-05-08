@@ -15,14 +15,14 @@
             <Form ref="businessForm" :model="businessForm" :rules="businessRule" :label-width="80">
                 <FormItem><h1 class="general-form-title">服务在线申请</h1></FormItem>
                 <FormItem label="服务类型" prop="serviceType">
-                    <Select v-model="businessForm.serviceType" style="width: 750px">
+                    <Select v-model="businessForm.type" style="width: 750px">
                         <Option v-for="item in serviceTypeList"
                                 :value="item.key" :key="item.value">{{ item.value }}
                         </Option>
                     </Select>
                 </FormItem>
-                <FormItem label="申请原因" prop="content">
-                    <quill-editor v-model='businessForm.content' style="width: 750px;height: 300px"></quill-editor>
+                <FormItem label="申请原因" prop="details">
+                    <quill-editor v-model='businessForm.details' style="width: 750px;height: 300px"></quill-editor>
                 </FormItem>
                 <FormItem>
                     <div style="margin-top: 80px">
@@ -46,12 +46,12 @@
             return {
                 // 给模板页设置样式
                 frameStyle: {
-                    openNames: ['4'],
+                    openNames: ['2'],
                 },
 
                 businessForm: {
-                    serviceType: '',
-                    content: ''
+                    type: '',
+                    details: ''
                 },
 
                 // 服务类型List
@@ -59,14 +59,14 @@
 
                 // 用户输入校验
                 businessRule: {
-                    serviceType: [
+                    type: [
                         {
                             required: true,
                             message: '类型为必选呦!',
                             trigger: 'change'
                         }
                     ],
-                    content: [
+                    details: [
                         {
                             required: true,
                             message: '内容不能为空呦!',
@@ -107,8 +107,8 @@
                                 res.flags === 'fail' && this.$Message.error(`${res.message}`);
                             }
                         };
-                        // 保存缴费标准信息
-                        httpUtil.httpRequestPost('/bill/billEntry', this.businessForm).then(callback);
+                        // 提交申请信息
+                        httpUtil.httpRequestPost('/service/add', this.businessForm).then(callback);
                     } else {
                         this.$Message.error('请先确认输入信息格式~~~');
                     }

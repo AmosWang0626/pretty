@@ -6,7 +6,7 @@
     import echarts from 'echarts';
 
     export default {
-        name: 'dataSourcePie',
+        name: 'displayPie',
         data() {
             return {
                 //66666666
@@ -14,7 +14,7 @@
         },
         mounted() {
             this.$nextTick(() => {
-                let dataSourcePie = echarts.init(document.getElementById('data_source_con'));
+                let displayPie = echarts.init(document.getElementById('data_source_con'));
                 const option = {
                     tooltip: {
                         trigger: 'item',
@@ -48,9 +48,9 @@
                         }
                     ]
                 };
-                dataSourcePie.setOption(option);
+                displayPie.setOption(option);
                 window.addEventListener('resize', function () {
-                    dataSourcePie.resize();
+                    displayPie.resize();
                 });
             });
         }

@@ -48,8 +48,8 @@
 </template>
 <script>
     import PageFrame from '../components/pageFrame';
-    import dataSourcePie from '../components/dataSourcePie';
-    import serviceRequests from '../components/serviceRequests';
+    import dataSourcePie from '../components/displayPie';
+    import serviceRequests from '../components/displayGrid';
 
     export default {
         data() {

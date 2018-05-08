@@ -131,13 +131,23 @@
                         <!--<MenuItem name="3-12">添加标准</MenuItem>-->
                         <!--<MenuItem name="3-13">公司管理</MenuItem>-->
                         <!--<MenuItem name="3-14">添加公司</MenuItem>-->
+                        <Submenu name="2">
+                            <template slot="title">
+                                <Icon type="android-apps"></Icon>
+                                {{subMenuBusiness.name}}
+                            </template>
+                            <MenuItem v-for="menu in subMenuBusiness.menus" :name="menu.href" :key="menu.menuItemIndex">
+                                {{menu.name}}
+                            </MenuItem>
+                        </Submenu>
+
                         <!--</Submenu>-->
                         <Submenu name="3">
                             <template slot="title">
                                 <Icon type="android-apps"></Icon>
-                                {{subMenuThree.name}}
+                                {{subMenuTariff.name}}
                             </template>
-                            <MenuItem v-for="menu in subMenuThree.menus" :name="menu.href" :key="menu.menuItemIndex">
+                            <MenuItem v-for="menu in subMenuTariff.menus" :name="menu.href" :key="menu.menuItemIndex">
                                 {{menu.name}}
                             </MenuItem>
                         </Submenu>
@@ -173,7 +183,22 @@
     export default {
         data() {
             return {
-                subMenuThree: {
+                subMenuBusiness: {
+                    name: '综合业务模块',
+                    menus: [
+                        {
+                            menuItemIndex: 1,
+                            name: '服务申请',
+                            href: '/serviceApply'
+                        },
+                        {
+                            menuItemIndex: 2,
+                            name: '服务审批',
+                            href: '/serviceManage'
+                        }
+                    ]
+                },
+                subMenuTariff: {
                     name: '资费管理模块',
                     menus: [
                         {
@@ -235,11 +260,6 @@
                             menuItemIndex: 4,
                             name: '数据报表',
                             href: '/statistics'
-                        },
-                        {
-                            menuItemIndex: 5,
-                            name: '文章编辑',
-                            href: '/businessArticle'
                         }
                     ]
                 },

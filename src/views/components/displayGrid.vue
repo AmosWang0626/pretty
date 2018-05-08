@@ -6,7 +6,7 @@
     import echarts from 'echarts';
 
     export default {
-        name: 'serviceRequests',
+        name: 'displayGrid',
 
         mounted() {
             const option = {
@@ -108,11 +108,12 @@
                     }
                 ]
             };
-            const serviceRequestCharts = echarts.init(document.getElementById('service_request_con'));
-            serviceRequestCharts.setOption(option);
+            const displayGrid = echarts.init(document.getElementById('service_request_con'));
+
+            displayGrid.setOption(option);
 
             window.addEventListener('resize', function () {
-                serviceRequestCharts.resize();
+                displayGrid.resize();
             });
         }
     };
