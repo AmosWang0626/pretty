@@ -12,9 +12,10 @@ util.title = function (title) {
 
 util.httpRequestGet = function (url, data) {
     let token = localStorage.getItem('token');
+    let rolesId = localStorage.getItem('rolesId');
     return axios.get(url, {
         baseURL: BASE_URL,
-        headers: {token},
+        headers: {token, rolesId},
         params: data
     }).then(getResult).catch(
         function (error) {
@@ -28,9 +29,10 @@ util.httpRequestGet = function (url, data) {
 
 util.httpRequestPost = function (url, data) {
     let token = localStorage.getItem('token');
+    let rolesId = localStorage.getItem('rolesId');
     return axios.post(url, data, {
         baseURL: BASE_URL,
-        headers: {token},
+        headers: {token, rolesId},
     }).then(getResult).catch(
         function (error) {
             return {

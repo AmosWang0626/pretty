@@ -107,6 +107,7 @@
                     if (res.flags === 'success') {
                         localStorage.setItem('token', res.data.token);
                         localStorage.setItem('nickName', res.data.nickName);
+                        localStorage.setItem('rolesId', res.data.rolesId);
                         this.$Message.success(res.message);
                         this.$router.push({path: '/home'});
                     } else {

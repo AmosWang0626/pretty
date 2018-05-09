@@ -68,97 +68,18 @@
                 <Sider hide-trigger :style="{background: getColor(pageTheme)}">
                     <Menu :active-name="activeName" width="auto" :open-names="pageFrameStyle.openNames"
                           :theme="pageTheme" @on-select="changeMenuOnClick">
-                        <!--<Submenu v-for="(menu, index) in menuData" :name="index">-->
-                        <!--<template slot="title">-->
-                        <!--<Icon type="ios-people"></Icon>-->
-                        <!--{{ menu.name }}-->
-                        <!--</template>-->
-                        <!--<MenuGroup v-for="subMenu in menu.subMenus" :title="subMenu.name">-->
-                        <!--<MenuItem v-for="childrenMenu in subMenu.subMenus" :name="childrenMenu.href">-->
-                        <!--{{childrenMenu.name}}-->
-                        <!--</MenuItem>-->
-                        <!--</MenuGroup>-->
-                        <!--</Submenu>-->
-                        <!--<Submenu name="1">-->
-                        <!--<template slot="title">-->
-                        <!--<Icon type="ios-people"></Icon>-->
-                        <!--综合管理模块-->
-                        <!--</template>-->
-                        <!--<MenuGroup title="信息管理">-->
-                        <!--<MenuItem name="1-1">园区信息管理</MenuItem>-->
-                        <!--<MenuItem name="1-2">用户账号管理</MenuItem>-->
-                        <!--<MenuItem name="1-3">系统权限管理</MenuItem>-->
-                        <!--<MenuItem name="1-4">员工信息管理</MenuItem>-->
-                        <!--<MenuItem name="1-5">系统日志管理</MenuItem>-->
-                        <!--</MenuGroup>-->
-                        <!--<MenuGroup title="资源管理">-->
-                        <!--<MenuItem name="1-6">企业信息管理</MenuItem>-->
-                        <!--<MenuItem name="1-7">企业员工信息管理</MenuItem>-->
-                        <!--<MenuItem name="1-8">房屋信息管理</MenuItem>-->
-                        <!--<MenuItem name="1-9">车辆车位管理</MenuItem>-->
-                        <!--<MenuItem name="1-10">车位信息管理</MenuItem>-->
-                        <!--<MenuItem name="1-11">设备信息管理</MenuItem>-->
-                        <!--</MenuGroup>-->
-                        <!--</Submenu>-->
-                        <!--<Submenu name="2">-->
-                        <!--<template slot="title">-->
-                        <!--<Icon type="stats-bars"></Icon>-->
-                        <!--综合业务模块-->
-                        <!--</template>-->
-                        <!--<MenuGroup title="系统管理">-->
-                        <!--<MenuItem name="2-1">通知公告</MenuItem>-->
-                        <!--<MenuItem name="2-2">短信息管理</MenuItem>-->
-                        <!--<MenuItem name="2-3">反馈与建议</MenuItem>-->
-                        <!--</MenuGroup>-->
-                        <!--<MenuGroup title="服务管理">-->
-                        <!--<MenuItem name="2-4">服务申请</MenuItem>-->
-                        <!--<MenuItem name="2-5">服务评价</MenuItem>-->
-                        <!--<MenuItem name="2-6">服务调查</MenuItem>-->
-                        <!--<MenuItem name="2-7">车辆进出</MenuItem>-->
-                        <!--<MenuItem name="2-8">房源租售</MenuItem>-->
-                        <!--<MenuItem name="2-9">添加公司</MenuItem>-->
-                        <!--</MenuGroup>-->
-                        <!--</Submenu>-->
-                        <!--<Submenu name="3">-->
-                        <!--<template slot="title">-->
-                        <!--<Icon type="social-yen"></Icon>-->
-                        <!--资费管理模块-->
-                        <!--</template>-->
-                        <!--<MenuItem name="3-1">账单录入</MenuItem>-->
-                        <!--<MenuItem name="3-2">账单管理</MenuItem>-->
-                        <!--<MenuItem name="3-3">交易流水</MenuItem>-->
-                        <!--<MenuItem name="3-11">标准管理</MenuItem>-->
-                        <!--<MenuItem name="3-12">添加标准</MenuItem>-->
-                        <!--<MenuItem name="3-13">公司管理</MenuItem>-->
-                        <!--<MenuItem name="3-14">添加公司</MenuItem>-->
-                        <Submenu name="2">
+                        <!-- 左侧菜单(暂仅为二级菜单) -->
+                        <Submenu v-for="firstMenu in subMenuData"
+                                 :name="firstMenu.menuPriority" :key="firstMenu.menuPriority">
+                            <!-- 一级菜单 (ICON & NAME) -->
                             <template slot="title">
-                                <Icon type="android-apps"></Icon>
-                                {{subMenuBusiness.name}}
+                                <Icon :type="firstMenu.menuIcon"></Icon>
+                                {{firstMenu.menuName}}
                             </template>
-                            <MenuItem v-for="menu in subMenuBusiness.menus" :name="menu.href" :key="menu.menuItemIndex">
-                                {{menu.name}}
-                            </MenuItem>
-                        </Submenu>
-
-                        <!--</Submenu>-->
-                        <Submenu name="3">
-                            <template slot="title">
-                                <Icon type="android-apps"></Icon>
-                                {{subMenuTariff.name}}
-                            </template>
-                            <MenuItem v-for="menu in subMenuTariff.menus" :name="menu.href" :key="menu.menuItemIndex">
-                                {{menu.name}}
-                            </MenuItem>
-                        </Submenu>
-
-                        <Submenu name="4">
-                            <template slot="title">
-                                <Icon type="android-apps"></Icon>
-                                {{subMenuFour.name}}
-                            </template>
-                            <MenuItem v-for="menu in subMenuFour.menus" :name="menu.href" :key="menu.menuItemIndex">
-                                {{menu.name}}
+                            <!-- 二级菜单 -->
+                            <MenuItem v-for="secondMenu in firstMenu.menuSecondLevelVOS"
+                                      :name="secondMenu.menuUrl" :key="secondMenu.menuPriority">
+                                {{secondMenu.menuName}}
                             </MenuItem>
                         </Submenu>
                     </Menu>
@@ -180,89 +101,13 @@
     </div>
 </template>
 <script>
+    import httpUtil from '../../libs/util';
+
     export default {
         data() {
             return {
-                subMenuBusiness: {
-                    name: '综合业务模块',
-                    menus: [
-                        {
-                            menuItemIndex: 1,
-                            name: '服务申请',
-                            href: '/serviceApply'
-                        },
-                        {
-                            menuItemIndex: 2,
-                            name: '服务审批',
-                            href: '/serviceManage'
-                        }
-                    ]
-                },
-                subMenuTariff: {
-                    name: '资费管理模块',
-                    menus: [
-                        {
-                            menuItemIndex: 1,
-                            name: '账单录入',
-                            href: '/billEntry'
-                        },
-                        {
-                            menuItemIndex: 2,
-                            name: '账单管理',
-                            href: '/billPlanManage'
-                        },
-                        {
-                            menuItemIndex: 3,
-                            name: '交易流水',
-                            href: '/companyBillManage'
-                        },
-                        {
-                            menuItemIndex: 4,
-                            name: '标准管理',
-                            href: '/standard'
-                        },
-                        {
-                            menuItemIndex: 5,
-                            name: '添加标准',
-                            href: '/standardAdd'
-                        },
-                        {
-                            menuItemIndex: 6,
-                            name: '公司管理',
-                            href: '/company'
-                        },
-                        {
-                            menuItemIndex: 7,
-                            name: '添加公司',
-                            href: '/companyAdd'
-                        }
-                    ]
-                },
-                subMenuFour: {
-                    name: '展示模板模块',
-                    menus: [
-                        {
-                            menuItemIndex: 1,
-                            name: '查看用户',
-                            href: '/user'
-                        },
-                        {
-                            menuItemIndex: 2,
-                            name: '用户信息管理',
-                            href: '/userManage'
-                        },
-                        {
-                            menuItemIndex: 3,
-                            name: '即时消费',
-                            href: '/consumeAdd'
-                        },
-                        {
-                            menuItemIndex: 4,
-                            name: '数据报表',
-                            href: '/statistics'
-                        }
-                    ]
-                },
+                subMenuData: [],
+
                 // 颜色主题
                 pageTheme: localStorage.getItem('pageTheme'),
                 // 用户昵称
@@ -280,9 +125,26 @@
             if (localStorage.getItem('pageTheme') == null) {
                 localStorage.setItem('pageTheme', 'light');
             }
+            this.getMenuList();
         },
 
         methods: {
+            // 获取左侧导航菜单
+            getMenuList: function () {
+                let callback = (res) => {
+                    if (res.flags === 'success') {
+                        this.subMenuData = res.data;
+                        localStorage.setItem('menuData', res.data);
+                    } else {
+                        res.flags === 'fail' && this.$Message.error(`${res.message}`);
+                        if (res.code === '1003') {
+                            this.$router.push('/login');
+                        }
+                    }
+                };
+                httpUtil.httpRequestGet('/passport/menu').then(callback);
+            },
+
             // 点击左侧导航菜单
             changeMenuOnClick: function (name) {
                 this.$router.push({path: name});
@@ -294,6 +156,7 @@
                 if ('logout' === name) {
                     localStorage.setItem('token', null);
                     localStorage.setItem('nikeName', null);
+                    localStorage.setItem('rolesId', null);
                     this.$router.push({path: '/login'});
                 }
             },
