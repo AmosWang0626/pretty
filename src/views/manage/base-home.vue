@@ -44,19 +44,20 @@
                         <Step title="待进行" content="整体联调"></Step>
                     </Steps>
                 </Sider>
+                <!--<Button @click="incrementOnClick">Hello</Button>-->
             </Layout>
         </div>
     </page-frame>
 </template>
 <script>
     import PageFrame from '../components/pageFrame';
+    import store from '../../libs/store';
 
     export default {
         data() {
             return {
                 frameStyle: {
-                    // activeName: '1-1',
-                    // openNames: ['1'],
+                    openNames: ['1'],
                 }
             };
         },
@@ -67,6 +68,10 @@
         created: function () {
         },
 
-        methods: {}
+        methods: {
+            incrementOnClick: function () {
+                store.commit('increment');
+            }
+        }
     };
 </script>

@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import Vuex from 'vuex';
 import iView from 'iview';
 import Util from './libs/util';
 import App from './app.vue';
@@ -9,6 +10,7 @@ import quillEditor from 'vue-quill-editor';
 
 import 'iview/dist/styles/iview.css';
 
+Vue.use(Vuex);
 Vue.use(iView);
 Vue.use(iViewArea);
 Vue.use(VueRouter);
