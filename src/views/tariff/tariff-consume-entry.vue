@@ -10,7 +10,7 @@
     }
 </style>
 <template>
-    <page-frame :pageFrameStyle='frameStyle'>
+    <page-frame>
         <div class="general-form-div" slot="slotForm">
             <Form ref="consumeForm" :model="consumeForm" :rules="consumeRule" :label-width="90">
                 <FormItem><h1 class="general-form-title">即时消费录入</h1></FormItem>
@@ -72,11 +72,6 @@
     export default {
         data() {
             return {
-                // 给模板页设置样式
-                frameStyle: {
-                    openNames: ['2'],
-                },
-
                 // 下拉列表
                 businessList: [],
                 businessLevelList: [],

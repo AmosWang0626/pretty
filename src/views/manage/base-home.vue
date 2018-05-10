@@ -11,7 +11,7 @@
     }
 </style>
 <template>
-    <page-frame :pageFrameStyle='frameStyle'>
+    <page-frame>
         <!-- 下边的内容会插入到 components/pageFrame.vue 中的 <slot name="slotTable"></slot> -->
         <div slot="slotOther">
             <Layout>
@@ -44,34 +44,20 @@
                         <Step title="待进行" content="整体联调"></Step>
                     </Steps>
                 </Sider>
-                <!--<Button @click="incrementOnClick">Hello</Button>-->
             </Layout>
         </div>
     </page-frame>
 </template>
 <script>
     import PageFrame from '../components/pageFrame';
-    import store from '../../libs/store';
 
     export default {
-        data() {
-            return {
-                frameStyle: {
-                    openNames: ['1'],
-                }
-            };
-        },
-
         // 注册组件
         components: {PageFrame},
 
         created: function () {
         },
 
-        methods: {
-            incrementOnClick: function () {
-                store.commit('increment');
-            }
-        }
+        methods: {}
     };
 </script>

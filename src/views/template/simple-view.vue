@@ -5,7 +5,7 @@
     }
 </style>
 <template>
-    <page-frame :pageFrameStyle='frameStyle'>
+    <page-frame>
         <!-- 下边的内容会插入到 components/pageFrame.vue 中的 <slot name="slotTable"></slot> -->
         <div class="other" slot="slotOther">
 
@@ -19,13 +19,7 @@
 
     export default {
         data() {
-            return {
-                // 给模板页设置样式
-                frameStyle: {
-                    openNames: ['4'],
-                },
-
-            };
+            return {};
         },
 
         // 注册组件

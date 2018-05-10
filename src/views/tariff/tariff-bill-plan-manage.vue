@@ -10,7 +10,7 @@
     }
 </style>
 <template>
-    <page-frame :pageFrameStyle='frameStyle'>
+    <page-frame>
         <!-- 下边的内容会插入到 components/pageFrame.vue 中的 <slot name="slotTable"></slot> -->
         <div class="page-table" slot="slotTable">
             <Table stripe border size="large"
@@ -34,11 +34,6 @@
     export default {
         data() {
             return {
-                // 给模板页设置样式
-                frameStyle: {
-                    openNames: ['3'],
-                },
-
                 page: 1,
                 pageSize: 10,
                 pageTotal: 0,

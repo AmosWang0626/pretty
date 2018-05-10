@@ -16,6 +16,18 @@ Vue.use(iViewArea);
 Vue.use(VueRouter);
 Vue.use(quillEditor);
 
+// 状态管理
+const store = new Vuex.Store({
+    state: {
+        subMenuData: []
+    },
+    mutations: {
+        changeSubMenuData(state, array) {
+            state.subMenuData = array;
+        }
+    }
+});
+
 // 路由配置
 const RouterConfig = {
     hashbang: true,
@@ -35,9 +47,9 @@ router.afterEach(() => {
     window.scrollTo(0, 0);
 });
 
-
 new Vue({
     el: '#app',
     router: router,
+    store: store,
     render: h => h(App)
 });

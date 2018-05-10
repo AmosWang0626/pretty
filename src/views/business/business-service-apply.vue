@@ -10,7 +10,7 @@
 </style>
 
 <template>
-    <page-frame :pageFrameStyle='frameStyle'>
+    <page-frame>
         <div class="article-form-div" slot="slotForm">
             <Form ref="businessForm" :model="businessForm" :rules="businessRule" :label-width="80">
                 <FormItem><h1 class="general-form-title">服务在线申请</h1></FormItem>
@@ -44,10 +44,6 @@
     export default {
         data() {
             return {
-                // 给模板页设置样式
-                frameStyle: {
-                    openNames: ['2'],
-                },
 
                 businessForm: {
                     type: '',

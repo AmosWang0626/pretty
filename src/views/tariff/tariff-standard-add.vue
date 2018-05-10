@@ -10,18 +10,20 @@
     }
 </style>
 <template>
-    <page-frame :pageFrameStyle='frameStyle'>
+    <page-frame>
         <div class="general-form-div" slot="slotForm">
             <Form ref="standardForm" :model="standardForm" :rules="standardRule" :label-width="90">
                 <FormItem><h1 class="general-form-title">资费标准添加</h1></FormItem>
                 <FormItem label="业务类型" prop="business">
                     <Select v-model="standardForm.business" style="width: 300px" @on-change="handleBusinessSelect">
-                        <Option v-for="item in businessList" :value="item.key" :key="item.value">{{ item.value }}</Option>
+                        <Option v-for="item in businessList" :value="item.key" :key="item.value">{{ item.value }}
+                        </Option>
                     </Select>
                 </FormItem>
                 <FormItem label="标准等级" prop="level">
                     <Select v-model="standardForm.level" style="width: 300px">
-                        <Option v-for="item in businessLevelList" :value="item.key" :key="item.value">{{ item.value }}</Option>
+                        <Option v-for="item in businessLevelList" :value="item.key" :key="item.value">{{ item.value }}
+                        </Option>
                     </Select>
                 </FormItem>
                 <FormItem label="缴费单价">
@@ -77,11 +79,6 @@
     export default {
         data() {
             return {
-                // 给模板页设置样式
-                frameStyle: {
-                    openNames: ['3'],
-                },
-
                 // 下拉列表
                 businessList: [],
                 businessLevelList: [],

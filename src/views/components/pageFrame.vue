@@ -66,20 +66,19 @@
             <Layout>
                 <!-- Sider -->
                 <Sider hide-trigger :style="{background: getColor(pageTheme)}">
-                    <Menu :active-name="activeName" width="auto" :open-names="pageFrameStyle.openNames"
-                          :theme="pageTheme" @on-select="changeMenuOnClick">
+                    <Menu :active-name="activeName" style="width: auto" :theme="pageTheme" :accordion="true"
+                          :open-names="openMenus" @on-select="onMenuItemClick" @on-open-change="onMenuClick">
                         <!-- 左侧菜单(暂仅为二级菜单) -->
-                        <Submenu v-for="firstMenu in subMenuData"
-                                 :name="firstMenu.menuPriority" :key="firstMenu.menuPriority">
+                        <Submenu v-for="first in subMenuData" :name="first.priority" :key="first.priority">
                             <!-- 一级菜单 (ICON & NAME) -->
                             <template slot="title">
-                                <Icon :type="firstMenu.menuIcon"></Icon>
-                                {{firstMenu.menuName}}
+                                <Icon :type="first.menuIcon"></Icon>
+                                {{first.menuName}}
                             </template>
                             <!-- 二级菜单 -->
-                            <MenuItem v-for="secondMenu in firstMenu.menuSecondLevelVOS"
-                                      :name="secondMenu.menuUrl" :key="secondMenu.menuPriority">
-                                {{secondMenu.menuName}}
+                            <MenuItem v-for="second in first.secondLevel"
+                                      :name="second.menuUrl" :key="second.priority">
+                                {{second.menuName}}
                             </MenuItem>
                         </Submenu>
                     </Menu>
@@ -106,35 +105,40 @@
     export default {
         data() {
             return {
-                subMenuData: [],
-
                 // 颜色主题
                 pageTheme: localStorage.getItem('pageTheme'),
                 // 用户昵称
                 nickName: localStorage.getItem('nickName'),
-                // 左侧导航菜单
+                // 左侧菜单所有项
+                subMenuData: JSON.parse(localStorage.getItem('subMenuData')),
+                // 左侧菜单选中项
                 activeName: localStorage.getItem('activeName'),
+                // 左侧菜单展开项
+                openMenus: JSON.parse(localStorage.getItem('openMenus')),
             };
         },
-
-        // [父---子] 传递数据
-        props: ['pageFrameStyle'],
 
         created: function () {
             // 默认白色主题
             if (localStorage.getItem('pageTheme') == null) {
                 localStorage.setItem('pageTheme', 'light');
             }
-            this.getMenuList();
+
+            // 如果左侧菜单为null, 调用后台获取菜单
+            const menuData = JSON.parse(localStorage.getItem('subMenuData'));
+            if (menuData == null || menuData.length === 0) {
+                this.getSubMenuData();
+            }
         },
 
         methods: {
             // 获取左侧导航菜单
-            getMenuList: function () {
+            getSubMenuData: function () {
+                localStorage.setItem('subMenuData', null);
                 let callback = (res) => {
                     if (res.flags === 'success') {
                         this.subMenuData = res.data;
-                        localStorage.setItem('menuData', res.data);
+                        localStorage.setItem('subMenuData', JSON.stringify(res.data));
                     } else {
                         res.flags === 'fail' && this.$Message.error(`${res.message}`);
                         if (res.code === '1003') {
@@ -145,10 +149,15 @@
                 httpUtil.httpRequestGet('/passport/menu').then(callback);
             },
 
-            // 点击左侧导航菜单
-            changeMenuOnClick: function (name) {
+            // 点击菜单Item
+            onMenuItemClick: function (name) {
                 this.$router.push({path: name});
                 localStorage.setItem('activeName', name);
+            },
+
+            // 展开-关闭菜单
+            onMenuClick: function (array) {
+                localStorage.setItem('openMenus', JSON.stringify(array));
             },
 
             // 退出登录
@@ -157,6 +166,7 @@
                     localStorage.setItem('token', null);
                     localStorage.setItem('nikeName', null);
                     localStorage.setItem('rolesId', null);
+                    localStorage.setItem('subMenuData', null);
                     this.$router.push({path: '/login'});
                 }
             },

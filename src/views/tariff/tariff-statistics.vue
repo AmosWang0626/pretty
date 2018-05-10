@@ -18,7 +18,7 @@
 
 </style>
 <template>
-    <page-frame :pageFrameStyle='frameStyle'>
+    <page-frame>
         <div class="page-sole" slot="slotOther">
             <Row :md="24" :lg="8" :style="{marginBottom: '10px'}">
                 <Card>
@@ -53,12 +53,7 @@
 
     export default {
         data() {
-            return {
-                // 给模板页设置样式
-                frameStyle: {
-                    openNames: ['4'],
-                }
-            };
+            return {};
         },
 
         // 注册组件

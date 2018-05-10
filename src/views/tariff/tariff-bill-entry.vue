@@ -10,7 +10,7 @@
     }
 </style>
 <template>
-    <page-frame :pageFrameStyle='frameStyle'>
+    <page-frame>
         <div class="general-form-div" slot="slotForm">
             <Form ref="billForm" :model="billForm" :rules="billRule" :label-width="90">
                 <FormItem><h1 class="general-form-title">用户账单录入</h1></FormItem>
@@ -65,11 +65,6 @@
     export default {
         data() {
             return {
-                // 给模板页设置样式
-                frameStyle: {
-                    openNames: ['3'],
-                },
-
                 // 下拉列表
                 businessList: [],
                 businessLevelList: [],
