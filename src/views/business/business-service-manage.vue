@@ -54,7 +54,7 @@
                     },
                     {
                         title: '状态',
-                        key: 'type'
+                        key: 'status'
                     },
                     {
                         title: '解决方案',
@@ -89,7 +89,7 @@
                     {
                         title: '操作',
                         key: 'action',
-                        width: 150,
+                        width: 220,
                         align: 'center',
                         render: (h, params) => {
                             return h('div', [
@@ -106,7 +106,35 @@
                                             this.showDetail(params.index);
                                         }
                                     }
-                                }, '详情')
+                                }, '详情'),
+                                h('Button', {
+                                    props: {
+                                        type: 'success',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.serviceAgree(params.index);
+                                        }
+                                    }
+                                }, '同意申请'),
+                                h('Button', {
+                                    props: {
+                                        type: 'error',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.serviceDisAgree(params.index);
+                                        }
+                                    }
+                                }, '拒绝申请')
                             ]);
                         }
                     }
@@ -157,12 +185,67 @@
             // 显示详情
             showDetail(index) {
                 this.$Modal.info({
-                    title: 'Property',
-                    // 按ESC键 可关闭Modal
+                    title: '服务申请详情',
                     closable: true,
-                    content: `昵称：${this.pageColumnsData[index].nickName}<br>`
-                    + `手机号：${this.pageColumnsData[index].phoneNo}<br>`
-                    + `注册时间：${dateUtil.formatDate(new Date(this.pageColumnsData[index].createTime), 'yyyy-MM-dd hh:mm:ss')}`
+                    content: this.pageColumnsData[index].details
+                });
+            },
+
+            // 同意申请
+            serviceAgree(index) {
+                let callback = (res) => {
+                    this.loading = false;
+                    if (res.flags === 'success') {
+                        this.$Message.success('同意服务' + res.message);
+                    } else {
+                        res.flags === 'fail' && this.$Message.error(`${res.message}`);
+                        if (res.code === '1003') {
+                            this.$router.push('/login');
+                        }
+                    }
+                };
+                httpUtil.httpRequestPost('/service/agree', {id: this.pageColumnsData[index].id}).then(callback);
+            },
+
+            // 申请拒绝
+            serviceDisAgree(index) {
+                let value;
+                this.$Modal.info({
+                    title: '拒绝申请',
+                    closable: true,
+                    render: (h) => {
+                        return h('Input', {
+                            style: {
+                                marginTop: '20px'
+                            },
+                            props: {
+                                autoFocus: true,
+                                placeholder: '拒绝原因......'
+                            },
+                            on: {
+                                input: (val) => {
+                                    value = val;
+                                }
+                            }
+                        });
+                    },
+                    onOk: () => {
+                        let callback = (res) => {
+                            this.loading = false;
+                            if (res.flags === 'success') {
+                                this.$Message.success('同意服务' + res.message);
+                            } else {
+                                res.flags === 'fail' && this.$Message.error(`${res.message}`);
+                                if (res.code === '1003') {
+                                    this.$router.push('/login');
+                                }
+                            }
+                        };
+                        httpUtil.httpRequestPost('/service/disAgree', {
+                            id: this.pageColumnsData[index].id,
+                            evaluate: value
+                        }).then(callback);
+                    }
                 });
             }
         }
