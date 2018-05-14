@@ -94,7 +94,10 @@
 
             <!-- Footer -->
             <Footer class="layout-footer-center" :style="{background: getColor(pageTheme)}">
-                <span :style="{color: getFontColor(pageTheme)}">2017-2018 &copy; Property</span>
+                <Span :style="{color: getFontColor(pageTheme)}">
+                    2018-2019 © Property
+                    <a href="http://www.miitbeian.gov.cn/" target="_blank"> 豫ICP备18017205号 </a>
+                </Span>
             </Footer>
         </Layout>
     </div>

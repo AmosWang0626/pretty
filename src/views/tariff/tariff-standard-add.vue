@@ -16,15 +16,22 @@
                 <FormItem><h1 class="general-form-title">资费标准添加</h1></FormItem>
                 <FormItem label="业务类型" prop="business">
                     <Select v-model="standardForm.business" style="width: 300px" @on-change="handleBusinessSelect">
-                        <Option v-for="item in businessList" :value="item.key" :key="item.value">{{ item.value }}
+                        <Option v-for="item in businessList" :value="item.key" :key="item.value">
+                            {{ item.value }}
                         </Option>
                     </Select>
                 </FormItem>
                 <FormItem label="标准等级" prop="level">
                     <Select v-model="standardForm.level" style="width: 300px">
-                        <Option v-for="item in businessLevelList" :value="item.key" :key="item.value">{{ item.value }}
+                        <Option v-for="item in businessLevelList" :value="item.key" :key="item.value">
+                            {{ item.value }}
                         </Option>
                     </Select>
+                </FormItem>
+                <FormItem label="单价单位">
+                    <Span v-model="standardForm.businessUnit">
+                        {{standardForm.businessUnit}}
+                    </Span>
                 </FormItem>
                 <FormItem label="缴费单价">
                     <InputNumber :max="1000" :min="0" :step="0.1"
@@ -94,6 +101,7 @@
                     defaultStart: '00:00:00',
                     defaultEnd: '23:59:59',
                     status: true,
+                    businessUnit: ''
                 },
 
                 // 用户输入校验
@@ -159,6 +167,16 @@
                         }
                     };
                     httpUtil.httpRequestGet('/base/getBusinessLevel', {business: business}).then(callbackBusinessLevel);
+
+                    let callbackBusinessUnit = (res) => {
+                        if (res.flags === 'success') {
+                            console.info(res.data.value);
+                            this.standardForm.businessUnit = res.data.value;
+                        } else {
+                            res.flags === 'fail' && this.$Message.error(`${res.message}`);
+                        }
+                    };
+                    httpUtil.httpRequestGet('/base/getBusinessUnit', {business: business}).then(callbackBusinessUnit);
                 }
             },
 

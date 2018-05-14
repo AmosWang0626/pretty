@@ -43,16 +43,20 @@
                 pageColumns: [
                     {
                         title: '业务类型',
-                        key: 'business'
+                        key: 'businessDesc'
                     },
                     {
                         title: '业务等级',
-                        key: 'level'
+                        key: 'levelDesc'
                     },
                     {
                         title: '单价',
                         key: 'unitPrice',
                         editable: true
+                    },
+                    {
+                        title: '单位',
+                        key: 'businessUnit'
                     },
                     {
                         title: '逾期利率',
