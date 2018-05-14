@@ -52,8 +52,8 @@
                                 </Avatar>
                                 <Icon type="arrow-down-b"></Icon>
                                 <DropdownMenu slot="list">
-                                    <DropdownItem>个人信息</DropdownItem>
-                                    <DropdownItem disabled>修改密码</DropdownItem>
+                                    <DropdownItem name="userInfo">个人信息</DropdownItem>
+                                    <DropdownItem name="updatePwd">修改密码</DropdownItem>
                                     <DropdownItem divided disabled>设置</DropdownItem>
                                     <DropdownItem name="logout" divided>退出</DropdownItem>
                                 </DropdownMenu>
@@ -171,6 +171,12 @@
                     localStorage.setItem('rolesId', null);
                     localStorage.setItem('subMenuData', null);
                     this.$router.push({path: '/login'});
+                } else if ('userInfo' === name) {
+                    // 跳转到用户信息页面
+                    this.$router.push({path: '/userInfo'});
+                } else if ('updatePwd' === name) {
+                    // 跳转到修改密码页面
+                    this.$router.push({path: '/updatePwd'});
                 }
             },
 

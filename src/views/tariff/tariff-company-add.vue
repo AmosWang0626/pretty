@@ -34,8 +34,8 @@
                 <FormItem label="联系电话" prop="telephone">
                     <Input v-model="companyForm.telephone" placeholder="联系电话" style="width: 300px"></Input>
                 </FormItem>
-                <FormItem label="组织机构代码" prop="organizationCode">
-                    <Input v-model="companyForm.organizationCode" placeholder="组织机构代码" style="width: 300px"></Input>
+                <FormItem label="社会信用代码" prop="organizationCode">
+                    <Input v-model="companyForm.organizationCode" placeholder="社会信用代码" style="width: 300px"></Input>
                 </FormItem>
                 <FormItem label="企业法人" prop="legalName">
                     <Input v-model="companyForm.legalName" placeholder="企业法人" style="width: 300px"></Input>
@@ -123,12 +123,12 @@
                     organizationCode: [
                         {
                             required: true,
-                            message: '组织机构代码不能为空!',
+                            message: '社会信用代码不能为空!',
                             trigger: 'blur'
                         }, {
                             type: 'string',
-                            len: 10,
-                            message: '组织机构代码错误! 10位呦!',
+                            len: 18,
+                            message: '社会信用代码错误! 18位呦!',
                             trigger: 'blur'
                         }
                     ],

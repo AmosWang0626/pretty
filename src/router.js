@@ -107,6 +107,18 @@ const routers = [
             title: 'ServiceManage'
         },
         component: (resolve) => require(['./views/business/business-service-manage.vue'], resolve)
+    }, {
+        path: '/userInfo',
+        meta: {
+            title: 'UserInfo'
+        },
+        component: (resolve) => require(['./views/manage/base-user-info.vue'], resolve)
+    }, {
+        path: '/updatePwd',
+        meta: {
+            title: 'UpdatePwd'
+        },
+        component: (resolve) => require(['./views/manage/base-updatePwd.vue'], resolve)
     }
 ];
 

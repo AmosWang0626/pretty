@@ -170,7 +170,6 @@
 
                     let callbackBusinessUnit = (res) => {
                         if (res.flags === 'success') {
-                            console.info(res.data.value);
                             this.standardForm.businessUnit = res.data.value;
                         } else {
                             res.flags === 'fail' && this.$Message.error(`${res.message}`);
