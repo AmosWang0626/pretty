@@ -119,6 +119,12 @@ const routers = [
             title: 'UpdatePwd'
         },
         component: (resolve) => require(['./views/manage/base-updatePwd.vue'], resolve)
+    }, {
+        path: '/monthConsume',
+        meta: {
+            title: 'MonthConsume'
+        },
+        component: (resolve) => require(['./views/tariff/tariff-consume-month-entry.vue'], resolve)
     }
 ];
 
