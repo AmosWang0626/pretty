@@ -125,6 +125,12 @@ const routers = [
             title: 'MonthConsume'
         },
         component: (resolve) => require(['./views/tariff/tariff-consume-month-entry.vue'], resolve)
+    }, {
+        path: '/carComeIn',
+        meta: {
+            title: 'CarComeIn'
+        },
+        component: (resolve) => require(['./views/business/tariff-car-in.vue'], resolve)
     }
 ];
 
