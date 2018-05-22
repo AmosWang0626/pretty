@@ -130,7 +130,13 @@ const routers = [
         meta: {
             title: 'CarComeIn'
         },
-        component: (resolve) => require(['./views/business/tariff-car-in.vue'], resolve)
+        component: (resolve) => require(['./views/business/business-car-in.vue'], resolve)
+    }, {
+        path: '/jobs',
+        meta: {
+            title: 'Jobs'
+        },
+        component: (resolve) => require(['./views/tariff/tariff-jobs.vue'], resolve)
     }
 ];
 
