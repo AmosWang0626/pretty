@@ -13,9 +13,7 @@
     <page-frame>
         <!-- 下边的内容会插入到 components/pageFrame.vue 中的 <slot name="slotTable"></slot> -->
         <div class="page-table" slot="slotTable">
-            <Table stripe border size="large"
-                   :columns="pageColumns" :data="pageColumnsData">
-            </Table>
+            <Table stripe border size="large" ref="table" :columns="pageColumns" :data="pageColumnsData"></Table>
             <!-- 两种不同风格的分页样式 -->
             <Page class="layout-content-page" :page-size="pageSize"
                   :total="pageTotal" show-total show-sizer show-elevator
@@ -69,6 +67,29 @@
                     {
                         title: '错误信息',
                         key: 'errorMessage',
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        width: 100,
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px',
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.generateInvoice(params.index);
+                                        }
+                                    }
+                                }, '生成发票')
+                            ]);
+                        }
                     }
                 ],
                 pageColumnsData: []
@@ -92,6 +113,16 @@
             changePageSize: function (pageSize) {
                 this.pageSize = pageSize;
                 this.generalGetData();
+            },
+
+            // 生成发票
+            generateInvoice: function (index) {
+                let indexData = Array.of(this.pageColumnsData[index]);
+                this.$refs.table.exportCsv({
+                    filename: '发票-' + this.pageColumnsData[index].id,
+                    columns: this.pageColumns,
+                    data: indexData.filter((data) => data.paymentDate = dateUtil.formatDate(new Date(data.paymentDate), 'yyyy-MM-dd hh:mm:ss'))
+                });
             },
 
             // 请求后台 -- 获取基础数据
