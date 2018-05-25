@@ -149,7 +149,7 @@
                         }
                     }
                 };
-                httpUtil.httpRequestGet('/passport/menu').then(callback);
+                httpUtil.httpRequestGet('/roles/menu').then(callback);
             },
 
             // 点击菜单Item
