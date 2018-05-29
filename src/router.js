@@ -148,6 +148,33 @@ const routers = [
 },
 component: (resolve) => require(['./views/business/business-car-out.vue'], resolve)
 },
+    //房屋
+    {
+        path: '/house',
+        meta: {
+            title: 'house'
+        },
+        component: (resolve) => require(['./views/business/business-house.vue'], resolve)
+    },
+
+    //意见建议
+    {
+        path: '/proposal',
+        meta: {
+            title: 'proposal'
+        },
+        component: (resolve) => require(['./views/business/business-proposal.vue'], resolve)
+    },
+
+    //提出意见建议
+    {
+        path: '/proposalin',
+        meta: {
+            title: 'proposalin'
+        },
+        component: (resolve) => require(['./views/business/business-proposal-in.vue'], resolve)
+    },
+
     {
         path: '/jobs',
         meta: {
