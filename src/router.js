@@ -131,7 +131,24 @@ const routers = [
             title: 'CarComeIn'
         },
         component: (resolve) => require(['./views/business/business-car-in.vue'], resolve)
-    }, {
+    },
+    //发送短信
+    {
+        path: '/message',
+        meta: {
+            title: 'message'
+        },
+        component: (resolve) => require(['./views/business/business-message.vue'], resolve)
+    },
+    //驶出
+    {
+        path: '/carOut',
+    meta: {
+    title: 'carOut'
+},
+component: (resolve) => require(['./views/business/business-car-out.vue'], resolve)
+},
+    {
         path: '/jobs',
         meta: {
             title: 'Jobs'
