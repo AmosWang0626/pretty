@@ -20,7 +20,7 @@
                 <FormItem label="车辆类型" prop="carType">
                     <Input v-model="carComeInForm.carType" size="large" placeholder="请输入车辆类型" width="300px"></Input>
                 </FormItem>
-                <FormItem label="生效时间" prop="comeDate">
+                <FormItem label="进入时间" prop="comeDate">
                     <DatePicker type="datetime" size="large" placeholder="进入时间" width="300px"
                                 v-model="carComeInForm.comeDate"></DatePicker>
                 </FormItem>
