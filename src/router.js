@@ -137,6 +137,12 @@ const routers = [
             title: 'Jobs'
         },
         component: (resolve) => require(['./views/tariff/tariff-jobs.vue'], resolve)
+    }, {
+        path: '/roleMenus',
+        meta: {
+            title: 'RoleMenus'
+        },
+        component: (resolve) => require(['./views/manage/manage-role-menus.vue'], resolve)
     }
 ];
 
