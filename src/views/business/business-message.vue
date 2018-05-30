@@ -110,7 +110,7 @@
                 this.$Modal.confirm({
                     title: '发送',
                     closable: true,
-                    render: (h) => {
+                    render: (h, params) => {
                         return [
                             h('Input', {
                                 props: {
@@ -126,9 +126,7 @@
                     },
                     okText: '确认发送',
                     onOk: () => {
-                        if (this.pageColumnsData == null) {
-                            this.$Message.error('请先输入内容~~~');
-                        }
+                        this.$Message.info('发送成功!');
                     }
                 });
             },

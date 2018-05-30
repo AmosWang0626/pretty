@@ -14,13 +14,16 @@
         <div class="article-form-div" slot="slotForm">
             <Form ref="businessForm" :model="businessForm" :rules="businessRule" :label-width="80">
                 <FormItem><h1 class="general-form-title">提出意见建议</h1></FormItem>
-                <FormItem label="服务类型" prop="serviceType">
-                    <Select v-model="businessForm.type" style="width: 750px">
-                        <Option v-for="item in serviceTypeList"
-                                :value="item.key" :key="item.value">{{ item.value }}
-                        </Option>
-                    </Select>
+                <FormItem label="手机号" prop="phone">
+                    <input v-model="businessForm.phone" placeholder="请输入手机号" style="width: 300px;height: 40px">
                 </FormItem>
+                <FormItem label="昵称" prop="name">
+                    <input v-model="businessForm.name" placeholder="edit me" style="width: 300px;height: 40px">
+                </FormItem>
+                <FormItem label="意见主旨" prop="title">
+                    <input v-model="businessForm.title" placeholder="edit me" style="width: 300px;height: 40px">
+                </FormItem>
+
                 <FormItem label="意见详细" prop="details">
                     <quill-editor v-model='businessForm.details' style="width: 750px;height: 300px"></quill-editor>
                 </FormItem>
@@ -48,6 +51,8 @@
                 businessForm: {
                     type: '',
                     details: ''
+
+
                 },
 
                 // 服务类型List
@@ -68,7 +73,14 @@
                             message: '内容不能为空呦!',
                             trigger: 'blur'
                         }
-                    ]
+                    ],
+                    phone: [
+                        {
+                            required: true,
+                            message: '内容不能为空呦!',
+                            trigger: 'blur'
+                        }
+                    ],
                 }
             };
         },
@@ -104,7 +116,7 @@
                             }
                         };
                         // 提交申请信息
-                        httpUtil.httpRequestPost('/service/add', this.businessForm).then(callback);
+                        httpUtil.httpRequestPost('/proposal/save', this.businessForm).then(callback);
                     } else {
                         this.$Message.error('请先确认输入信息格式~~~');
                     }

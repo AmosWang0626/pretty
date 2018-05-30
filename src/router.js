@@ -173,6 +173,14 @@ const routers = [
             title: 'proposalin'
         },
         component: (resolve) => require(['./views/business/business-proposal-in.vue'], resolve)
+    },
+    //添加房源
+    {
+        path: '/addhouse',
+        meta: {
+            title: 'addhouse'
+        },
+        component: (resolve) => require(['./views/business/business-addhouse.vue'], resolve)
     }, {
         path: '/jobs',
         meta: {

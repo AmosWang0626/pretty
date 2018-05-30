@@ -13,7 +13,11 @@
     <page-frame>
         <!-- 下边的内容会插入到 components/pageFrame.vue 中的 <slot name="slotTable"></slot> -->
         <div class="page-table" slot="slotTable">
-            <Table stripe border size="large" ref="table" :key="index" :columns="pageColumns" :data="pageColumnsData"></Table>
+            <!-- 加上 :hover-show="true" 鼠标移入, 会显示编辑按钮 -->
+            <can-edit-table refs="pageTable" :editIncell="true" :hover-show="true"
+                            :columns-list="pageColumns" v-model="pageColumnsData" @on-delete="handleDeleteChange"
+                            @on-change="handleChange" @on-cell-change="handleCellChange">
+            </can-edit-table>
             <!-- 两种不同风格的分页样式 -->
             <Page class="layout-content-page" :page-size="pageSize"
                   :total="pageTotal" show-total show-sizer show-elevator
@@ -78,14 +82,23 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.generateInvoice(params.index);
+                                            this.showDetail(params.index);
                                         }
                                     }
                                 }, '查看')
                             ]);
                         }
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        width: 200,
+                        key: 'handle',
+                        handle: ['delete']
                     }
                 ],
+
+
                 pageColumnsData: []
             };
         },
@@ -103,7 +116,10 @@
                 this.page = page;
                 this.generalGetData();
             },
-
+            // 数据修改 -- 删除操作
+            handleDeleteChange(val, index) {
+                this.generalDelete(JSON.stringify(val[index]), '删除了第' + (index + 1) + '行数据');
+            },
             // 请求后台 -- 获取基础数据
             generalGetData: function () {
                 let callback = (res) => {
@@ -127,7 +143,31 @@
             },
 
             //
-
+            showDetail(index) {
+                this.$Modal.info({
+                    title: '意见建议',
+                    // 按ESC键 可关闭Modal
+                    closable: true,
+                    content: `业主名称：${this.pageColumnsData[index].name}<br>`
+                    + `手机号：${this.pageColumnsData[index].phone}<br>`
+                    + `主旨：${this.pageColumnsData[index].title}<br>`
+                    + `详情：${this.pageColumnsData[index].title}`
+                });
+            },
+            // 请求后台 -- 删除操作
+            generalDelete: function (val, message) {
+                let callback = (res) => {
+                    if (res.flags === 'success') {
+                        this.$Message.success(message);
+                    } else {
+                        res.flags === 'fail' && this.$Message.error(`${res.message}`);
+                        if (res.code === '1003') {
+                            this.$router.push('/login');
+                        }
+                    }
+                };
+                httpUtil.httpRequestPost('/passport/deleteUser', val).then(callback);
+            }
 
         }
     };
