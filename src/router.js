@@ -191,6 +191,18 @@ const routers = [
             title: 'RoleMenus'
         },
         component: (resolve) => require(['./views/manage/manage-role-menus.vue'], resolve)
+    }, {
+        path: '/enterprise',
+        meta: {
+            title: 'Enterprise'
+        },
+        component: (resolve) => require(['./views/manage/manage-role-menus.vue'], resolve)
+    }, {
+        path: '/enterpriseAdd',
+        meta: {
+            title: 'Enterprise'
+        },
+        component: (resolve) => require(['./views/manage/manage-role-menus.vue'], resolve)
     }
 ];
 
