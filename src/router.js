@@ -143,11 +143,11 @@ const routers = [
     //驶出
     {
         path: '/carOut',
-    meta: {
-    title: 'carOut'
-},
-component: (resolve) => require(['./views/business/business-car-out.vue'], resolve)
-},
+        meta: {
+            title: 'carOut'
+        },
+        component: (resolve) => require(['./views/business/business-car-out.vue'], resolve)
+    },
     //房屋
     {
         path: '/house',
@@ -173,14 +173,24 @@ component: (resolve) => require(['./views/business/business-car-out.vue'], resol
             title: 'proposalin'
         },
         component: (resolve) => require(['./views/business/business-proposal-in.vue'], resolve)
-    },
-
-    {
+    }, {
         path: '/jobs',
         meta: {
             title: 'Jobs'
         },
         component: (resolve) => require(['./views/tariff/tariff-jobs.vue'], resolve)
+    }, {
+        path: '/uploadDemo',
+        meta: {
+            title: 'UploadDemo'
+        },
+        component: (resolve) => require(['./views/template/simple-view-upload.vue'], resolve)
+    }, {
+        path: '/roleMenus',
+        meta: {
+            title: 'RoleMenus'
+        },
+        component: (resolve) => require(['./views/manage/manage-role-menus.vue'], resolve)
     }
 ];
 
