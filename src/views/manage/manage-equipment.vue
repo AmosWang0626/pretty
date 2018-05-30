@@ -43,11 +43,11 @@
                 pageColumns: [
                     {
                         title: '设备类型',
-                        key: 'memberId'
+                        key: 'types'
                     },
                     {
                         title: '设备数量',
-                        key: 'phoneNo',
+                        key: 'amount',
                         editable: true
                     },
                     {
