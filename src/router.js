@@ -148,6 +148,16 @@ const routers = [
         },
         component: (resolve) => require(['./views/business/business-car-out.vue'], resolve)
     },
+    //paper
+    {
+        path: '/paper',
+        meta: {
+            title: 'paper'
+        },
+        component: (resolve) => require(['./views/business/business-paper.vue'], resolve)
+    },
+
+
     //房屋
     {
         path: '/house',
@@ -155,6 +165,13 @@ const routers = [
             title: 'house'
         },
         component: (resolve) => require(['./views/business/business-house.vue'], resolve)
+    }, //d答案
+    {
+        path: '/answer',
+        meta: {
+            title: 'answer'
+        },
+        component: (resolve) => require(['./views/business/business-answer.vue'], resolve)
     },
 
     //意见建议
@@ -181,6 +198,13 @@ const routers = [
             title: 'addhouse'
         },
         component: (resolve) => require(['./views/business/business-addhouse.vue'], resolve)
+    },
+    {
+        path: '/survey',
+        meta: {
+            title: 'survey'
+        },
+        component: (resolve) => require(['./views/business/business-survey.vue'], resolve)
     }, {
         path: '/jobs',
         meta: {
@@ -199,7 +223,7 @@ const routers = [
             title: 'RoleMenus'
         },
         component: (resolve) => require(['./views/manage/manage-role-menus.vue'], resolve)
-    }
+    },
 ];
 
 export default routers;

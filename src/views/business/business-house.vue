@@ -77,6 +77,7 @@
                     {
                         title: '详情',
                         key: 'details',
+                        type:'html',
                         editable: true
                     },
                     {

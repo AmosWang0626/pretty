@@ -14,10 +14,9 @@
         <!-- 下边的内容会插入到 components/pageFrame.vue 中的 <slot name="slotTable"></slot> -->
         <div class="page-table" slot="slotTable">
             <!-- 加上 :hover-show="true" 鼠标移入, 会显示编辑按钮 -->
-            <can-edit-table refs="pageTable" :editIncell="true" :hover-show="true"
-                            :columns-list="pageColumns" v-model="pageColumnsData" @on-delete="handleDeleteChange"
-                            @on-change="handleChange" @on-cell-change="handleCellChange">
-            </can-edit-table>
+            <Table stripe border size="large"
+                   :columns="pageColumns" :data="pageColumnsData">
+            </Table>
             <!-- 两种不同风格的分页样式 -->
             <Page class="layout-content-page" :page-size="pageSize"
                   :total="pageTotal" show-total show-sizer show-elevator
@@ -42,57 +41,51 @@
 
                 pageColumns: [
                     {
-                        title: 'ID',
-                        key: 'id',
+                        title: '问卷编号',
+                        key: 'surveyId'
                     },
                     {
-                        title: '意见主旨',
+                        title: '问卷标题',
                         key: 'title',
-
+                        editable: true
                     },
                     {
-                        title: '业主名称',
-                        key: 'name',
-
+                        title: '问卷详情',
+                        key: 'description',
+                        editable: true
                     },
 
-                    {
-                        title: '联系电话',
-                        key: 'phone',
-                    },
 
                     {
-                        title: '详情',
-                        key: 'text',
-                        type: 'html'
-                    },
-                    {
-                        title: '查看',
+                        title: '操作',
                         align: 'center',
                         width: 100,
                         render: (h, params) => {
-                            return h('div', [
-                                h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        size: 'small'
-                                    },
-                                    style: {
-                                        marginRight: '5px',
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.showDetail(params.index);
-                                        }
+                            return h('Poptip', {
+                                props: {
+                                    confirm: true,
+                                    title: '您确定要参与问卷调查吗?',
+                                    transfer: true
+                                },
+                                on: {
+                                    'on-ok': () => {
+                                        this.payment(params.index);
                                     }
-                                }, '查看')
+                                }
+                            }, [
+                                h('Button', {
+                                    style: {
+                                        margin: '0 5px'
+                                    },
+                                    props: {
+                                        type: 'error',
+                                        placement: 'top'
+                                    }
+                                }, '编辑')
                             ]);
                         }
-                    },
-
+                    }
                 ],
-
-
                 pageColumnsData: []
             };
         },
@@ -100,6 +93,7 @@
         // 注册组件 {pageFrame 页面模板, canEditTable 表格可编辑组件}
         components: {pageFrame, canEditTable},
 
+        // 页面创建之后执行
         created: function () {
             this.generalGetData();
         },
@@ -110,14 +104,21 @@
                 this.page = page;
                 this.generalGetData();
             },
+            // 分页相关 -- 改变页面size
+            changePageSize: function (pageSize) {
+                this.pageSize = pageSize;
+                this.generalGetData();
+            },
+
+
 
             // 请求后台 -- 获取基础数据
             generalGetData: function () {
                 let callback = (res) => {
                     if (res.flags === 'success') {
-                        this.pageSize = res.data.size;
-                        this.pageTotal = res.data.total;
-                        this.pageColumnsData = res.data.rows;
+                        // this.pageSize = res.data.size;
+                        // this.pageTotal = res.data.total;
+                        this.pageColumnsData = res.data;
                     } else {
                         res.flags === 'fail' && this.$Message.error(`${res.message}`);
                         if (res.code === '1003') {
@@ -125,28 +126,25 @@
                         }
                     }
                 };
-                httpUtil.httpRequestGet('/proposal/pageproposal', {page: this.page, size: this.pageSize}).then(callback);
-            },
-            // 分页相关 -- 改变页面size
-            changePageSize: function (pageSize) {
-                this.pageSize = pageSize;
-                this.generalGetData();
-            },
-
-            //
-            showDetail(index) {
-                this.$Modal.info({
-                    title: '意见建议',
-                    // 按ESC键 可关闭Modal
-                    closable: true,
-                    content: `业主名称：${this.pageColumnsData[index].name}<br>`
-                    + `手机号：${this.pageColumnsData[index].phone}<br>`
-                    + `主旨：${this.pageColumnsData[index].title}<br>`
-                    + `详情：${this.pageColumnsData[index].text}`
-                });
+                httpUtil.httpRequestGet('/survey/allSurvey').then(callback);
             },
 
 
+            // 请求后台 -- 删除操作
+            generalDelete: function (val, message) {
+                let callback = (res) => {
+                    if (res.flags === 'success') {
+                        this.$Message.success(message);
+                        this.generalGetData();
+                    } else {
+                        res.flags === 'fail' && this.$Message.error(`${res.message}`);
+                        if (res.code === '1003') {
+                            this.$router.push('/login');
+                        }
+                    }
+                };
+                httpUtil.httpRequestPost('/survey/getQuestion', {surveyId: val}).then(callback);
+            }
         }
     };
 </script>
