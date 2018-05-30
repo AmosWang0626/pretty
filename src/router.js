@@ -203,6 +203,13 @@ const routers = [
             title: 'Enterprise'
         },
         component: (resolve) => require(['./views/manage/manage-role-menus.vue'], resolve)
+    }, {
+        path: '/carEntry',
+        name: 'carEntry',
+        meta: {
+            title: 'CarEntry'
+        },
+        component: (resolve) => require(['./views/business/business-car-entry.vue'], resolve)
     }
 ];
 

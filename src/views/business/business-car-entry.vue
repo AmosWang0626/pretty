@@ -14,26 +14,22 @@
         <div class="general-form-div" slot="slotForm">
             <Form ref="consumeForm" :model="consumeForm" :rules="consumeRule" :label-width="90">
                 <FormItem><h1 class="general-form-title">停车费录入</h1></FormItem>
-                <FormItem label="业务类型" prop="business">
-                    <Select v-model="consumeForm.business" style="width: 300px" @on-change="handleBusinessSelect">
-                        <Option v-for="item in businessList"
-                                :value="item.key" :key="item.value">{{ item.value }}
-                        </Option>
-                    </Select>
-                </FormItem>
                 <FormItem label="标准等级" prop="level">
                     <Select v-model="consumeForm.level" style="width: 300px" @on-change="handleBusinessLevelSelect">
                         <Option v-for="item in businessLevelList"
-                                :value="item.key" :key="item.value">{{ item.value }}
+                                :value="item.key" :key="item.key">{{ item.value }}
                         </Option>
                     </Select>
                 </FormItem>
                 <FormItem label="消费单价">
                     <InputNumber v-model="consumeForm.unitPrice" size="large" readonly></InputNumber>
                 </FormItem>
+                <FormItem label="离开时间" prop="leaveDate">
+                    <DatePicker type="datetime" size="large" placeholder="进入时间" width="300px"
+                                v-model="consumeForm.leaveDate" @on-change="handleUsedTotalChange"></DatePicker>
+                </FormItem>
                 <FormItem label="使用量" prop="usedTotal">
-                    <InputNumber v-model="consumeForm.usedTotal" size="large" :step="0.01"
-                                 @on-change="handleUsedTotalChange"></InputNumber>
+                    <InputNumber v-model="consumeForm.usedTotal" size="large" readonly></InputNumber>
                 </FormItem>
                 <FormItem label="消费金额">
                     <InputNumber v-model="consumeForm.consumeAmount" size="large" readonly></InputNumber>
@@ -73,18 +69,20 @@
         data() {
             return {
                 // 下拉列表
-                businessList: [],
                 businessLevelList: [],
                 paymentWayList: [],
-                paymentStatusList: [],
 
                 // 会提交到后台的标准信息
                 consumeForm: {
-                    business: '',
+                    id: '',
+                    business: 'PARKING',
                     level: '',
                     unitPrice: 0.1,
+                    comeDate: null,
+                    leaveDate: new Date(),
                     usedTotal: 1,
-                    consumeAmount: 1,
+                    consumeAmount: 0,
+                    rent: 0,
                     operator: '',
                     paymentWay: '',
                     memberId: 9999,
@@ -93,13 +91,6 @@
 
                 // 用户输入校验
                 consumeRule: {
-                    business: [
-                        {
-                            required: true,
-                            message: '业务为必选呦!',
-                            trigger: 'change'
-                        }
-                    ],
                     level: [
                         {
                             required: true,
@@ -144,51 +135,33 @@
         components: {PageFrame},
 
         created: function () {
-            // 请求后台拿到业务信息
-            let callbackBusiness = (res) => {
-                if (res.flags === 'success') {
-                    this.businessList = res.data;
-                } else {
-                    res.flags === 'fail' && this.$Message.error(`${res.message}`);
-                }
-            };
-            httpUtil.httpRequestGet('/base/getImmediateBusiness').then(callbackBusiness);
-
-            // 请求后台拿到业务信息
-            let callbackPaymentStatus = (res) => {
-                if (res.flags === 'success') {
-                    this.paymentStatusList = res.data;
-                } else {
-                    res.flags === 'fail' && this.$Message.error(`${res.message}`);
-                }
-            };
-            httpUtil.httpRequestGet('/base/getPaymentStatus').then(callbackPaymentStatus);
-
-            // 请求后台拿到业务信息
-            let callbackPaymentWay = (res) => {
-                if (res.flags === 'success') {
-                    this.paymentWayList = res.data;
-                } else {
-                    res.flags === 'fail' && this.$Message.error(`${res.message}`);
-                }
-            };
-            httpUtil.httpRequestGet('/base/getPaymentWay').then(callbackPaymentWay);
-
+            this.getNeedPaymentData();
+            this.handleUsedTotalChange();
+            this.getBaseDate();
         },
 
         methods: {
-            // 选择业务之后,请求后台拿到业务等级
-            handleBusinessSelect(business) {
-                if (business != null) {
-                    let callbackBusinessLevel = (res) => {
-                        if (res.flags === 'success') {
-                            this.businessLevelList = res.data;
-                        } else {
-                            res.flags === 'fail' && this.$Message.error(`${res.message}`);
-                        }
-                    };
-                    httpUtil.httpRequestGet('/base/getBusinessLevel', {business: business}).then(callbackBusinessLevel);
-                }
+            // 获取基础数据
+            getBaseDate: function () {
+                // 选择业务之后,请求后台拿到业务等级
+                let callbackBusinessLevel = (res) => {
+                    if (res.flags === 'success') {
+                        this.businessLevelList = res.data;
+                    } else {
+                        res.flags === 'fail' && this.$Message.error(`${res.message}`);
+                    }
+                };
+                httpUtil.httpRequestGet('/base/getBusinessLevel', {business: 'PARKING'}).then(callbackBusinessLevel);
+
+                // 请求后台拿到业务信息
+                let callbackPaymentWay = (res) => {
+                    if (res.flags === 'success') {
+                        this.paymentWayList = res.data;
+                    } else {
+                        res.flags === 'fail' && this.$Message.error(`${res.message}`);
+                    }
+                };
+                httpUtil.httpRequestGet('/base/getPaymentWay').then(callbackPaymentWay);
             },
 
             // 选择业务等级之后,获取业务单价
@@ -197,6 +170,7 @@
                     let callbackBusinessLevel = (res) => {
                         if (res.flags === 'success') {
                             this.consumeForm.unitPrice = res.data;
+                            this.handleUsedTotalChange();
                         } else {
                             res.flags === 'fail' && this.$Message.error(`${res.message}`);
                         }
@@ -211,7 +185,9 @@
             },
 
             // 使用量改变,消费金额相应改变
-            handleUsedTotalChange(usedTotal) {
+            handleUsedTotalChange: function () {
+                let usedTotal = Math.ceil((this.consumeForm.leaveDate.getTime() - this.consumeForm.comeDate) / 3600000);
+                this.consumeForm.usedTotal = usedTotal;
                 this.consumeForm.consumeAmount = usedTotal * this.consumeForm.unitPrice;
             },
 
@@ -220,8 +196,8 @@
                     if (valid) {
                         let callback = (res) => {
                             if (res.flags === 'success') {
-                                this.$Message.info('添加' + `${res.message}`);
-                                this.$refs[name].resetFields();
+                                this.$Message.info('支付' + `${res.message}`);
+                                this.paymentSuccess();
                             } else {
                                 res.flags === 'fail' && this.$Message.error(`${res.message}`);
                             }
@@ -233,8 +209,28 @@
                     }
                 });
             },
+
             handleReset(name) {
                 this.$refs[name].resetFields();
+            },
+
+            // 支付成功, 给用户停车信息销账
+            paymentSuccess: function () {
+                this.consumeForm.rent = this.consumeForm.consumeAmount;
+                let callback = (res) => {
+                    if (res.flags === 'success') {
+                        this.$router.push('/carOut');
+                    } else {
+                        res.flags === 'fail' && this.$Message.error(`${res.message}`);
+                    }
+                };
+                httpUtil.httpRequestPost('/car/rentCar', this.consumeForm).then(callback);
+            },
+
+            // 从上个页面传入的数据
+            getNeedPaymentData() {
+                this.consumeForm.id = this.$route.params.id;
+                this.consumeForm.comeDate = this.$route.params.comeDate;
             }
         }
     };
