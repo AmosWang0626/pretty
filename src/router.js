@@ -196,13 +196,31 @@ const routers = [
         meta: {
             title: 'Enterprise'
         },
-        component: (resolve) => require(['./views/manage/manage-role-menus.vue'], resolve)
+        component: (resolve) => require(['./views/manage/manage-enterprise.vue'], resolve)
     }, {
         path: '/enterpriseAdd',
         meta: {
             title: 'Enterprise'
         },
-        component: (resolve) => require(['./views/manage/manage-role-menus.vue'], resolve)
+        component: (resolve) => require(['./views/manage/manage-enterprise-add.vue'], resolve)
+    }, {
+        path: '/equipment',
+        meta: {
+            title: 'Equipment'
+        },
+        component: (resolve) => require(['./views/manage/manage-equipment.vue'], resolve)
+    }, {
+        path: '/equipmentAdd',
+        meta: {
+            title: 'Equipment'
+        },
+        component: (resolve) => require(['./views/manage/manage-equipment-add.vue'], resolve)
+    }, {
+        path: '/garden',
+        meta: {
+            title: 'Garden'
+        },
+        component: (resolve) => require(['./views/manage/manage-garden.vue'], resolve)
     }
 ];
 

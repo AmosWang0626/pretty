@@ -7,8 +7,12 @@ const fs = require('fs');
 
 fs.open('./src/config/env.js', 'w', function (err, fd) {
     const buf = 'export default "development";';
-    fs.write(fd, buf, 0, buf.length, 0, function (err, written, buffer) {
-    });
+    try {
+        fs.write(fd, buf, 0, buf.length, 0, function (err, written, buffer) {
+        });
+    } catch (err) {
+        // handle the error
+    }
 });
 
 module.exports = merge(webpackBaseConfig, {

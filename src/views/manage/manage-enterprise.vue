@@ -66,7 +66,7 @@
                         key: 'settledTime',
                         render: function (h, param) {
                             return h('div',
-                                dateUtil.formatDate(new Date(param.row.createTime), 'yyyy-MM-dd hh:mm:ss'));
+                                dateUtil.formatDate(new Date(param.row.settledTime), 'yyyy-MM-dd hh:mm:ss'));
                         }
                     },
                     {

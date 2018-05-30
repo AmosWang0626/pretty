@@ -56,6 +56,11 @@
                         editable: true
                     },
                     {
+                        title: '用户类型',
+                        key: 'role',
+                        editable: true
+                    },
+                    {
                         title: '注册时间',
                         key: 'createTime',
                         render: function (h, param) {

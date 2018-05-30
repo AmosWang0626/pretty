@@ -12,28 +12,51 @@
 <template>
     <page-frame>
         <div class="general-form-div" slot="slotForm">
-            <Form ref="enterpriseForm" :model="enterpriseForm" :rules="enterpriseRule" :label-width="100">
-                <FormItem><h1 class="general-form-title">添加企业</h1></FormItem>
-                <FormItem label="公司名称" prop="enterpriseName">
-                    <Input v-model="enterpriseForm.name" placeholder="公司名称" style="width: 300px"></Input>
-                </FormItem>
-                <FormItem label="企业地址" prop="address">
-                    <Input v-model="enterpriseForm.address" placeholder="公司地址" style="width: 300px"></Input>
-                </FormItem>
-                <FormItem label="联系电话" prop="telephone">
-                    <Input v-model="enterpriseForm.phone" placeholder="联系电话" style="width: 300px"></Input>
-                </FormItem>
-                <FormItem label="企业法人" prop="legalName">
-                    <Input v-model="enterpriseForm.leaderName" placeholder="企业法人" style="width: 300px"></Input>
-                </FormItem>
-                <FormItem label="入驻时间" prop="establish">
-                    <Input v-model="enterpriseForm.settledTime" placeholder="成立时间" style="width: 300px"></Input>
-                </FormItem>
-                <FormItem>
-                    <Button type="primary" @click="handleSubmit('companyForm')">添加</Button>
-                    <Button type="ghost" @click="handleReset('companyForm')" style="margin-left: 8px">取消</Button>
-                </FormItem>
-            </Form>
+            <Layout>
+                <Content>
+                    <div class="frame-div">
+                        <Carousel autoplay loop>
+                            <CarouselItem class="frame-carousel-item">
+                                <img src="http://112.74.57.49:88/img/1111.jpg"/>
+                            </CarouselItem>
+                            <CarouselItem class="frame-carousel-item">
+                                <img src="http://112.74.57.49:88/img/2222.jpg"/>
+                            </CarouselItem>
+                            <CarouselItem class="frame-carousel-item">
+                                <img src="http://112.74.57.49:88/img/3333.jpg"/>
+                            </CarouselItem>
+                            <CarouselItem class="frame-carousel-item">
+                                <img src="http://112.74.57.49:88/img/4444.jpg"/>
+                            </CarouselItem>
+                            <CarouselItem class="frame-carousel-item">
+                                <img src="http://112.74.57.49:88/img/5555.jpg"/>
+                            </CarouselItem>
+                        </Carousel>
+                    </div>
+                </Content>
+                <Form ref="enterpriseForm" :model="enterpriseForm" :rules="enterpriseRule" :label-width="100">
+                    <FormItem><h1 class="general-form-title">添加企业</h1></FormItem>
+                    <FormItem label="公司名称" prop="enterpriseName">
+                        <Input v-model="enterpriseForm.name" placeholder="公司名称" style="width: 300px"></Input>
+                    </FormItem>
+                    <FormItem label="企业地址" prop="address">
+                        <Input v-model="enterpriseForm.address" placeholder="公司地址" style="width: 300px"></Input>
+                    </FormItem>
+                    <FormItem label="联系电话" prop="telephone">
+                        <Input v-model="enterpriseForm.phone" placeholder="联系电话" style="width: 300px"></Input>
+                    </FormItem>
+                    <FormItem label="企业法人" prop="legalName">
+                        <Input v-model="enterpriseForm.leaderName" placeholder="企业法人" style="width: 300px"></Input>
+                    </FormItem>
+                    <FormItem label="入驻时间" prop="establish">
+                        <Input v-model="enterpriseForm.settledTime" placeholder="成立时间" style="width: 300px"></Input>
+                    </FormItem>
+                    <FormItem>
+                        <Button type="primary" @click="handleSubmit('companyForm')">添加</Button>
+                        <Button type="ghost" @click="handleReset('companyForm')" style="margin-left: 8px">取消</Button>
+                    </FormItem>
+                </Form>
+            </Layout>
         </div>
     </page-frame>
 </template>
