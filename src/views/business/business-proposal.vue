@@ -13,7 +13,11 @@
     <page-frame>
         <!-- 下边的内容会插入到 components/pageFrame.vue 中的 <slot name="slotTable"></slot> -->
         <div class="page-table" slot="slotTable">
-            <Table stripe border size="large" ref="table" :key="index" :columns="pageColumns" :data="pageColumnsData"></Table>
+            <!-- 加上 :hover-show="true" 鼠标移入, 会显示编辑按钮 -->
+            <can-edit-table refs="pageTable" :editIncell="true" :hover-show="true"
+                            :columns-list="pageColumns" v-model="pageColumnsData" @on-delete="handleDeleteChange"
+                            @on-change="handleChange" @on-cell-change="handleCellChange">
+            </can-edit-table>
             <!-- 两种不同风格的分页样式 -->
             <Page class="layout-content-page" :page-size="pageSize"
                   :total="pageTotal" show-total show-sizer show-elevator
@@ -78,14 +82,17 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.generateInvoice(params.index);
+                                            this.showDetail(params.index);
                                         }
                                     }
                                 }, '查看')
                             ]);
                         }
-                    }
+                    },
+
                 ],
+
+
                 pageColumnsData: []
             };
         },
@@ -127,6 +134,17 @@
             },
 
             //
+            showDetail(index) {
+                this.$Modal.info({
+                    title: '意见建议',
+                    // 按ESC键 可关闭Modal
+                    closable: true,
+                    content: `业主名称：${this.pageColumnsData[index].name}<br>`
+                    + `手机号：${this.pageColumnsData[index].phone}<br>`
+                    + `主旨：${this.pageColumnsData[index].title}<br>`
+                    + `详情：${this.pageColumnsData[index].text}`
+                });
+            },
 
 
         }
