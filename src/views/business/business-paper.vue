@@ -59,29 +59,37 @@
                     {
                         title: '操作',
                         align: 'center',
-                        width: 100,
+                        width: 180,
                         render: (h, params) => {
-                            return h('Poptip', {
-                                props: {
-                                    confirm: true,
-                                    title: '您确定要删除这条数据吗?',
-                                    transfer: true
-                                },
-                                on: {
-                                    'on-ok': () => {
-                                        this.payment(params.index);
-                                    }
-                                }
-                            }, [
+                            return h('div', [
                                 h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px',
+                                    },
+                                    on: {
+                                        click: () => {
+                                                this.payment(params.index);
+                                        }
+                                    }
+                                }, '删除'),
+                                h('Button', {
+                                    props: {
+                                        type: 'success',
+                                        placement: 'top'
+                                    },
                                     style: {
                                         margin: '0 5px'
                                     },
-                                    props: {
-                                        type: 'error',
-                                        placement: 'top'
+                                    on: {
+                                        click: () => {
+                                            this.generateInvoice(params.row);
+                                        }
                                     }
-                                }, '删除')
+                                }, '答题'),
                             ]);
                         }
                     }
@@ -104,6 +112,17 @@
                 this.page = page;
                 this.generalGetData();
             },
+
+            generateInvoice(params) {
+                this.$router.push({
+                    path: '/answer',
+                    name: 'answer',
+                    params: {
+                        id: JSON.stringify(params.surveyId)
+                    }
+                });
+            },
+
             // 分页相关 -- 改变页面size
             changePageSize: function (pageSize) {
                 this.pageSize = pageSize;

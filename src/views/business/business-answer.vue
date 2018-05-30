@@ -38,50 +38,48 @@
                 page: 1,
                 pageSize: 10,
                 pageTotal: 0,
+                surveyId: '',
 
                 pageColumns: [
-                    {
-                        title: '问卷编号',
-                        key: 'surveyId'
-                    },
-                    {
-                        title: '问卷标题',
-                        key: 'title',
-                        editable: true
-                    },
-                    {
-                        title: '问卷详情',
-                        key: 'description',
-                        editable: true
-                    },
 
+                    {
+                        title: '问题详情',
+                        key: 'question',
+
+                    },
+                    {
+                        title: '题目类型',
+                        key: 'answerType',
+                        editable: true
+                    },
+                    {
+                        title: '答案编辑',
+                        key: 'choiceText',
+                        editable: true
+                    },
 
                     {
                         title: '操作',
+                        key: 'action',
+                        width: 220,
                         align: 'center',
-                        width: 100,
                         render: (h, params) => {
-                            return h('Poptip', {
-                                props: {
-                                    confirm: true,
-                                    title: '您确定要参与问卷调查吗?',
-                                    transfer: true
-                                },
-                                on: {
-                                    'on-ok': () => {
-                                        this.payment(params.index);
-                                    }
-                                }
-                            }, [
+                            return h('div', [
                                 h('Button', {
-                                    style: {
-                                        margin: '0 5px'
-                                    },
                                     props: {
-                                        type: 'error',
-                                        placement: 'top'
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.showDetail(params.index);
+                                        }
                                     }
-                                }, '编辑')
+                                }, '答题')
+
                             ]);
                         }
                     }
@@ -95,7 +93,8 @@
 
         // 页面创建之后执行
         created: function () {
-            this.generalGetData();
+            this.surveyId = this.$route.params.id;
+            // this.generalGetData();
         },
 
         methods: {
@@ -110,15 +109,14 @@
                 this.generalGetData();
             },
 
-
-
             // 请求后台 -- 获取基础数据
             generalGetData: function () {
                 let callback = (res) => {
                     if (res.flags === 'success') {
                         // this.pageSize = res.data.size;
                         // this.pageTotal = res.data.total;
-                        this.pageColumnsData = res.data;
+                        this.pageColumnsData = res.data.surveyDataList;
+                        console.info(JSON.stringify(res.data));
                     } else {
                         res.flags === 'fail' && this.$Message.error(`${res.message}`);
                         if (res.code === '1003') {
@@ -126,25 +124,11 @@
                         }
                     }
                 };
-                httpUtil.httpRequestGet('/survey/allSurvey').then(callback);
+                httpUtil.httpRequestPost('/survey/getQuestion', {surveyId: this.surveyId}).then(callback);
             },
 
 
-            // 请求后台 -- 删除操作
-            generalDelete: function (val, message) {
-                let callback = (res) => {
-                    if (res.flags === 'success') {
-                        this.$Message.success(message);
-                        this.generalGetData();
-                    } else {
-                        res.flags === 'fail' && this.$Message.error(`${res.message}`);
-                        if (res.code === '1003') {
-                            this.$router.push('/login');
-                        }
-                    }
-                };
-                httpUtil.httpRequestPost('/survey/getQuestion', {surveyId: val}).then(callback);
-            }
+
         }
     };
 </script>

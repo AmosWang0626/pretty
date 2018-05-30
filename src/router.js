@@ -168,6 +168,7 @@ const routers = [
     }, //d答案
     {
         path: '/answer',
+        name: 'answer',
         meta: {
             title: 'answer'
         },
