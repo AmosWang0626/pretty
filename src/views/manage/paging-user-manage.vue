@@ -56,8 +56,8 @@
                         editable: true
                     },
                     {
-                        title: '用户类型',
-                        key: 'role',
+                        title: '用户角色',
+                        key: 'rolesId',
                         editable: true
                     },
                     {
@@ -142,7 +142,7 @@
                         }
                     }
                 };
-                httpUtil.httpRequestPost('/rent/modifyUserInfo', val).then(callback);
+                httpUtil.httpRequestPost('/passport/modifyUserInfo', val).then(callback);
             },
 
             // 请求后台 -- 删除操作
