@@ -13,7 +13,11 @@
     <page-frame>
         <!-- 下边的内容会插入到 components/pageFrame.vue 中的 <slot name="slotTable"></slot> -->
         <div class="page-table" slot="slotTable">
-            <Table stripe border size="large" ref="table" :key="index" :columns="pageColumns" :data="pageColumnsData"></Table>
+            <!-- 加上 :hover-show="true" 鼠标移入, 会显示编辑按钮 -->
+            <can-edit-table refs="pageTable" :editIncell="true" :hover-show="true"
+                            :columns-list="pageColumns" v-model="pageColumnsData" @on-delete="handleDeleteChange"
+                            @on-change="handleChange" @on-cell-change="handleCellChange">
+            </can-edit-table>
             <!-- 两种不同风格的分页样式 -->
             <Page class="layout-content-page" :page-size="pageSize"
                   :total="pageTotal" show-total show-sizer show-elevator
@@ -73,11 +77,13 @@
                     {
                         title: '详情',
                         key: 'details',
+                        type:'html',
                         editable: true
                     },
                     {
                         title: '图片',
                         key: 'img',
+                        type: 'html'
                     },
                     {
                         title: '创建时间',
@@ -155,7 +161,7 @@
                         }
                     }
                 };
-                httpUtil.httpRequestPost('/passport/modifyUserInfo', val).then(callback);
+                httpUtil.httpRequestPost('/rent/modify', val).then(callback);
             },
 
 

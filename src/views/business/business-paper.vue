@@ -13,7 +13,10 @@
     <page-frame>
         <!-- 下边的内容会插入到 components/pageFrame.vue 中的 <slot name="slotTable"></slot> -->
         <div class="page-table" slot="slotTable">
-            <Table stripe border size="large" ref="table" :columns="pageColumns" :data="pageColumnsData"></Table>
+            <!-- 加上 :hover-show="true" 鼠标移入, 会显示编辑按钮 -->
+            <Table stripe border size="large"
+                   :columns="pageColumns" :data="pageColumnsData">
+            </Table>
             <!-- 两种不同风格的分页样式 -->
             <Page class="layout-content-page" :page-size="pageSize"
                   :total="pageTotal" show-total show-sizer show-elevator
@@ -38,37 +41,25 @@
 
                 pageColumns: [
                     {
-                        title: 'ID',
-                        key: 'memberId',
+                        title: '问卷编号',
+                        key: 'surveyId'
                     },
                     {
-                        title: '昵称',
-                        key: 'nickName'
+                        title: '问卷标题',
+                        key: 'title',
+                        editable: true
                     },
                     {
-                        title: '手机号',
-                        key: 'phoneNo',
-                    },
-
-                    {
-                        title: '性别',
-                        key: 'gender',
+                        title: '问卷详情',
+                        key: 'description',
+                        editable: true
                     },
 
-                    {
-                        title: '年龄',
-                        key: 'age',
-                    },
-                    {
-                        title: '婚姻状况',
-                        key: 'maritalStatus',
 
-
-                    },
                     {
-                        title: '发送短信',
+                        title: '操作',
                         align: 'center',
-                        width: 100,
+                        width: 180,
                         render: (h, params) => {
                             return h('div', [
                                 h('Button', {
@@ -81,10 +72,24 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.generateInvoice(params.index);
+                                                this.payment(params.index);
                                         }
                                     }
-                                }, '发送')
+                                }, '删除'),
+                                h('Button', {
+                                    props: {
+                                        type: 'success',
+                                        placement: 'top'
+                                    },
+                                    style: {
+                                        margin: '0 5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.generateInvoice(params.row);
+                                        }
+                                    }
+                                }, '答题'),
                             ]);
                         }
                     }
@@ -96,6 +101,7 @@
         // 注册组件 {pageFrame 页面模板, canEditTable 表格可编辑组件}
         components: {pageFrame, canEditTable},
 
+        // 页面创建之后执行
         created: function () {
             this.generalGetData();
         },
@@ -106,37 +112,36 @@
                 this.page = page;
                 this.generalGetData();
             },
-            generateInvoice(index) {
-                this.$Modal.confirm({
-                    title: '发送',
-                    closable: true,
-                    render: (h, params) => {
-                        return [
-                            h('Input', {
-                                props: {
-                                    // readonly: true,
-                                    value: '',
-                                },
-                                style: {
-                                    marginTop: '10px'
-                                }
-                            }),
 
-                        ];
-                    },
-                    okText: '确认发送',
-                    onOk: () => {
-                        this.$Message.info('发送成功!');
+            generateInvoice(params) {
+                this.$router.push({
+                    path: '/answer',
+                    name: 'answer',
+                    params: {
+                        id: JSON.stringify(params.surveyId)
                     }
                 });
             },
+
+            // 分页相关 -- 改变页面size
+            changePageSize: function (pageSize) {
+                this.pageSize = pageSize;
+                this.generalGetData();
+            },
+
+
+            // 数据修改 -- 删除操作
+            payment(index) {
+                this.generalDelete(JSON.stringify(this.pageColumnsData[index].surveyId), '删除了第' + (index + 1) + '行数据');
+            },
+
             // 请求后台 -- 获取基础数据
             generalGetData: function () {
                 let callback = (res) => {
                     if (res.flags === 'success') {
-                        this.pageSize = res.data.size;
-                        this.pageTotal = res.data.total;
-                        this.pageColumnsData = res.data.rows;
+                        // this.pageSize = res.data.size;
+                        // this.pageTotal = res.data.total;
+                        this.pageColumnsData = res.data;
                     } else {
                         res.flags === 'fail' && this.$Message.error(`${res.message}`);
                         if (res.code === '1003') {
@@ -144,17 +149,25 @@
                         }
                     }
                 };
-                httpUtil.httpRequestGet('/passport/page', {page: this.page, size: this.pageSize}).then(callback);
-            },
-            // 分页相关 -- 改变页面size
-            changePageSize: function (pageSize) {
-                this.pageSize = pageSize;
-                this.generalGetData();
+                httpUtil.httpRequestGet('/survey/allSurvey').then(callback);
             },
 
-            //
 
-
+            // 请求后台 -- 删除操作
+            generalDelete: function (val, message) {
+                let callback = (res) => {
+                    if (res.flags === 'success') {
+                        this.$Message.success(message);
+                        this.generalGetData();
+                    } else {
+                        res.flags === 'fail' && this.$Message.error(`${res.message}`);
+                        if (res.code === '1003') {
+                            this.$router.push('/login');
+                        }
+                    }
+                };
+                httpUtil.httpRequestPost('/survey/del', {surveyId: val}).then(callback);
+            }
         }
     };
 </script>

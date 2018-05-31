@@ -13,7 +13,8 @@
     <page-frame>
         <!-- 下边的内容会插入到 components/pageFrame.vue 中的 <slot name="slotTable"></slot> -->
         <div class="page-table" slot="slotTable">
-            <Table stripe border size="large" ref="table" :key="index" :columns="pageColumns" :data="pageColumnsData"></Table>
+            <Table stripe border size="large" ref="table" :key="pageColumns.id" :columns="pageColumns"
+                   :data="pageColumnsData"></Table>
             <!-- 两种不同风格的分页样式 -->
             <Page class="layout-content-page" :page-size="pageSize"
                   :total="pageTotal" show-total show-sizer show-elevator
@@ -68,8 +69,6 @@
                     {
                         title: '费用',
                         key: 'rent',
-
-
                     },
                     {
                         title: '收费',
@@ -87,7 +86,7 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.generateInvoice(params.index);
+                                            this.generateInvoice(params.row);
                                         }
                                     }
                                 }, '收费')
@@ -112,29 +111,14 @@
                 this.page = page;
                 this.generalGetData();
             },
-            generateInvoice() {
-                this.$Modal.confirm({
-                    title: '发送',
-                    closable: true,
-                    render: (h) => {
-                        return [
-                            h('Input', {
-                                props: {
-                                    // readonly: true,
-                                    value: '',
-                                },
-                                style: {
-                                    marginTop: '10px'
-                                }
-                            }),
-
-                        ];
-                    },
-                    okText: '确认发送',
-                    onOk: () => {
-                        if (this.pageColumnsData == null) {
-                            this.$Message.error('请先输入内容~~~');
-                        }
+            // 跳转支付
+            generateInvoice(params) {
+                this.$router.push({
+                    path: '/carEntry',
+                    name: 'carEntry',
+                    params: {
+                        id: JSON.stringify(params.id),
+                        comeDate: JSON.stringify(params.comeDate)
                     }
                 });
             },
@@ -158,11 +142,7 @@
             changePageSize: function (pageSize) {
                 this.pageSize = pageSize;
                 this.generalGetData();
-            },
-
-            //
-
-
+            }
         }
     };
 </script>

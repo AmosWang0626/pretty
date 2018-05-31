@@ -77,15 +77,7 @@
                                     dateUtil.formatDate(new Date(param.row.detailTime), 'yyyy-MM-dd hh:mm:ss'));
                         }
                     },
-                    {
-                        title: '解决时间',
-                        key: 'endTime',
-                        render: function (h, param) {
-                            return h('div',
-                                param.row.endTime == null ? '' :
-                                    dateUtil.formatDate(new Date(param.row.endTime), 'yyyy-MM-dd hh:mm:ss'));
-                        }
-                    },
+
                     {
                         title: '操作',
                         key: 'action',
@@ -233,7 +225,7 @@
                         let callback = (res) => {
                             this.loading = false;
                             if (res.flags === 'success') {
-                                this.$Message.success('同意服务' + res.message);
+                                this.$Message.success('拒绝服务' + res.message);
                             } else {
                                 res.flags === 'fail' && this.$Message.error(`${res.message}`);
                                 if (res.code === '1003') {
