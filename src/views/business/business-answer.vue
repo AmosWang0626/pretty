@@ -3,45 +3,30 @@
     .page-table {
         text-align: center;
     }
-
-    /* 表格分页相关UI */
-    .layout-content-page {
-        margin-top: 15px;
-    }
 </style>
 <template>
     <page-frame>
         <!-- 下边的内容会插入到 components/pageFrame.vue 中的 <slot name="slotTable"></slot> -->
         <div class="page-table" slot="slotTable">
             <!-- 加上 :hover-show="true" 鼠标移入, 会显示编辑按钮 -->
-            <Table stripe border size="large"
-                   :columns="pageColumns" :data="pageColumnsData">
-            </Table>
-            <!-- 两种不同风格的分页样式 -->
-            <Page class="layout-content-page" :page-size="pageSize"
-                  :total="pageTotal" show-total show-sizer show-elevator
-                  @on-change="changePage" @on-page-size-change="changePageSize"></Page>
-            <!--<Page class="layout-content-page" :total="pageData.total" :current="pageData.page"
-                  @on-change="changePage" simple></Page>-->
+            <can-edit-table refs="pageTable" :editIncell="true" :hover-show="true"
+                            :columns-list="pageColumns" v-model="pageColumnsData"
+                            @on-change="handleChange" @on-cell-change="handleCellChange">
+            </can-edit-table>
         </div>
     </page-frame>
 </template>
 <script>
     import httpUtil from '../../libs/util';
-    import dateUtil from '../../libs/date';
     import pageFrame from '../components/pageFrame';
     import canEditTable from '../components/canEditTable.vue';
 
     export default {
         data() {
             return {
-                page: 1,
-                pageSize: 10,
-                pageTotal: 0,
                 surveyId: '',
 
                 pageColumns: [
-
                     {
                         title: '问题详情',
                         key: 'question',
@@ -50,38 +35,26 @@
                     {
                         title: '题目类型',
                         key: 'answerType',
-                        editable: true
                     },
                     {
-                        title: '答案编辑',
+                        title: '原始答案',
+                        render: function (h, param) {
+                            return h('div',
+                                param.row.surveyAnswer ? param.row.surveyAnswer.choiceText : param.row.surveyAnswer
+                            );
+                        }
+                    },
+                    {
+                        title: '重新编辑',
                         key: 'choiceText',
                         editable: true
                     },
-
                     {
                         title: '操作',
-                        key: 'action',
-                        width: 220,
                         align: 'center',
-                        render: (h, params) => {
-                            return h('div', [
-                                h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        size: 'small'
-                                    },
-                                    style: {
-                                        marginRight: '5px'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.showDetail(params.index);
-                                        }
-                                    }
-                                }, '答题')
-
-                            ]);
-                        }
+                        width: 100,
+                        key: 'handle',
+                        handle: ['edit']
                     }
                 ],
                 pageColumnsData: []
@@ -94,29 +67,28 @@
         // 页面创建之后执行
         created: function () {
             this.surveyId = this.$route.params.id;
-            // this.generalGetData();
+            if (this.surveyId) {
+                this.generalGetData();
+            } else {
+                this.$router.push('/paper');
+            }
         },
 
         methods: {
-            // 分页相关 -- 改变页面page
-            changePage: function (page) {
-                this.page = page;
-                this.generalGetData();
+            // 数据修改 -- 整行修改
+            handleChange(val, index) {
+                this.generalUpdate(JSON.stringify(val[index]), '修改了第 ' + (index + 1) + ' 行的数据');
             },
-            // 分页相关 -- 改变页面size
-            changePageSize: function (pageSize) {
-                this.pageSize = pageSize;
-                this.generalGetData();
+            // 数据修改 -- 单元格修改
+            handleCellChange(val, index, key) {
+                this.generalUpdate(JSON.stringify(val[index]), '修改了第 ' + (index + 1) + ' 行列名为 ' + key + ' 的数据');
             },
 
             // 请求后台 -- 获取基础数据
             generalGetData: function () {
                 let callback = (res) => {
                     if (res.flags === 'success') {
-                        // this.pageSize = res.data.size;
-                        // this.pageTotal = res.data.total;
-                        this.pageColumnsData = res.data.surveyDataList;
-                        console.info(JSON.stringify(res.data));
+                        this.pageColumnsData = res.data;
                     } else {
                         res.flags === 'fail' && this.$Message.error(`${res.message}`);
                         if (res.code === '1003') {
@@ -124,11 +96,24 @@
                         }
                     }
                 };
-                httpUtil.httpRequestPost('/survey/getQuestion', {surveyId: this.surveyId}).then(callback);
+                httpUtil.httpRequestPost('/survey/getQueAnswers', {surveyId: this.surveyId}).then(callback);
             },
 
-
-
+            // 请求后台 -- 更新操作
+            generalUpdate: function (val, message) {
+                let callback = (res) => {
+                    if (res.flags === 'success') {
+                        this.$Message.success(message);
+                    } else {
+                        res.flags === 'fail' && this.$Message.error(`${res.message}`);
+                        if (res.code === '1003') {
+                            this.$router.push('/login');
+                        }
+                    }
+                };
+                httpUtil.httpRequestPost('/survey/addAnswers', val).then(callback);
+                this.generalGetData();
+            },
         }
     };
 </script>

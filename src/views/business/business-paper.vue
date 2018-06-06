@@ -72,7 +72,7 @@
                                     },
                                     on: {
                                         click: () => {
-                                                this.payment(params.index);
+                                            this.payment(params.index);
                                         }
                                     }
                                 }, '删除'),
