@@ -81,6 +81,12 @@
                             required: true,
                             message: '内容不能为空呦!',
                             trigger: 'blur'
+                        },
+                        {
+                            type: 'string',
+                            pattern: /^1([3-9])\d{9}$/,
+                            message: '手机号格式错误!',
+                            trigger: 'blur'
                         }
                     ],
                 }
