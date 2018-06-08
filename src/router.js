@@ -139,6 +139,13 @@ const routers = [
             title: 'message'
         },
         component: (resolve) => require(['./views/business/business-message.vue'], resolve)
+    }, //发送短信
+    {
+        path: '/looksurvey',
+        meta: {
+            title: 'looksurvey'
+        },
+        component: (resolve) => require(['./views/business/business-looksurvey.vue'], resolve)
     },
     //驶出
     {
@@ -147,6 +154,13 @@ const routers = [
             title: 'carOut'
         },
         component: (resolve) => require(['./views/business/business-car-out.vue'], resolve)
+    }, //驶出
+    {
+        path: '/question',
+        meta: {
+            title: 'question'
+        },
+        component: (resolve) => require(['./views/business/business-question.vue'], resolve)
     },
     //paper
     {

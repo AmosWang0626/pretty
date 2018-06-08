@@ -44,18 +44,8 @@
                             );
                         }
                     },
-                    {
-                        title: '重新编辑',
-                        key: 'choiceText',
-                        editable: true
-                    },
-                    {
-                        title: '操作',
-                        align: 'center',
-                        width: 100,
-                        key: 'handle',
-                        handle: ['edit']
-                    }
+
+
                 ],
                 pageColumnsData: []
             };
@@ -70,7 +60,7 @@
             if (this.surveyId) {
                 this.generalGetData();
             } else {
-                this.$router.push('/paper');
+                this.$router.push('/question');
             }
         },
 

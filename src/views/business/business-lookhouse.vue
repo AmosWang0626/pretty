@@ -15,8 +15,7 @@
         <div class="page-table" slot="slotTable">
             <!-- 加上 :hover-show="true" 鼠标移入, 会显示编辑按钮 -->
             <can-edit-table refs="pageTable" :editIncell="true" :hover-show="true"
-                            :columns-list="pageColumns" v-model="pageColumnsData" @on-delete="handleDeleteChange"
-                            @on-change="handleChange" @on-cell-change="handleCellChange">
+                            :columns-list="pageColumns" v-model="pageColumnsData">
             </can-edit-table>
             <!-- 两种不同风格的分页样式 -->
             <Page class="layout-content-page" :page-size="pageSize"
@@ -71,14 +70,12 @@
                     },
                     {
                         title: '价格',
-                        key: 'rent',
-                        editable: true
+                        key: 'rent'
                     },
                     {
                         title: '详情',
                         key: 'details',
-                        type:'html',
-                        editable: true
+                        type: 'html'
                     },
                     {
                         title: '图片',
