@@ -124,7 +124,7 @@
                                     color: '#77e550'
                                 }
                             },
-                            data: this.seriesData.site
+                            data: this.seriesData.property
                         }, {
                             name: '停车费',
                             type: 'line',
@@ -139,7 +139,7 @@
                                     color: '#ffc11b'
                                 }
                             },
-                            data: this.seriesData.property
+                            data: this.seriesData.parking
                         }, {
                             name: '场地使用费',
                             type: 'line',
@@ -154,7 +154,7 @@
                                     color: '#7affe4'
                                 }
                             },
-                            data: this.seriesData.parking
+                            data: this.seriesData.site
                         }
                     ]
                 };
