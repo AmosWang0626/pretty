@@ -261,6 +261,12 @@ const routers = [
             title: 'CarEntry'
         },
         component: (resolve) => require(['./views/business/business-car-entry.vue'], resolve)
+    }, {
+        path: '/manageLog',
+        meta: {
+            title: 'Log'
+        },
+        component: (resolve) => require(['./views/manage/manage-log.vue'], resolve)
     }
 ];
 

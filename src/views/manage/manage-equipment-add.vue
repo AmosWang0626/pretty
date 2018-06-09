@@ -14,15 +14,15 @@
         <div class="general-form-div" slot="slotForm">
             <Form ref="equipment" :model="equipment" :rules="equipmentRule" :label-width="100">
                 <FormItem><h1 class="general-form-title">添加设备</h1></FormItem>
-                <FormItem label="设备类型" prop="equipmentName">
-                    <Input v-model="equipment.name" placeholder="设备类型" style="width: 300px"></Input>
+                <FormItem label="设备类型" prop="types">
+                    <Input v-model="equipment.types" placeholder="设备类型" style="width: 300px"></Input>
                 </FormItem>
                 <FormItem label="设备数量" prop="amount">
                     <Input v-model="equipment.amount" placeholder="设备数量" style="width: 300px"></Input>
                 </FormItem>                
                 <FormItem>
-                    <Button type="primary" @click="handleSubmit('companyForm')">添加</Button>
-                    <Button type="ghost" @click="handleReset('companyForm')" style="margin-left: 8px">取消</Button>
+                    <Button type="primary" @click="handleSubmit('equipment')">添加</Button>
+                    <Button type="ghost" @click="handleReset('equipment')" style="margin-left: 8px">取消</Button>
                 </FormItem>
             </Form>
         </div>
@@ -39,11 +39,11 @@
                 businessList: [],
 
                 equipment: {
-                    equipmentName: '',
+                    types: '',
                     amount: '',
                 },
                 equipmentRule: {
-                    name: [
+                    types: [
                         {
                             required: true,
                             message: '设备类型不能为空!',
@@ -77,7 +77,7 @@
                             }
                         };
                         // 保存公司信息
-                        httpUtil.httpRequestPost('/enterprise/addEnterprise', this.equipment).then(callback);
+                        httpUtil.httpRequestPost('/equipment/addEquipment', this.equipment).then(callback);
                     } else {
                         this.$Message.error('请先确认输入信息格式~~~');
                     }

@@ -1,17 +1,19 @@
 <style>
-    .general-form-div {
-        padding-top: 5%;
-        margin: 0 auto;
-        width: 360px;
+    .frame-div {
+        width: 93vh;
+        height: auto;
     }
 
-    .general-form-title {
-        text-align: center;
+    .frame-carousel-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 </style>
 <template>
     <page-frame>
-        <div class="general-form-div" slot="slotForm">
+        <!-- 下边的内容会插入到 components/pageFrame.vue 中的 <slot name="slotTable"></slot> -->
+        <div slot="slotOther">
             <Layout>
                 <Content>
                     <div class="frame-div">
@@ -34,26 +36,21 @@
                         </Carousel>
                     </div>
                 </Content>
-                <Form ref="enterpriseForm" :model="enterpriseForm" :rules="enterpriseRule" :label-width="100">
-                    <FormItem><h1 class="general-form-title">添加企业</h1></FormItem>
-                    <FormItem label="公司名称" prop="enterpriseName">
-                        <Input v-model="enterpriseForm.name" placeholder="公司名称" style="width: 300px"></Input>
+                <Form ref="garden" :model="garden" :label-width="0">
+                    <FormItem label="园区名称" prop="types">
+                        <Input v-model="garden.types" disabled placeholder="中原工学院科技园" style="width: 300px"></Input>
                     </FormItem>
-                    <FormItem label="企业地址" prop="address">
-                        <Input v-model="enterpriseForm.address" placeholder="公司地址" style="width: 300px"></Input>
+                    <FormItem label="园区地址" prop="amount">
+                        <Input v-model="garden.amount" disabled placeholder="郑州市新郑市107国道西50米" style="width: 300px"></Input>
                     </FormItem>
-                    <FormItem label="联系电话" prop="telephone">
-                        <Input v-model="enterpriseForm.phone" placeholder="联系电话" style="width: 300px"></Input>
+                    <FormItem label="园区大小" prop="amount">
+                        <Input v-model="garden.amount" disabled placeholder="115亩" style="width: 300px"></Input>
                     </FormItem>
-                    <FormItem label="企业法人" prop="legalName">
-                        <Input v-model="enterpriseForm.leaderName" placeholder="企业法人" style="width: 300px"></Input>
+                    <FormItem label="联系电话" prop="amount">
+                        <Input v-model="garden.amount" disabled placeholder="设备数量" style="width: 300px"></Input>
                     </FormItem>
-                    <FormItem label="入驻时间" prop="establish">
-                        <Input v-model="enterpriseForm.settledTime" placeholder="成立时间" style="width: 300px"></Input>
-                    </FormItem>
-                    <FormItem>
-                        <Button type="primary" @click="handleSubmit('companyForm')">添加</Button>
-                        <Button type="ghost" @click="handleReset('companyForm')" style="margin-left: 8px">取消</Button>
+                    <FormItem label="设备数量" prop="amount">
+                        <Input v-model="garden.amount" disabled type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="为深入实施科研强校战略，加快科技成果转化和高新技术产业化，实现产学研用结合，促进教学研究型大学建设，2010年中原工学院开始筹划建设科技园，2011年在学校西侧完成征地100多亩。2012年，经广泛调研、反复论证，学校出台了《关于科技园建设与发展的指导意见》，成立了科技园管理委员会，并正式开工建设科技园，成为河南省唯一个独立自建的高校科技园区。" style="width: 300px"></Input>
                     </FormItem>
                 </Form>
             </Layout>
@@ -61,87 +58,27 @@
     </page-frame>
 </template>
 <script>
-    import httpUtil from '../../libs/util';
     import PageFrame from '../components/pageFrame';
 
     export default {
+
         data() {
             return {
                 // 下拉列表
                 businessList: [],
 
-                enterpriseForm: {
-                    enterpriseName: '',
-                    address: '',
-                    phone: '',
-                    leaderName: '',
-                    settledTime: '',
-                },
-                enterpriseRule: {
-                    name: [
-                        {
-                            required: true,
-                            message: '企业名称不能为空!',
-                            trigger: 'blur'
-                        }
-                    ],
-                    address: [
-                        {
-                            required: true,
-                            message: '企业地址不能为空!',
-                            trigger: 'blur'
-                        }
-                    ],
-                    telephone: [
-                        {
-                            required: true,
-                            message: '联系电话不能为空!',
-                            trigger: 'blur'
-                        }
-                    ],
-                    legalName: [
-                        {
-                            required: true,
-                            message: '企业法人不能为空!',
-                            trigger: 'blur'
-                        }
-                    ],
-                    establish: [
-                        {
-                            required: true,
-                            message: '入驻时间不能为空!',
-                            trigger: 'blur'
-                        }
-                    ],
+                garden: {
+                    types: '',
+                    amount: '',
                 }
             };
         },
-
         // 注册组件
         components: {PageFrame},
 
-        methods: {
-            handleSubmit(name) {
-                this.$refs[name].validate((valid) => {
-                    if (valid) {
-                        let callback = (res) => {
-                            if (res.flags === 'success') {
-                                this.$Message.info('添加' + `${res.message}`);
-                                this.$refs[name].resetFields();
-                            } else {
-                                res.flags === 'fail' && this.$Message.error(`${res.message}`);
-                            }
-                        };
-                        // 保存公司信息
-                        httpUtil.httpRequestPost('/enterprise/addEnterprise', this.enterpriseForm).then(callback);
-                    } else {
-                        this.$Message.error('请先确认输入信息格式~~~');
-                    }
-                });
-            },
-            handleReset(name) {
-                this.$refs[name].resetFields();
-            }
-        }
+        created: function () {
+        },
+
+        methods: {}
     };
 </script>

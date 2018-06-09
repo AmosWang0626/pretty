@@ -124,7 +124,7 @@
                         }
                     }
                 };
-                httpUtil.httpRequestPost('/rent/modifyUserInfo', val).then(callback);
+                httpUtil.httpRequestPost('/equipment/equipmentInfo', val).then(callback);
             },
 
             // 请求后台 -- 删除操作
@@ -139,7 +139,7 @@
                         }
                     }
                 };
-                httpUtil.httpRequestPost('/passport/deleteUser', val).then(callback);
+                httpUtil.httpRequestPost('/equipment/deleteEquipment', val).then(callback);
             }
         }
     };

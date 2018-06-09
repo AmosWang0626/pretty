@@ -42,39 +42,22 @@
 
                 pageColumns: [
                     {
-                        title: '公司名称',
-                        key: 'enterpriseName',
+                        title: '用户名',
+                        key: 'name',
                         editable: true
                     },
                     {
-                        title: '公司法人',
-                        key: 'leaderName',
+                        title: '用户操作',
+                        key: 'operate',
                         editable: true
                     },
                     {
-                        title: '公司地址',
-                        key: 'address',
-                        editable: true
-                    },
-                    {
-                        title: '联系电话',
-                        key: 'phone',
-                        editable: true
-                    },
-                    {
-                        title: '入驻时间',
-                        key: 'settledTime',
+                        title: '操作时间',
+                        key: 'operateTime',
                         render: function (h, param) {
                             return h('div',
                                 dateUtil.formatDate(new Date(param.row.settledTime), 'yyyy-MM-dd hh:mm:ss'));
                         }
-                    },
-                    {
-                        title: '操作',
-                        align: 'center',
-                        width: 200,
-                        key: 'handle',
-                        handle: ['edit', 'delete']
                     }
                 ],
                 pageColumnsData: []
@@ -101,19 +84,6 @@
                 this.generalGetData();
             },
 
-            // 数据修改 -- 整行修改
-            handleChange(val, index) {
-                this.generalUpdate(JSON.stringify(val[index]), '修改了第 ' + (index + 1) + ' 行的数据');
-            },
-            // 数据修改 -- 单元格修改
-            handleCellChange(val, index, key) {
-                this.generalUpdate(JSON.stringify(val[index]), '修改了第 ' + (index + 1) + ' 行列名为 ' + key + ' 的数据');
-            },
-            // 数据修改 -- 删除操作
-            handleDeleteChange(val, index) {
-                this.generalDelete(JSON.stringify(val[index]), '删除了第' + (index + 1) + '行数据');
-            },
-
             // 请求后台 -- 获取基础数据
             generalGetData: function () {
                 let callback = (res) => {
@@ -128,38 +98,8 @@
                         }
                     }
                 };
-                httpUtil.httpRequestGet('/enterprise/page', {page: this.page, size: this.pageSize}).then(callback);
+                httpUtil.httpRequestGet('/log/page', {page: this.page, size: this.pageSize}).then(callback);
             },
-
-            // 请求后台 -- 更新操作
-            generalUpdate: function (val, message) {
-                let callback = (res) => {
-                    if (res.flags === 'success') {
-                        this.$Message.success(message);
-                    } else {
-                        res.flags === 'fail' && this.$Message.error(`${res.message}`);
-                        if (res.code === '1003') {
-                            this.$router.push('/login');
-                        }
-                    }
-                };
-                httpUtil.httpRequestPost('/enterprise/enterpriseInfo', val).then(callback);
-            },
-
-            // 请求后台 -- 删除操作
-            generalDelete: function (val, message) {
-                let callback = (res) => {
-                    if (res.flags === 'success') {
-                        this.$Message.success(message);
-                    } else {
-                        res.flags === 'fail' && this.$Message.error(`${res.message}`);
-                        if (res.code === '1003') {
-                            this.$router.push('/login');
-                        }
-                    }
-                };
-                httpUtil.httpRequestPost('/enterprise/deleteEnterprise', val).then(callback);
-            }
         }
     };
 </script>
