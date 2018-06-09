@@ -15,8 +15,7 @@
         <div class="page-table" slot="slotTable">
             <!-- 加上 :hover-show="true" 鼠标移入, 会显示编辑按钮 -->
             <can-edit-table refs="pageTable" :editIncell="true" :hover-show="true"
-                            :columns-list="pageColumns" v-model="pageColumnsData" @on-delete="handleDeleteChange"
-                            @on-change="handleChange" @on-cell-change="handleCellChange">
+                            :columns-list="pageColumns" v-model="pageColumnsData">
             </can-edit-table>
             <!-- 两种不同风格的分页样式 -->
             <Page class="layout-content-page" :page-size="pageSize"
@@ -56,7 +55,7 @@
                         key: 'operateTime',
                         render: function (h, param) {
                             return h('div',
-                                dateUtil.formatDate(new Date(param.row.settledTime), 'yyyy-MM-dd hh:mm:ss'));
+                                dateUtil.formatDate(new Date(param.row.operateTime), 'yyyy-MM-dd hh:mm:ss'));
                         }
                     }
                 ],

@@ -15,23 +15,24 @@
             <Form ref="enterpriseForm" :model="enterpriseForm" :rules="enterpriseRule" :label-width="100">
                 <FormItem><h1 class="general-form-title">添加企业</h1></FormItem>
                 <FormItem label="公司名称" prop="enterpriseName">
-                    <Input v-model="enterpriseForm.name" placeholder="公司名称" style="width: 300px"></Input>
+                    <Input v-model="enterpriseForm.enterpriseName" placeholder="公司名称" style="width: 300px"></Input>
                 </FormItem>
                 <FormItem label="企业地址" prop="address">
                     <Input v-model="enterpriseForm.address" placeholder="公司地址" style="width: 300px"></Input>
                 </FormItem>
-                <FormItem label="联系电话" prop="telephone">
+                <FormItem label="联系电话" prop="phone">
                     <Input v-model="enterpriseForm.phone" placeholder="联系电话" style="width: 300px"></Input>
                 </FormItem>
-                <FormItem label="企业法人" prop="legalName">
+                <FormItem label="企业法人" prop="leaderName">
                     <Input v-model="enterpriseForm.leaderName" placeholder="企业法人" style="width: 300px"></Input>
                 </FormItem>
-                <FormItem label="入驻时间" prop="establish">
-                    <Input v-model="enterpriseForm.settledTime" placeholder="成立时间" style="width: 300px"></Input>
+                <FormItem label="入驻时间" prop="settledTime">
+                    <DatePicker type="datetime" size="large" placeholder="入驻时间" width="300px"
+                                v-model="enterpriseForm.settledTime"></DatePicker>
                 </FormItem>
                 <FormItem>
-                    <Button type="primary" @click="handleSubmit('companyForm')">添加</Button>
-                    <Button type="ghost" @click="handleReset('companyForm')" style="margin-left: 8px">取消</Button>
+                    <Button type="primary" @click="handleSubmit('enterpriseForm')">添加</Button>
+                    <Button type="ghost" @click="handleReset('enterpriseForm')" style="margin-left: 8px">取消</Button>
                 </FormItem>
             </Form>
         </div>
@@ -52,10 +53,10 @@
                     address: '',
                     phone: '',
                     leaderName: '',
-                    settledTime: '',
+                    settledTime: new Date()
                 },
                 enterpriseRule: {
-                    name: [
+                    enterpriseName: [
                         {
                             required: true,
                             message: '企业名称不能为空!',
@@ -69,7 +70,7 @@
                             trigger: 'blur'
                         }
                     ],
-                    telephone: [
+                    phone: [
                         {
                             required: true,
                             message: '联系电话不能为空!',
@@ -82,14 +83,7 @@
                             message: '企业法人不能为空!',
                             trigger: 'blur'
                         }
-                    ],
-                    establish: [
-                        {
-                            required: true,
-                            message: '入驻时间不能为空!',
-                            trigger: 'blur'
-                        }
-                    ],
+                    ]
                 }
             };
         },
