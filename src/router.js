@@ -139,6 +139,13 @@ const routers = [
             title: 'message'
         },
         component: (resolve) => require(['./views/business/business-message.vue'], resolve)
+    }, //发送短信
+    {
+        path: '/looksurvey',
+        meta: {
+            title: 'looksurvey'
+        },
+        component: (resolve) => require(['./views/business/business-looksurvey.vue'], resolve)
     },
     //驶出
     {
@@ -147,6 +154,13 @@ const routers = [
             title: 'carOut'
         },
         component: (resolve) => require(['./views/business/business-car-out.vue'], resolve)
+    }, //驶出
+    {
+        path: '/question',
+        meta: {
+            title: 'question'
+        },
+        component: (resolve) => require(['./views/business/business-question.vue'], resolve)
     },
     //paper
     {
@@ -182,6 +196,13 @@ const routers = [
             title: 'proposal'
         },
         component: (resolve) => require(['./views/business/business-proposal.vue'], resolve)
+    }, //意见建议
+    {
+        path: '/lookservice',
+        meta: {
+            title: 'lookservice'
+        },
+        component: (resolve) => require(['./views/business/business-service-look.vue'], resolve)
     },
 
     //提出意见建议
@@ -199,6 +220,13 @@ const routers = [
             title: 'addhouse'
         },
         component: (resolve) => require(['./views/business/business-addhouse.vue'], resolve)
+    }, //添加房源
+    {
+        path: '/lookhouse',
+        meta: {
+            title: 'lookhouse'
+        },
+        component: (resolve) => require(['./views/business/business-lookhouse.vue'], resolve)
     },
     {
         path: '/survey',

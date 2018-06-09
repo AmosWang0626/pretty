@@ -4,16 +4,48 @@
 
 <script>
     import echarts from 'echarts';
+    import httpUtil from '../../libs/util';
 
     export default {
         name: 'displayPie',
         data() {
             return {
-                //66666666
+                seriesData: {
+                    cash: 1000,
+                    bankCard: 1000,
+                    aliPay: 1000,
+                    weChat: 1000
+                }
             };
         },
+
+        created: function () {
+            this.getData();
+        },
+
         mounted() {
             this.$nextTick(() => {
+                this.changeView();
+            });
+        },
+
+        methods: {
+            getData: function () {
+                let callback = (res) => {
+                    if (res.flags === 'success') {
+                        this.seriesData = res.data;
+                        this.changeView();
+                    } else {
+                        res.flags === 'fail' && this.$Message.error(`${res.message}`);
+                        if (res.code === '1003') {
+                            this.$router.push('/login');
+                        }
+                    }
+                };
+                httpUtil.httpRequestGet('/bill/paymentWayData').then(callback);
+            },
+
+            changeView: function () {
                 let displayPie = echarts.init(document.getElementById('data_source_con'));
                 const option = {
                     tooltip: {
@@ -23,20 +55,19 @@
                     legend: {
                         orient: 'vertical',
                         left: 'right',
-                        data: ['现金', '银行卡', '支付宝', '微信', '其他']
+                        data: ['现金', '银行卡', '支付宝', '微信']
                     },
                     series: [
                         {
                             name: '支付占比',
                             type: 'pie',
-                            radius: '66%',
-                            center: ['50%', '60%'],
+                            radius: '80%',
+                            center: ['50%', '50%'],
                             data: [
-                                {value: 2103456, name: '现金', itemStyle: {normal: {color: '#e85b7d'}}},
-                                {value: 1305923, name: '银行卡', itemStyle: {normal: {color: '#ddc772'}}},
-                                {value: 543250, name: '支付宝', itemStyle: {normal: {color: '#56abe4'}}},
-                                {value: 798403, name: '微信', itemStyle: {normal: {color: '#01d10c'}}},
-                                {value: 302340, name: '其他', itemStyle: {normal: {color: '#51636f'}}}
+                                {value: this.seriesData.cash, name: '现金', itemStyle: {normal: {color: '#e85b7d'}}},
+                                {value: this.seriesData.bankCard, name: '银行卡', itemStyle: {normal: {color: '#ddc772'}}},
+                                {value: this.seriesData.aliPay, name: '支付宝', itemStyle: {normal: {color: '#56abe4'}}},
+                                {value: this.seriesData.weChat, name: '微信', itemStyle: {normal: {color: '#01d10c'}}}
                             ],
                             itemStyle: {
                                 emphasis: {
@@ -52,7 +83,7 @@
                 window.addEventListener('resize', function () {
                     displayPie.resize();
                 });
-            });
+            }
         }
     };
 </script>

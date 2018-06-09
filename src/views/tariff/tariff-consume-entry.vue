@@ -13,7 +13,7 @@
     <page-frame>
         <div class="general-form-div" slot="slotForm">
             <Form ref="consumeForm" :model="consumeForm" :rules="consumeRule" :label-width="90">
-                <FormItem><h1 class="general-form-title">即时消费录入</h1></FormItem>
+                <FormItem><h1 class="general-form-title">计时消费录入</h1></FormItem>
                 <FormItem label="业务类型" prop="business">
                     <Select v-model="consumeForm.business" style="width: 300px" @on-change="handleBusinessSelect">
                         <Option v-for="item in businessList"
