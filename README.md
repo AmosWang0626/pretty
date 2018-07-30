@@ -3,10 +3,6 @@
 
 ---
 
-## 项目访问地址
-- 目前项目地址 http://112.74.57.49/
-- 5月中旬以后可访问 http://www.microcn.top/
-
 ## 基本命令
 - 项目本地构建: npm install
 - 项目本地启动: npm run dev
